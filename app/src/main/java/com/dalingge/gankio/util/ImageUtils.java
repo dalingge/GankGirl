@@ -31,7 +31,7 @@ public class ImageUtils {
      * @param context
      * @param image  图片
      */
-    public static void storeImage(Context context,Bitmap image) {
+    public static Uri storeImage(Context context,Bitmap image) {
         String name=context.getString(R.string.app_name);
         File file = new File(Environment.getExternalStorageDirectory(),name);
         if (!file.exists()) {
@@ -42,10 +42,10 @@ public class ImageUtils {
         String fileName= name+"-"+ timeStamp + ".jpg";
         File pictureFile = new File(file, fileName);
 
-        if (pictureFile == null) {
-            L.d("Error creating media file, check storage permissions: ");
-            return;
-        }
+//        if (pictureFile == null) {
+//            L.d("Error creating media file, check storage permissions: ");
+//            return ;
+//        }
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
             image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -61,5 +61,6 @@ public class ImageUtils {
         // 通知图库更新
         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         context.sendBroadcast(scannerIntent);
+        return uri;
     }
 }

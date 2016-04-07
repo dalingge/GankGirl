@@ -1,6 +1,7 @@
 package com.dalingge.gankio.Image.activity;
 
 import android.annotation.TargetApi;
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,9 +23,11 @@ import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.util.ImageUtils;
 import com.dalingge.gankio.util.InOutAnimationUtils;
+import com.dalingge.gankio.util.log.L;
 import com.dalingge.gankio.widget.PullBackLayout;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -155,12 +158,21 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        ImageView imageView=imagePagerAdapter.getCurrent().getSharedElement();
+        imageView.setDrawingCacheEnabled(true);
+        Bitmap bitmap=imageView.getDrawingCache();
         if (id == R.id.action_share) {
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, ImageUtils.storeImage(ImagePagerActivity.this,bitmap));
+            shareIntent.setType("image/jpeg");
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
+
+            imageView.setDrawingCacheEnabled(false);
             return true;
         }else if(id == R.id.action_save){
-            ImageView imageView=imagePagerAdapter.getCurrent().getSharedElement();
-            imageView.setDrawingCacheEnabled(true);
-            Bitmap bitmap=imageView.getDrawingCache();
+
             ImageUtils.storeImage(ImagePagerActivity.this,bitmap);
             imageView.setDrawingCacheEnabled(false);
 
@@ -170,6 +182,21 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
             Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
             return true;
         }else if(id == R.id.action_set_wallpaper){
+
+            final WallpaperManager wm = WallpaperManager.getInstance(this);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                startActivity(wm.getCropAndSetWallpaperIntent(ImageUtils.storeImage(ImagePagerActivity.this,bitmap)));
+            } else {
+                try {
+                    wm.setStream(getContentResolver().openInputStream(ImageUtils.storeImage(ImagePagerActivity.this,bitmap)));
+                    Toast.makeText(this, R.string.set_wallpaper_success,Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    L.e( "Failed to set wallpaper", e);
+                    Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+            imageView.setDrawingCacheEnabled(false);
             return true;
         }
 

@@ -14,7 +14,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <!--允许程序设置桌面壁纸-->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <!-- 对于很高的分辨率，除采用相应的图片外，还需要加上如下配置，来更好的适配屏幕 -->
     <supports-screens
         android:anyDensity="true"
