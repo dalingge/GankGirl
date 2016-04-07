@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Gank</string>
+
+    <string name="title_main">干货集中营</string>
+
+    <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
+
+    <string name="action_share">分享</string>
+    <string name="share_title">将这张照片分享到…</string>
+
+    <string name="action_save">保存</string>
+    <string name="save_success">照片已保存到: %s</string>
+
+    <string name="action_set_wallpaper">设为壁纸</string>
+    <string name="set_wallpaper_success">壁纸设置成功</string>
+
+    <string name="load_fail">加载数据失败!</string>
+
+</resources>

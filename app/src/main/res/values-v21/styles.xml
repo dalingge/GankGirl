@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!--Navigation bar color-->
+        <item name="android:navigationBarColor">@color/primary_dark_material_dark</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+    </style>
+
+    <style name="ImageViewTheme" parent="ImageViewThemeBase">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+</resources>

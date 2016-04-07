@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.dalingge.gankio.widget.PullBackLayout
+        android:id="@+id/pull_back_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.dalingge.gankio.widget.PullBackLayout>
+
+    <com.dalingge.gankio.widget.InsetsToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/image_view_header"
+        android:fitsSystemWindows="true"
+        android:paddingBottom="24dp"
+        android:visibility="invisible"
+        app:navigationIcon="?homeAsUpIndicator"
+        tools:paddingTop="25dp"
+        tools:visibility="visible" />
+</FrameLayout>

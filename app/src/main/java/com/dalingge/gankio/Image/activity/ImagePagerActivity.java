@@ -3,22 +3,28 @@ package com.dalingge.gankio.Image.activity;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewPager;
 import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dalingge.gankio.Image.adapter.ImagePagerAdapter;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.util.ImageUtils;
 import com.dalingge.gankio.util.InOutAnimationUtils;
 import com.dalingge.gankio.widget.PullBackLayout;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +158,16 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         if (id == R.id.action_share) {
             return true;
         }else if(id == R.id.action_save){
+            ImageView imageView=imagePagerAdapter.getCurrent().getSharedElement();
+            imageView.setDrawingCacheEnabled(true);
+            Bitmap bitmap=imageView.getDrawingCache();
+            ImageUtils.storeImage(ImagePagerActivity.this,bitmap);
+            imageView.setDrawingCacheEnabled(false);
+
+            File file = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
+            String msg = String.format(getString(R.string.save_success),
+                    file.getAbsolutePath());
+            Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
             return true;
         }else if(id == R.id.action_set_wallpaper){
             return true;

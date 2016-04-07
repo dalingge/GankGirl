@@ -101,7 +101,7 @@ public class ImageViewFragment extends BaseFragment implements RequestListener<S
         activity.toggleFade();
     }
 
-    public View getSharedElement() {
+    public TouchImageView getSharedElement() {
         return touchImageView;
     }
 

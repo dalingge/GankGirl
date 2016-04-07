@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:title="@string/action_share"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_set_wallpaper"
+        android:title="@string/action_set_wallpaper"
+        app:showAsAction="never"/>
+
+</menu>
