@@ -176,7 +176,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
             ImageUtils.storeImage(ImagePagerActivity.this,bitmap);
             imageView.setDrawingCacheEnabled(false);
 
-            File file = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name));
+            File file = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name)+"/image");
             String msg = String.format(getString(R.string.save_success),
                     file.getAbsolutePath());
             Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
@@ -184,7 +184,6 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         }else if(id == R.id.action_set_wallpaper){
 
             final WallpaperManager wm = WallpaperManager.getInstance(this);
-
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 startActivity(wm.getCropAndSetWallpaperIntent(ImageUtils.storeImage(ImagePagerActivity.this,bitmap)));
             } else {
@@ -197,6 +196,8 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
                 }
             }
             imageView.setDrawingCacheEnabled(false);
+
+            Toast.makeText(this,R.string.set_wallpaper_success,Toast.LENGTH_LONG).show();
             return true;
         }
 

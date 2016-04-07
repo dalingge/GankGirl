@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
+import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.util.log.L;
 
@@ -24,6 +26,8 @@ import java.util.Date;
  */
 public class ImageUtils {
 
+    private static final String AUTHORITY_IMAGES = BuildConfig.APPLICATION_ID + ".images";
+
 
     /**
      * 保存图片
@@ -32,14 +36,14 @@ public class ImageUtils {
      * @param image  图片
      */
     public static Uri storeImage(Context context,Bitmap image) {
-        String name=context.getString(R.string.app_name);
+        String name=context.getString(R.string.app_name)+"/image";
         File file = new File(Environment.getExternalStorageDirectory(),name);
         if (!file.exists()) {
             file.mkdir();
         }
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss")
                 .format(new Date());
-        String fileName= name+"-"+ timeStamp + ".jpg";
+        String fileName= timeStamp + ".jpg";
         File pictureFile = new File(file, fileName);
 
 //        if (pictureFile == null) {
@@ -57,7 +61,7 @@ public class ImageUtils {
             L.d("Error accessing file: " + e.getMessage());
         }
 
-        Uri uri = Uri.fromFile(pictureFile);
+        Uri uri = FileProvider.getUriForFile(context, AUTHORITY_IMAGES, pictureFile);
         // 通知图库更新
         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         context.sendBroadcast(scannerIntent);
