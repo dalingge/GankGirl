@@ -1,0 +1,198 @@
+package com.dalingge.gankio.main.fragment;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+
+import com.dalingge.gankio.Image.activity.ImagePagerActivity;
+import com.dalingge.gankio.R;
+import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.main.adapter.WelfareAdapter;
+import com.dalingge.gankio.main.model.GankCategory;
+import com.dalingge.gankio.main.presenter.WelfarePresenter;
+import com.dalingge.gankio.main.view.IWelfareView;
+import com.dalingge.gankio.util.log.L;
+import com.dalingge.gankio.web.WebActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+
+/**
+ * FileName:WelfareListFragment.java
+ * Description:福利页
+ * Author:dingboyang
+ * Email:445850053@qq.com
+ * Date:16/4/2
+ */
+public class WelfareListFragment extends LazyFragment implements IWelfareView<GirlBean.ResultsBean> {
+
+    public static final String BUNDLE_KEY_TYPE="BUNDLE_KEY_TYPE";
+
+    @Bind(R.id.recycle_view)
+    RecyclerView recycleView;
+
+    private List<GirlBean.ResultsBean> mData = new ArrayList<>();
+    private WelfareAdapter welfareAdapter;
+    private WelfarePresenter welfarePresenter;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
+    private String mType;
+    private int pageIndex = 1;
+
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
+
+    @Override
+    protected void lazyLoad() {
+        if((!isPrepared || !isVisible)) {
+            return;
+        }
+
+        if(mData.isEmpty()){
+            initView();
+            onRefresh();
+        }
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_welfare_list;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //初始化view的各控件
+        isPrepared = true;
+        lazyLoad();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            mType = args.getString(BUNDLE_KEY_TYPE);
+        }
+    }
+
+    private void initView() {
+        welfarePresenter = new WelfarePresenter(this);
+        recycleView.setHasFixedSize(true);
+        welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType);
+        if(mType.equals(GankCategory.福利.name())){
+            mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            recycleView.setLayoutManager(mStaggeredGridLayoutManager);
+        }  else {
+            mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recycleView.setLayoutManager(mLinearLayoutManager);
+        }
+
+        recycleView.setItemAnimator(new DefaultItemAnimator());
+        welfareAdapter.setOnItemClickListener(mOnItemClickListener);
+        recycleView.setAdapter(welfareAdapter);
+        recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(mType.equals(GankCategory.福利.name())){
+                    int[] positions = new int[mStaggeredGridLayoutManager.getSpanCount()];
+                    mStaggeredGridLayoutManager.findLastVisibleItemPositions(positions);
+                    for (int position : positions) {
+                        lastVisibleItem=position;
+                        break;
+                    }
+                }else {
+                    lastVisibleItem =mLinearLayoutManager.findLastVisibleItemPosition();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItem + 1 == welfareAdapter.getItemCount()
+                        && welfareAdapter.isShowFooter()) {
+                    //加载更多
+                    L.d("loading more data");
+                    welfarePresenter.loadNews(getName(),mType, pageIndex );
+                }
+            }
+        });
+    }
+
+    private WelfareAdapter.OnItemClickListener mOnItemClickListener = new WelfareAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            final ActivityOptionsCompat options;
+
+            if (Build.VERSION.SDK_INT >= 21) {
+                options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(), view,  welfareAdapter.getItem(position).get_id());
+            } else {
+                options = ActivityOptionsCompat.makeScaleUpAnimation(
+                        view,
+                        view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
+                        0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
+            }
+            if(mType.equals(GankCategory.福利.name())){
+
+                ActivityCompat.startActivity(getActivity(),ImagePagerActivity.newIntent(view.getContext(),position,welfareAdapter.getData()),options.toBundle());
+            }else {
+                GirlBean.ResultsBean resultsBean = welfareAdapter.getItem(position);
+
+                ActivityCompat.startActivity(getActivity(),WebActivity.newIntent(view.getContext(),resultsBean.getUrl(),resultsBean.getDesc()),options.toBundle());
+            }
+        }
+    };
+
+    @Override
+    public void onRefresh() {
+        pageIndex=1;
+        if(mData != null) {
+            mData.clear();
+        }
+        welfarePresenter.loadNews(getName(),mType,pageIndex);
+    }
+
+
+    @Override
+    public void addData(List<GirlBean.ResultsBean> girlList) {
+        welfareAdapter.isShowFooter(true);
+        if(mData == null) {
+            mData = new ArrayList<>();
+        }
+        mData.addAll(girlList);
+        if(pageIndex ==1) {
+            welfareAdapter.setDate(mData);
+        } else {
+            //如果没有更多数据了,则隐藏footer布局
+            if(girlList == null || girlList.size() == 0) {
+                welfareAdapter.isShowFooter(false);
+            }
+            welfareAdapter.notifyDataSetChanged();
+        }
+        pageIndex += 1;
+    }
+
+
+    @Override
+    public void showLoadFailMsg() {
+        if(pageIndex == 0) {
+            welfareAdapter.isShowFooter(false);
+            welfareAdapter.notifyDataSetChanged();
+        }
+        View view = getActivity() == null ? recycleView.getRootView() : getActivity().findViewById(R.id.coordinator_layout);
+        Snackbar.make(view, getString(R.string.load_fail), Snackbar.LENGTH_SHORT).show();
+    }
+}
