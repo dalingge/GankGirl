@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.dalingge.gankio.main.fragment.WelfareListFragment;
 import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.presenter.MainPresenter;
 import com.dalingge.gankio.main.view.IMainView;
+import com.dalingge.gankio.util.PreferencesUtils;
 
 import butterknife.Bind;
 
@@ -77,18 +79,43 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         bundle.putString(WelfareListFragment.BUNDLE_KEY_TYPE, type);
         return bundle;
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_day_night);
+        initNotifiableItemState(item);
         return true;
+    }
+
+    private void initNotifiableItemState(MenuItem item) {
+        PreferencesUtils preferencesUtils = new PreferencesUtils(this);
+        item.setChecked(preferencesUtils.getBoolean(R.string.action_day_night, false));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+//            case R.id.action_settings:
+//                return true;
+            case R.id.action_day_night:
+                PreferencesUtils preferencesUtils = new PreferencesUtils(this);
+                if(item.isChecked()){
+                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    preferencesUtils.saveBoolean(R.string.action_day_night, false);
+                }else {
+                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    preferencesUtils.saveBoolean(R.string.action_day_night, true);
+                }
+                recreate();
+                return true;
+//            case R.id.action_day_night_yes:
+//                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                recreate();
+//                return true;
+            case R.id.action_about:
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

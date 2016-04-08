@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/cardview_light_background"
+    card_view:cardBackgroundColor="@color/cardview_background"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp">
 
@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="111111111"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_16" />
 

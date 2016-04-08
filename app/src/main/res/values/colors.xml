@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="window_background">#FFF5F5F5</color>
+    <color name="background">#FFF5F5F5</color>
     <color name="primary">#FF5722</color>
     <color name="primary_dark">#E64A19</color>
     <color name="primary_light">#FFCCBC</color>
@@ -9,4 +9,6 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="toolbar_title">#F5F5F5</color>
+    <color name="cardview_background">#FFFFFFFF</color>
 </resources>
