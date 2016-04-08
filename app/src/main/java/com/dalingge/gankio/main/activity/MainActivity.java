@@ -109,11 +109,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
                 }
                 recreate();
                 return true;
-//            case R.id.action_day_night_yes:
-//                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                recreate();
-//                return true;
             case R.id.action_about:
+                startActivity(AboutActivity.newIntent(this));
                 return true;
 
         }

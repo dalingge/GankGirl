@@ -18,4 +18,6 @@
 
     <string name="load_fail">加载数据失败!</string>
 
+    <string name="open_source_libraries_list">com.android.support:appcompat-v7:23.2.1\ncom.android.support:support-v4:23.2.1\ncom.android.support:recyclerview-v7:23.2.1\ncom.android.support:cardview-v7:23.2.1\ncom.android.support:design:23.2.1\ncom.squareup.okhttp3:okhttp:3.2.0\ncom.zhy:okhttputils:2.3.8\ncom.github.bumptech.glide:glide:3.7.0\ncom.google.code.gson:gson:2.4\ncom.jakewharton:butterknife:7.0.1\ncom.umeng.analytics:analytics:latest.integration</string>
+
 </resources>

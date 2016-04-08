@@ -59,6 +59,10 @@
             android:configChanges="orientation|screenSize" />
 
         <activity
+            android:name=".main.activity.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".Image.activity.ImagePagerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageViewTheme" />
