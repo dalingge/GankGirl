@@ -32,7 +32,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    public boolean isBack() {
+    protected boolean isBack() {
         return true;
     }
 

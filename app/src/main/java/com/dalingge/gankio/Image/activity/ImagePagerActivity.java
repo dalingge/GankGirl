@@ -74,7 +74,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     }
 
     @Override
-    public boolean isBack() {
+    protected boolean isBack() {
         return true;
     }
 
@@ -151,7 +151,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.image_main, menu);
+        getMenuInflater().inflate(R.menu.menu_image, menu);
         return true;
     }
 

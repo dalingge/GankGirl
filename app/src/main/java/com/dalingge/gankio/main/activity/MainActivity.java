@@ -3,7 +3,6 @@ package com.dalingge.gankio.main.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDelegate;
@@ -62,8 +61,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(AddGankActivity.newIntent(view.getContext()));
             }
         });
     }
@@ -79,6 +77,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         bundle.putString(WelfareListFragment.BUNDLE_KEY_TYPE, type);
         return bundle;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
