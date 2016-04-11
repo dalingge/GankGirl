@@ -11,7 +11,7 @@
     <color name="divider">#B6B6B6</color>
     <color name="toolbar_title">#F5F5F5</color>
     <color name="cardview_background">#FFFFFFFF</color>
-
+    <color name="hint_color">#FFBFBFBF</color>
 
     <color name="transparent">#00000000</color>
 

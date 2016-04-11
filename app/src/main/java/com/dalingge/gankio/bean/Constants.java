@@ -10,8 +10,10 @@ package com.dalingge.gankio.bean;
 public class Constants {
     public static final int PAZE_SIZE = 10;
 
+    public static final String API_URLS = "https://gank.io/api/";
     public static final String API_URL = "http://gank.io/api/";
+
     public static final String API_DATE =API_URL+ "data/";
     public static final String END_URL = "/"+PAZE_SIZE+"/";
-    public static final String ADD_GANK = "add2gank";
+    public static final String API_SUBMIT_GANK =API_URLS+ "add2gank";
 }

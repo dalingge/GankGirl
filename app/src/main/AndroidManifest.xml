@@ -72,7 +72,7 @@
                 android:resource="@xml/images" />
         </provider>
 
-        <activity android:name=".main.activity.AddGankActivity"
+        <activity android:name=".main.activity.SubmitGankActivity"
             android:screenOrientation="portrait"/>
     </application>
 

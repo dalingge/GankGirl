@@ -1,42 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<include layout="@layout/view_toolbar"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_url"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="想要提交的网页地址" />
+        android:theme="?actionBarTheme">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="对干货内容的描述" />
+        <include layout="@layout/view_toolbar" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_who"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="提交者"/>
+    </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_type"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="请选择干货类型"
-        android:focusable="false"
-        android:inputType="none"/>
-        </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="?cardBackgroundColor"
+                card_view:cardCornerRadius="8dp"
+                card_view:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="请勿滥用此接口"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="?android:textColorSecondary"/>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/et_url"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/hint_color"
+                            android:hint="想要提交的网页地址"
+                            android:inputType="textWebEditText"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/et_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/hint_color"
+                            android:hint="对干货内容的描述"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/et_who"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/hint_color"
+                            android:hint="提交者"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/et_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/hint_color"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:hint="干货类型"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </ScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@mipmap/ic_fab_send"
+            app:backgroundTint="?colorAccent" />
+
+    </FrameLayout>
 </LinearLayout>

@@ -47,6 +47,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         super.onDestroyView();
         //取消请求
         OkHttpUtils.getInstance().cancelTag(getName());
-        ButterKnife.unbind(this);
+        ButterKnife.unbind(getName());
     }
 }

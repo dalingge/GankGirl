@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_header_height"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
@@ -17,6 +17,7 @@
             app:expandedTitleTextAppearance="@style/CollapsingToolbarTitleStyle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/about_header_height"
@@ -26,63 +27,68 @@
                 <ImageView
                     android:layout_width="100dip"
                     android:layout_height="100dip"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_24"
                     android:layout_marginTop="10dip"
-                    android:text="@string/app_name" />
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/text_size_24" />
 
                 <TextView
+                    android:id="@+id/tv_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_16"
                     android:layout_marginTop="10dip"
-                    android:id="@+id/tv_version" />
+                    android:textSize="@dimen/text_size_16" />
 
             </LinearLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_collapseMode="pin"/>
-            </android.support.design.widget.CollapsingToolbarLayout>
+                app:layout_collapseMode="pin"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="8dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="用到的开源库"/>
+                android:text="用到的开源库" />
 
             <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardBackgroundColor="@color/cardview_background"
+                app:cardBackgroundColor="?cardBackgroundColor"
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="4dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:text="@string/open_source_libraries_list"
-                    android:textSize="@dimen/text_size_14"
-                    android:layout_margin="8dp"/>
+                    android:textSize="@dimen/text_size_14" />
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

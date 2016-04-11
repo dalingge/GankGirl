@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(AddGankActivity.newIntent(view.getContext()));
+                startActivity(SubmitGankActivity.newIntent(view.getContext()));
             }
         });
     }

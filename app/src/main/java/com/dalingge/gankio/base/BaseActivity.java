@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.dalingge.gankio.R;
 import com.umeng.analytics.MobclickAgent;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +53,14 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消请求
+        OkHttpUtils.getInstance().cancelTag(getName());
+        ButterKnife.unbind(getName());
+    }
+
     private void initToolBar() {
 
         setTitle("");
@@ -87,5 +96,9 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
         return super.onMenuOpened(featureId, menu);
+    }
+
+    protected String getName(){
+        return BaseFragment.class.getName();
     }
 }

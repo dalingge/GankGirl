@@ -4,6 +4,7 @@
     <string name="title_main">干货集中营</string>
 
     <string name="action_settings">设置</string>
+    <string name="action_heart">收藏</string>
     <string name="action_day_night">黑夜模式</string>
     <string name="action_about">关于</string>
 
@@ -20,4 +21,10 @@
 
     <string name="open_source_libraries_list">com.android.support:appcompat-v7:23.2.1\ncom.android.support:support-v4:23.2.1\ncom.android.support:recyclerview-v7:23.2.1\ncom.android.support:cardview-v7:23.2.1\ncom.android.support:design:23.2.1\ncom.squareup.okhttp3:okhttp:3.2.0\ncom.zhy:okhttputils:2.3.8\ncom.github.bumptech.glide:glide:3.7.0\ncom.google.code.gson:gson:2.4\ncom.jakewharton:butterknife:7.0.1\ncom.umeng.analytics:analytics:latest.integration</string>
 
+
+    <string name="et_error_no_url">还没有网页地址</string>
+    <string name="et_error_no_urls">请输入正确的网页地址</string>
+    <string name="et_error_no_desc">亲！描述下内容呗！</string>
+    <string name="et_error_no_who">请填上你绰号</string>
+    <string name="et_error_no_type">谢谢！@类型</string>
 </resources>
