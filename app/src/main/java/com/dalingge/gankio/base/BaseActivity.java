@@ -62,7 +62,7 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
         }
     }
 
-    public boolean isBack() {
+    protected boolean isBack() {
         return false;
     }
 

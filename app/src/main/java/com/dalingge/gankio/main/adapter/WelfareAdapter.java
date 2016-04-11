@@ -81,6 +81,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return TYPE_GIRL;
             case iOS:
             case Android:
+            case 前端:
             case App:
             case 拓展资源:
             case 瞎推荐:

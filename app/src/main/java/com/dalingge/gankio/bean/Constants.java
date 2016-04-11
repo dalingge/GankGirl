@@ -13,4 +13,5 @@ public class Constants {
     public static final String API_URL = "http://gank.io/api/";
     public static final String API_DATE =API_URL+ "data/";
     public static final String END_URL = "/"+PAZE_SIZE+"/";
+    public static final String ADD_GANK = "add2gank";
 }

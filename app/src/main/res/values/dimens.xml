@@ -7,7 +7,7 @@
     <dimen name="codelab_fab_margin_left">0dp</dimen>
     <dimen name="codelab_fab_margin_top">0dp</dimen>
     <dimen name="corner_radius">2dp</dimen>
-
+    <dimen name="about_header_height">280dip</dimen>
     <dimen name="text_size_34">34.0sp</dimen>
     <dimen name="text_size_32">32.0sp</dimen>
     <dimen name="text_size_31">31.0sp</dimen>
