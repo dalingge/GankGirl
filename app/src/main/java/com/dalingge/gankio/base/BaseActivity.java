@@ -1,6 +1,7 @@
 package com.dalingge.gankio.base;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity <P extends BasePresenter> extends AppCompatActivity {
 
+    @Nullable
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -64,10 +66,12 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
     private void initToolBar() {
 
         setTitle("");
-        setSupportActionBar(toolbar);
+        if(toolbar!=null){
+            setSupportActionBar(toolbar);
 
-        if (isBack()) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (isBack()) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 

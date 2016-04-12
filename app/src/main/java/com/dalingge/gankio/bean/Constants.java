@@ -12,8 +12,9 @@ public class Constants {
 
     public static final String API_URLS = "https://gank.io/api/";
     public static final String API_URL = "http://gank.io/api/";
-
+    public static final String API_START = API_URL+"random/data/福利/1";
     public static final String API_DATE =API_URL+ "data/";
     public static final String END_URL = "/"+PAZE_SIZE+"/";
     public static final String API_SUBMIT_GANK =API_URLS+ "add2gank";
+
 }

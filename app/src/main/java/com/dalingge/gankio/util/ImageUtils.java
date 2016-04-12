@@ -33,9 +33,9 @@ public class ImageUtils {
      * 保存图片
      *
      * @param context
-     * @param image  图片
+     * @param bitmap  图片
      */
-    public static Uri storeImage(Context context,Bitmap image) {
+    public static Uri storeImage(Context context,Bitmap bitmap) {
         String name=context.getString(R.string.app_name)+"/image";
         File file = new File(Environment.getExternalStorageDirectory(),name);
         if (!file.exists()) {
@@ -52,7 +52,7 @@ public class ImageUtils {
 //        }
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
-            image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
@@ -66,5 +66,21 @@ public class ImageUtils {
         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         context.sendBroadcast(scannerIntent);
         return uri;
+    }
+
+
+    public static void saveImage(File file,Bitmap bitmap) {
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

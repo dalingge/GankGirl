@@ -1,6 +1,7 @@
 package com.dalingge.gankio.main.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     @Bind(R.id.fab)
     FloatingActionButton fab;
 
+    private MainPresenter mainPresenter;
     private ViewPageFragmentAdapter tabsAdapter;
 
     @Override
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     @Override
     protected void initView() {
         setTitle(R.string.title_main);
+
+        mainPresenter=new MainPresenter(this);
 
         tabsAdapter = new ViewPageFragmentAdapter(getSupportFragmentManager(), tablayout, viewPager);
 
@@ -64,6 +68,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
                 startActivity(SubmitGankActivity.newIntent(view.getContext()));
             }
         });
+
+
+        mainPresenter.getSplashImage();
     }
 
     /**
@@ -86,6 +93,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int uiMode = getResources().getConfiguration().uiMode;
+        int dayNightUiMode = uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (dayNightUiMode == Configuration.UI_MODE_NIGHT_NO) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (dayNightUiMode == Configuration.UI_MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        }
+    }
     private void initNotifiableItemState(MenuItem item) {
         PreferencesUtils preferencesUtils = new PreferencesUtils(this);
         item.setChecked(preferencesUtils.getBoolean(R.string.action_day_night, false));
@@ -95,8 +116,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-//            case R.id.action_settings:
-//                return true;
             case R.id.action_day_night:
                 PreferencesUtils preferencesUtils = new PreferencesUtils(this);
                 if(item.isChecked()){

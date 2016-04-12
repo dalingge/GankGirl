@@ -28,6 +28,7 @@ public class GankApp extends Application {
         }else {
             //设置该app的主题根据时间不同显示
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
         }
 
         //初始化日志工具
