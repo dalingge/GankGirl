@@ -19,6 +19,7 @@ import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.presenter.MainPresenter;
 import com.dalingge.gankio.main.view.IMainView;
 import com.dalingge.gankio.util.PreferencesUtils;
+import com.umeng.update.UmengUpdateAgent;
 
 import butterknife.Bind;
 
@@ -71,6 +72,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
 
 
         mainPresenter.getSplashImage();
+
+        setupUmeng();
+    }
+
+    private void setupUmeng() {
+
+        UmengUpdateAgent.update(this);
+        UmengUpdateAgent.setDeltaUpdate(false);
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
     }
 
     /**

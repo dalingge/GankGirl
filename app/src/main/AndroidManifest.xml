@@ -32,6 +32,8 @@
         android:name="UMENG_CHANNEL"
         android:value="${UMENG_CHANNEL_VALUE}" />
 
+
+
     <application
         android:name=".GankApp"
         android:allowBackup="true"
@@ -79,6 +81,13 @@
         <activity
             android:name=".main.activity.SubmitGankActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" />
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>
