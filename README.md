@@ -25,4 +25,4 @@
 
 - [@代码家](http://weibo.com/u/1628291124)及他的[干货集中营](http://gank.io)
 - [@drakeet](http://weibo.com/drak11t)及他的[妹纸.gank.io](https://github.com/drakeet/Meizhi)
-- [@oxoooo](https://github.com/xingrz)及他的[馒头先生](https://github.com/oxoooo/mr-mantou-android)
+- [@oxoooo](http://weibo.com/xingrz)及他的[馒头先生](https://github.com/oxoooo/mr-mantou-android)

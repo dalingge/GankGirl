@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 23
@@ -8,7 +9,7 @@ android {
         applicationId "com.dalingge.gankio"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1
+        versionCode 4
         versionName "1.1.2"
 
         // AndroidManifest.xml 里面UMENG_CHANNEL的value为 ${UMENG_CHANNEL_VALUE}
@@ -21,9 +22,57 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            versionNameSuffix "-debug"
             minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+
+        }
+
+
+        release {
+
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            debuggable false
+            //代码混淆
+            minifyEnabled true
+            //zip优化
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        fir{}
+        wandoujia {}
+        baidu {}
+        qihu360 {}
+        uc {}
+        xiaomi {}
+        c91{}
+        waps{}
+        myapp{}
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
         }
     }
 }
