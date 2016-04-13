@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -21,6 +23,7 @@ public class WebActivity extends BaseActivity {
 
     private static final String EXTRA_URL = "extra_url";
     private static final String EXTRA_TITLE = "extra_title";
+
     @Bind(R.id.video_fullView)
     FrameLayout videoFullView;
     @Bind(R.id.web_View)
@@ -64,6 +67,25 @@ public class WebActivity extends BaseActivity {
         webView.setWebViewClient(new webViewClient());
         webView.loadUrl(mUrl);
         setTitle(mTitle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_web, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==R.id.action_like){
+
+            return true;
+        }else if(id==R.id.action_share){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public class webViewClient extends WebViewClient {
@@ -204,4 +226,5 @@ public class WebActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
