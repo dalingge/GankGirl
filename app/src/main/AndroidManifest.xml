@@ -25,12 +25,6 @@
         android:resizeable="true"
         android:smallScreens="true" />
 
-    <meta-data
-        android:name="UMENG_APPKEY"
-        android:value="5701f91767e58ec514000eef" />
-    <meta-data
-        android:name="UMENG_CHANNEL"
-        android:value="${UMENG_CHANNEL_VALUE}" />
 
 
 
@@ -40,6 +34,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5701f91767e58ec514000eef" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+
         <activity
             android:name=".main.activity.SplashActivity"
             android:screenOrientation="portrait">
@@ -82,12 +85,6 @@
             android:name=".main.activity.SubmitGankActivity"
             android:screenOrientation="portrait" />
 
-        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" />
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>
