@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -18,6 +17,8 @@ import com.dalingge.gankio.main.adapter.WelfareAdapter;
 import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.presenter.WelfarePresenter;
 import com.dalingge.gankio.main.view.IWelfareView;
+import com.dalingge.gankio.util.animator.recyclerview.adapter.AlphaAnimatorAdapter;
+import com.dalingge.gankio.util.animator.recyclerview.itemanimator.SlideInOutBottomItemAnimator;
 import com.dalingge.gankio.util.log.L;
 import com.dalingge.gankio.web.WebActivity;
 
@@ -88,18 +89,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
     private void initView() {
         welfarePresenter = new WelfarePresenter(this);
         recycleView.setHasFixedSize(true);
-        welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType);
-        if(mType.equals(GankCategory.福利.name())){
-            mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            recycleView.setLayoutManager(mStaggeredGridLayoutManager);
-        }  else {
-            mLinearLayoutManager = new LinearLayoutManager(getActivity());
-            recycleView.setLayoutManager(mLinearLayoutManager);
-        }
-
-        recycleView.setItemAnimator(new DefaultItemAnimator());
-        welfareAdapter.setOnItemClickListener(mOnItemClickListener);
-        recycleView.setAdapter(welfareAdapter);
+        recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
         recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
             @Override
@@ -168,19 +158,37 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
 
     @Override
     public void addData(List<GirlBean.ResultsBean> girlList) {
-        welfareAdapter.isShowFooter(true);
-        if(mData == null) {
-            mData = new ArrayList<>();
-        }
+       // welfareAdapter.isShowFooter(true);
+//        if(mData == null) {
+//            mData = new ArrayList<>();
+//        }
         mData.addAll(girlList);
         if(pageIndex ==1) {
-            welfareAdapter.setDate(mData);
+            welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType,mData);
+            if(mType.equals(GankCategory.福利.name())){
+                mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                recycleView.setLayoutManager(mStaggeredGridLayoutManager);
+                recycleView.setAdapter(welfareAdapter);
+            }  else {
+                mLinearLayoutManager = new LinearLayoutManager(getActivity());
+                recycleView.setLayoutManager(mLinearLayoutManager);
+                AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(welfareAdapter, recycleView);
+                recycleView.setAdapter(animatorAdapter);
+            }
+
+            welfareAdapter.setOnItemClickListener(mOnItemClickListener);
         } else {
             //如果没有更多数据了,则隐藏footer布局
             if(girlList == null || girlList.size() == 0) {
                 welfareAdapter.isShowFooter(false);
             }
+
+            welfareAdapter.setDate(mData);
             welfareAdapter.notifyDataSetChanged();
+//            int count=welfareAdapter.getItemCount();
+//            for (int i=count;i< mData.size();i++) {
+//                welfareAdapter.add(mData.get(i),i);
+//            }
         }
         pageIndex += 1;
     }

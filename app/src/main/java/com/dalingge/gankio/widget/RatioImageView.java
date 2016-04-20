@@ -12,6 +12,7 @@ import android.widget.ImageView;
  * Date:16/4/3
  */
 public class RatioImageView extends ImageView{
+
     private int originalWidth;
     private int originalHeight;
 
