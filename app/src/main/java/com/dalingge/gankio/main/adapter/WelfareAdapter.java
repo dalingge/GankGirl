@@ -19,6 +19,7 @@ import com.dalingge.gankio.util.DateUtils;
 import com.dalingge.gankio.util.GlideRoundTransform;
 import com.dalingge.gankio.widget.RatioImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,6 +34,8 @@ import butterknife.ButterKnife;
  */
 public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int LAST_POSITION = -1 ;
+
     private static final int TYPE_GIRL = 0;
     private static final int TYPE_GAN = 1;
     private static final int TYPE_VIDEO = 2;
@@ -46,24 +49,40 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private OnItemClickListener mOnItemClickListener;
     private boolean mShowFooter = true;
 
-    public WelfareAdapter(Context context, String type) {
+    public WelfareAdapter(Context context, String type,List<GirlBean.ResultsBean> data) {
         this.mContext = context;
         this.mType = type;
         mLayoutInflater = LayoutInflater.from(mContext);
         glideRequest = Glide.with(mContext);
+
+        mData = new ArrayList<>();
+        for (int i=0;i<data.size();i++) {
+            addItem(i,data.get(i));
+        }
     }
 
     public GirlBean.ResultsBean getItem(int position) {
         return mData == null ? null : mData.get(position);
     }
-    public List<GirlBean.ResultsBean> getData(){
+
+    public List<GirlBean.ResultsBean> getData() {
         return mData;
     }
 
 
     public void setDate(List<GirlBean.ResultsBean> data) {
-        this.mData = data;
-        this.notifyDataSetChanged();
+        mData=data;
+    }
+
+    public void add(GirlBean.ResultsBean resultsBean,int position) {
+        position = position == LAST_POSITION ? getItemCount()  : position;
+        mData.add(position,resultsBean);
+        notifyItemInserted(position);
+    }
+
+    public void addItem(int position,GirlBean.ResultsBean resultsBean) {
+        mData.add(position,resultsBean);
+        notifyItemInserted(position);
     }
 
     public void isShowFooter(boolean showFooter) {
@@ -136,14 +155,14 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         glideRequest.load(resultsBean.getUrl())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transform(new GlideRoundTransform(mContext,8))
+                .transform(new GlideRoundTransform(mContext, 8))
                 .into(new BitmapImageViewTarget(viewHolder.imageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                viewHolder.imageView.setOriginalSize(resource.getWidth(), resource.getHeight());
-                viewHolder.imageView.setImageBitmap(resource);
-            }
-        });
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        viewHolder.imageView.setOriginalSize(resource.getWidth(), resource.getHeight());
+                        viewHolder.imageView.setImageBitmap(resource);
+                    }
+                });
     }
 
     private void bindVideoItem(int position, VideoCardViewHolder viewHolder, GirlBean.ResultsBean resultsBean) {
@@ -172,7 +191,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onItemClick(View view, int position);
     }
 
-    public class CirlCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class CirlCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.radio_iv)
         RatioImageView imageView;
 
@@ -181,15 +200,16 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View view) {
-            if(mOnItemClickListener != null) {
+            if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(view, this.getPosition());
             }
         }
     }
 
-    public class VideoCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class VideoCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.tv_title)
         TextView tvTitle;
         @Bind(R.id.tv_author)
@@ -205,13 +225,13 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View view) {
-            if(mOnItemClickListener != null) {
+            if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(view, this.getPosition());
             }
         }
     }
 
-    public class GanCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class GanCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.tv_title)
         TextView tvTitle;
         @Bind(R.id.tv_author)
@@ -227,7 +247,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View view) {
-            if(mOnItemClickListener != null) {
+            if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(view, this.getPosition());
             }
         }
