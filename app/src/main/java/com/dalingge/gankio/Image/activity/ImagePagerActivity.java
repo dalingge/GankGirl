@@ -165,7 +165,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, ImageUtils.storeImage(ImagePagerActivity.this,bitmap));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, ImageUtils.storeImageUri(ImagePagerActivity.this,bitmap));
             shareIntent.setType("image/jpeg");
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
 
@@ -173,7 +173,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
             return true;
         }else if(id == R.id.action_save){
 
-            ImageUtils.storeImage(ImagePagerActivity.this,bitmap);
+            ImageUtils.storeImageUri(ImagePagerActivity.this,bitmap);
             imageView.setDrawingCacheEnabled(false);
 
             File file = new File(Environment.getExternalStorageDirectory(), getString(R.string.app_name)+"/image");
@@ -185,19 +185,31 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
             final WallpaperManager wm = WallpaperManager.getInstance(this);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                startActivity(wm.getCropAndSetWallpaperIntent(ImageUtils.storeImage(ImagePagerActivity.this,bitmap)));
+                startActivity(wm.getCropAndSetWallpaperIntent(ImageUtils.storeImageUri(ImagePagerActivity.this,bitmap)));
             } else {
                 try {
-                    wm.setStream(getContentResolver().openInputStream(ImageUtils.storeImage(ImagePagerActivity.this,bitmap)));
-                    Toast.makeText(this, R.string.set_wallpaper_success,Toast.LENGTH_LONG).show();
+                    wm.setStream(getContentResolver().openInputStream(ImageUtils.storeImageUri(ImagePagerActivity.this,bitmap)));
+                    Toast.makeText(this,R.string.set_wallpaper_success,Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     L.e( "Failed to set wallpaper", e);
                     Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
+
+//            try {
+//                WallpaperManager mWallManager = WallpaperManager.getInstance(this);
+//                Class class1 = mWallManager.getClass();//获取类名
+//                Method setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper",Bitmap.class);//获取设置锁屏壁纸的函数
+//                String pathName= ImageUtils.storeImageFile(ImagePagerActivity.this,bitmap).getPath();
+//                setWallPaperMethod.invoke(mWallManager, BitmapFactory.decodeFile(pathName));//调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
+//                Toast.makeText(this, R.string.set_lock_wallpaper_success, Toast.LENGTH_SHORT).show();
+//            } catch (Throwable e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+
             imageView.setDrawingCacheEnabled(false);
 
-            Toast.makeText(this,R.string.set_wallpaper_success,Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -205,7 +217,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     }
 
 
-    public void toggleFade() {
+        public void toggleFade() {
         if (getToolbar().getVisibility() == View.VISIBLE) {
             fadeOut();
         } else {

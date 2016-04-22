@@ -16,6 +16,7 @@
 
     <string name="action_set_wallpaper">设为壁纸</string>
     <string name="set_wallpaper_success">壁纸设置成功</string>
+    <string name="set_lock_wallpaper_success">锁屏壁纸设置成功</string>
 
     <string name="load_fail">加载数据失败!</string>
 

@@ -26,8 +26,6 @@
         android:smallScreens="true" />
 
 
-
-
     <application
         android:name=".GankApp"
         android:allowBackup="true"
