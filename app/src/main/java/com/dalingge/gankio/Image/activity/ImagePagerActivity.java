@@ -22,7 +22,7 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.util.ImageUtils;
-import com.dalingge.gankio.util.InOutAnimationUtils;
+import com.dalingge.gankio.util.AnimationUtils;
 import com.dalingge.gankio.util.log.L;
 import com.dalingge.gankio.widget.PullBackLayout;
 
@@ -196,18 +196,6 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
                 }
             }
 
-//            try {
-//                WallpaperManager mWallManager = WallpaperManager.getInstance(this);
-//                Class class1 = mWallManager.getClass();//获取类名
-//                Method setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper",Bitmap.class);//获取设置锁屏壁纸的函数
-//                String pathName= ImageUtils.storeImageFile(ImagePagerActivity.this,bitmap).getPath();
-//                setWallPaperMethod.invoke(mWallManager, BitmapFactory.decodeFile(pathName));//调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
-//                Toast.makeText(this, R.string.set_lock_wallpaper_success, Toast.LENGTH_SHORT).show();
-//            } catch (Throwable e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-
             imageView.setDrawingCacheEnabled(false);
 
             return true;
@@ -217,7 +205,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     }
 
 
-        public void toggleFade() {
+    public void toggleFade() {
         if (getToolbar().getVisibility() == View.VISIBLE) {
             fadeOut();
         } else {
@@ -226,12 +214,12 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     }
 
     void fadeIn() {
-        InOutAnimationUtils.animateIn(getToolbar(), R.anim.image_toolbar_fade_in);
+        AnimationUtils.animateIn(getToolbar(), R.anim.image_toolbar_fade_in);
         viewPager.setSystemUiVisibility(SYSTEM_UI_BASE_VISIBILITY);
     }
 
     void fadeOut() {
-        InOutAnimationUtils.animateOut(getToolbar(), R.anim.image_toolbar_fade_out);
+        AnimationUtils.animateOut(getToolbar(), R.anim.image_toolbar_fade_out);
         viewPager.setSystemUiVisibility(SYSTEM_UI_BASE_VISIBILITY | SYSTEM_UI_IMMERSIVE);
     }
 

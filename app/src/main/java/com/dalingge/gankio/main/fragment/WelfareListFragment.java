@@ -135,6 +135,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
                         view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
                         0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
             }
+
             if(mType.equals(GankCategory.福利.name())){
 
                 ActivityCompat.startActivity(getActivity(),ImagePagerActivity.newIntent(view.getContext(),position,welfareAdapter.getData()),options.toBundle());

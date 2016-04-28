@@ -32,7 +32,7 @@ public class WelfarePresenter extends BasePresenter<IWelfareView> implements Wel
         if(pageIndex == 1) {
             mView.showRefresh();
         }
-        mWelfareModel.loadNews(tag,url, this);
+        mWelfareModel.loadNews(type,pageIndex, this);
     }
     private String getUrl(String type, int pageIndex) {
         StringBuffer sb = new StringBuffer();
@@ -50,7 +50,7 @@ public class WelfarePresenter extends BasePresenter<IWelfareView> implements Wel
     }
 
     @Override
-    public void onFailure(String msg, Exception e) {
+    public void onFailure(String msg, Throwable e) {
         mView.hideRefresh();
         mView.showLoadFailMsg();
     }
