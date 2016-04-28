@@ -29,13 +29,14 @@ public class ImageUtils {
     private static final String AUTHORITY_IMAGES = BuildConfig.APPLICATION_ID + ".images";
 
 
+
     /**
      * 保存图片
      *
      * @param context
      * @param bitmap  图片
      */
-    public static Uri storeImage(Context context,Bitmap bitmap) {
+    public static File storeImageFile(Context context,Bitmap bitmap) {
         String name=context.getString(R.string.app_name)+"/image";
         File file = new File(Environment.getExternalStorageDirectory(),name);
         if (!file.exists()) {
@@ -61,7 +62,12 @@ public class ImageUtils {
             L.d("Error accessing file: " + e.getMessage());
         }
 
-        Uri uri = FileProvider.getUriForFile(context, AUTHORITY_IMAGES, pictureFile);
+        return pictureFile;
+    }
+
+    public static Uri storeImageUri(Context context,Bitmap bitmap) {
+        final File file = storeImageFile(context,bitmap);
+        Uri uri = FileProvider.getUriForFile(context, AUTHORITY_IMAGES, file);
         // 通知图库更新
         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         context.sendBroadcast(scannerIntent);
