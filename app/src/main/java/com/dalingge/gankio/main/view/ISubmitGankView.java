@@ -11,5 +11,5 @@ import com.dalingge.gankio.base.IBaseView;
 public interface ISubmitGankView extends IBaseView{
 
     void showSuccessMsg(String msg);
-    void showFailMsg();
+    void showFailMsg(String msg);
 }

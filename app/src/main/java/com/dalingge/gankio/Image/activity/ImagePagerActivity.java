@@ -62,9 +62,9 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
     private int index;
     private ImagePagerAdapter imagePagerAdapter;
-    private List<GirlBean.ResultsBean> resultsBeanList;
+    private List<GirlBean> resultsBeanList;
 
-    public static Intent newIntent(Context context, int index, List<GirlBean.ResultsBean> resultsBeanList) {
+    public static Intent newIntent(Context context, int index, List<GirlBean> resultsBeanList) {
         Intent intent = new Intent(context, ImagePagerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ImagePagerActivity.EXTRA_IMAGE_URLS, (Serializable) resultsBeanList);
@@ -98,7 +98,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         pullBackLayout.setCallback(this);
 
         index = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
-        resultsBeanList = (List<GirlBean.ResultsBean>) getIntent().getSerializableExtra(EXTRA_IMAGE_URLS);
+        resultsBeanList = (List<GirlBean>) getIntent().getSerializableExtra(EXTRA_IMAGE_URLS);
 
         imagePagerAdapter = new ImagePagerAdapter(getSupportFragmentManager(),viewPager,resultsBeanList,index);
 
@@ -142,7 +142,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         setEnterSharedElementCallback(new SharedElementCallback() {
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                GirlBean.ResultsBean image = resultsBeanList.get(viewPager.getCurrentItem());
+                GirlBean image = resultsBeanList.get(viewPager.getCurrentItem());
                 sharedElements.clear();
                 sharedElements.put(image.get_id(), imagePagerAdapter.getCurrent().getSharedElement());
             }

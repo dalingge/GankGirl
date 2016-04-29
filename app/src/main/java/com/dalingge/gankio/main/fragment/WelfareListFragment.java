@@ -34,14 +34,14 @@ import butterknife.Bind;
  * Email:445850053@qq.com
  * Date:16/4/2
  */
-public class WelfareListFragment extends LazyFragment implements IWelfareView<GirlBean.ResultsBean> {
+public class WelfareListFragment extends LazyFragment implements IWelfareView<GirlBean> {
 
     public static final String BUNDLE_KEY_TYPE="BUNDLE_KEY_TYPE";
 
     @Bind(R.id.recycle_view)
     RecyclerView recycleView;
 
-    private List<GirlBean.ResultsBean> mData = new ArrayList<>();
+    private List<GirlBean> mData = new ArrayList<>();
     private WelfareAdapter welfareAdapter;
     private WelfarePresenter welfarePresenter;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -115,7 +115,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
                         && welfareAdapter.isShowFooter()) {
                     //加载更多
                     L.d("loading more data");
-                    welfarePresenter.loadNews(getName(),mType, pageIndex );
+                    welfarePresenter.loadNews(mType, pageIndex );
                 }
             }
         });
@@ -140,7 +140,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
 
                 ActivityCompat.startActivity(getActivity(),ImagePagerActivity.newIntent(view.getContext(),position,welfareAdapter.getData()),options.toBundle());
             }else {
-                GirlBean.ResultsBean resultsBean = welfareAdapter.getItem(position);
+                GirlBean resultsBean = welfareAdapter.getItem(position);
 
                 ActivityCompat.startActivity(getActivity(),WebActivity.newIntent(view.getContext(),resultsBean.getUrl(),resultsBean.getDesc()),options.toBundle());
             }
@@ -153,16 +153,12 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
         if(mData != null) {
             mData.clear();
         }
-        welfarePresenter.loadNews(getName(),mType,pageIndex);
+        welfarePresenter.loadNews(mType,pageIndex);
     }
 
 
     @Override
-    public void addData(List<GirlBean.ResultsBean> girlList) {
-       // welfareAdapter.isShowFooter(true);
-//        if(mData == null) {
-//            mData = new ArrayList<>();
-//        }
+    public void addData(List<GirlBean> girlList) {
         mData.addAll(girlList);
         if(pageIndex ==1) {
             welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType,mData);

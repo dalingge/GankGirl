@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.dalingge.gankio.base.BasePresenter;
-import com.dalingge.gankio.bean.Constants;
 import com.dalingge.gankio.main.model.MainModel;
 import com.dalingge.gankio.main.view.IMainView;
 import com.dalingge.gankio.util.NetWorkUtils;
@@ -28,7 +27,7 @@ public class MainPresenter extends BasePresenter<IMainView>{
 
     public void getSplashImage() {
         if (NetWorkUtils.isConnectedByState(context)) {
-            mainModel.getSplashImage(context,Constants.API_START);
+            mainModel.getSplashImage(context,1);
         }else {
             Toast.makeText(context, "没有网络连接!", Toast.LENGTH_LONG).show();
         }

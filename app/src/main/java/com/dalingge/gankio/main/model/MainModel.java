@@ -8,14 +8,13 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.util.GsonUtils;
+import com.dalingge.gankio.http.HttpMethods;
 import com.dalingge.gankio.util.ImageUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.util.List;
 
-import okhttp3.Call;
+import rx.Subscriber;
 
 /**
  * FileName: MainModel.java
@@ -25,27 +24,53 @@ import okhttp3.Call;
  */
 public class MainModel {
 
-    public void getSplashImage(final Context context, final String url) {
-        StringCallback callback=new StringCallback() {
+    public void getSplashImage(final Context context,  int count) {
+
+        Subscriber subscriber = new Subscriber<List<GirlBean>>() {
             @Override
-            public void onResponse(String response) {
-                GirlBean girlBean= (GirlBean) GsonUtils.fromJson(response,GirlBean.class);
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(List<GirlBean> girlBean) {
                 Glide.with(context)
-                        .load(girlBean.getResults().get(0).getUrl()).asBitmap()
+                        .load(girlBean.get(0).getUrl()).asBitmap()
                         .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
 
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                 File imgFile = new File(context.getFilesDir(), "start.jpg");
-                                ImageUtils.saveImage(imgFile,resource);
+                                ImageUtils.saveImage(context,imgFile,resource);
                             }
                         });
             }
-            @Override
-            public void onError(Call call, Exception e) {
-            }
-
         };
-        OkHttpUtils.get().url(url).build().execute(callback);
+        HttpMethods.getInstance().getRandomImage(subscriber, count);
+
+//        StringCallback callback=new StringCallback() {
+//            @Override
+//            public void onResponse(String response) {
+//                GirlBean girlBean= (GirlBean) GsonUtils.fromJson(response,GirlBean.class);
+//                Glide.with(context)
+//                        .load(girlBean.get(0).getUrl()).asBitmap()
+//                        .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+//
+//                            @Override
+//                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                                File imgFile = new File(context.getFilesDir(), "start.jpg");
+//                                ImageUtils.saveImage(imgFile,resource);
+//                            }
+//                        });
+//            }
+//            @Override
+//            public void onError(Call call, Exception e) {
+//            }
+//
+//        };
+//        OkHttpUtils.get().url(url).build().execute(callback);
     }
 }

@@ -75,7 +75,7 @@ public class ImageUtils {
     }
 
 
-    public static void saveImage(File file,Bitmap bitmap) {
+    public static void saveImage(Context context,File file,Bitmap bitmap) {
         try {
             if (file.exists()) {
                 file.delete();
@@ -87,6 +87,11 @@ public class ImageUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Uri uri = Uri.fromFile(file);
+        // 通知图库更新
+        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+        context.sendBroadcast(scannerIntent);
 
     }
 }

@@ -1,16 +1,9 @@
 package com.dalingge.gankio.main.model;
 
 
-import com.dalingge.gankio.bean.Constants;
-import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.util.GsonUtils;
-import com.dalingge.gankio.util.log.L;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.dalingge.gankio.http.HttpMethods;
 
-import java.util.List;
-
-import okhttp3.Call;
+import rx.Subscriber;
 
 /**
  * FileName: SubmitGankModel.java
@@ -20,32 +13,33 @@ import okhttp3.Call;
  */
 public class SubmitGankModel {
 
-    public void submitGank(String tag,String strUrl, String strDesc, String strWho, String strType,final OnSubmitListListener listener) {
-
-        StringCallback callback=new StringCallback() {
+    public void submitGank(String strUrl, String strDesc, String strWho, String strType,final OnSubmitListListener listener) {
+        Subscriber subscriber = new Subscriber<String>() {
             @Override
-            public void onResponse(String response) {
-                listener.onSuccess(response);
+            public void onCompleted() {
+                if (!isUnsubscribed()) {
+                    unsubscribe();
+                }
             }
             @Override
-            public void onError(Call call, Exception e) {
-                listener.onFailure("提交失败！",e);
+            public void onError(Throwable e) {
+
+                listener.onFailure("提交失败！", e);
             }
 
+            @Override
+            public void onNext(String str) {
+
+                listener.onSuccess(str);
+            }
         };
-        OkHttpUtils.post().url(Constants.API_SUBMIT_GANK).tag(tag)
-                .addParams("url", strUrl)
-                .addParams("desc", strDesc)
-                .addParams("who", strWho)
-                .addParams("type", strType)
-                .addParams("debug", "false")
-                .build()
-                .execute(callback);
+
+        HttpMethods.getInstance().submitGank(subscriber, strUrl, strDesc,strWho,strType);
     }
 
     public interface OnSubmitListListener {
         void onSuccess(String msg);
-        void onFailure(String msg, Exception e);
+        void onFailure(String msg, Throwable e);
     }
 
 }

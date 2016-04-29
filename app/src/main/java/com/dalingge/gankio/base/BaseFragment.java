@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zhy.http.okhttp.OkHttpUtils;
-
 import butterknife.ButterKnife;
 
 /**
@@ -46,7 +44,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         //取消请求
-        OkHttpUtils.getInstance().cancelTag(getName());
         ButterKnife.unbind(getName());
     }
 }

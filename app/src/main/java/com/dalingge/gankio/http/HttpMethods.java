@@ -2,7 +2,9 @@ package com.dalingge.gankio.http;
 
 import com.dalingge.gankio.bean.Constants;
 import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.bean.ResultBean;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -21,7 +23,7 @@ import rx.schedulers.Schedulers;
  * Author: dingby(445850053@qq.com)
  * Date: 2016/4/28
  */
-public class HttpUtils {
+public class HttpMethods {
 
     private static final int DEFAULT_TIMEOUT = 5;
 
@@ -29,7 +31,7 @@ public class HttpUtils {
     private GankApi gankApi;
 
     //构造方法私有
-    private HttpUtils() {
+    private HttpMethods() {
         //手动创建一个OkHttpClient并设置超时时间
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
@@ -40,17 +42,16 @@ public class HttpUtils {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(Constants.API_URL)
                 .build();
-
         gankApi = retrofit.create(GankApi.class);
     }
 
     //在访问HttpMethods时创建单例
     private static class Singleton{
-        private static final HttpUtils INSTANCE = new HttpUtils();
+        private static final HttpMethods INSTANCE = new HttpMethods();
     }
 
     //获取单例
-    public static HttpUtils getInstance(){
+    public static HttpMethods getInstance(){
         return Singleton.INSTANCE;
     }
 
@@ -66,29 +67,64 @@ public class HttpUtils {
      *
      * @param <T>   Subscriber真正需要的数据类型，也就是Data部分的数据类型
      */
-    private class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
+    private class HttpResultFunc<T> implements Func1<ResultBean<T>, T> {
 
         @Override
-        public T call(HttpResult<T> httpResult) {
-            if (httpResult.getCount() == 0) {
-                throw new ExceptionApi(100);
+        public T call(ResultBean<T> httpResult) {
+            if (httpResult.isError()) {
+                throw new ExceptionApi(httpResult.getMsg());
             }
-            return httpResult.getSubjects();
+            return httpResult.getResults();
         }
     }
 
 
-    public void getDate(Subscriber<GirlBean> subscriber, String type, int pageIndex){
+    /**
+     *
+     * @param subscriber
+     * @param type
+     * @param pageIndex
+     */
+    public void getData(Subscriber<List<GirlBean>> subscriber, String type, int pageIndex){
 
-//        movieService.getTopMovie(start, count)
-//                .map(new HttpResultFunc<List<Subject>>())
-//                .subscribeOn(Schedulers.io())
-//                .unsubscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(subscriber);
+        Observable observable = gankApi.getData(type, pageIndex)
+                .map(new HttpResultFunc<List<GirlBean>>());
 
-        Observable observable = gankApi.getTopMovie(type, pageIndex)
-                .map(new HttpResultFunc<GirlBean>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 随机图片
+     * @param subscriber
+     * @param count
+     */
+    public void getRandomImage(Subscriber<List<GirlBean>> subscriber,int count){
+
+        Observable observable = gankApi.getRandomImage(count)
+                .map(new HttpResultFunc<List<GirlBean>>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 提交干货
+     * @param subscriber
+     * @param strUrl
+     * @param strDesc
+     * @param strWho
+     * @param strType
+     */
+    public void submitGank(Subscriber<String> subscriber,String strUrl, String strDesc, String strWho, String strType){
+        Observable observable = gankApi.submit(strUrl,strDesc,strWho,strType,false)
+                .map(new Func1<ResultBean,String>() {
+                    @Override
+                    public String call(ResultBean resultBean) {
+                        if (resultBean.isError()) {
+                            throw new ExceptionApi(resultBean.getMsg());
+                        }
+                        return resultBean.getMsg();
+                    }
+                });
 
         toSubscribe(observable, subscriber);
     }

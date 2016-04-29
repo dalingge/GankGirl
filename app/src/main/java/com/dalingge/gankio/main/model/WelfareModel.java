@@ -1,7 +1,7 @@
 package com.dalingge.gankio.main.model;
 
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.http.HttpUtils;
+import com.dalingge.gankio.http.HttpMethods;
 
 import java.util.List;
 
@@ -18,28 +18,32 @@ public class WelfareModel {
 
 
     public void loadNews(String type,int pageIndex, final OnLoadDataListListener listener) {
-        Subscriber subscriber = new Subscriber<GirlBean>() {
+        Subscriber subscriber = new Subscriber<List<GirlBean>>() {
             @Override
             public void onCompleted() {
+                if (!isUnsubscribed()) {
+                    unsubscribe();
+                }
             }
-
             @Override
             public void onError(Throwable e) {
+
                 listener.onFailure("load news list failure.", e);
             }
 
             @Override
-            public void onNext(GirlBean girlBean) {
-                listener.onSuccess(girlBean.getResults());
+            public void onNext(List<GirlBean> girlBean) {
+
+                listener.onSuccess(girlBean);
             }
         };
 
-        HttpUtils.getInstance().getDate(subscriber, type, pageIndex);
+        HttpMethods.getInstance().getData(subscriber, type, pageIndex);
 
     }
 
     public interface OnLoadDataListListener {
-        void onSuccess(List<GirlBean.ResultsBean> list);
+        void onSuccess(List<GirlBean> list);
         void onFailure(String msg, Throwable e);
     }
 }

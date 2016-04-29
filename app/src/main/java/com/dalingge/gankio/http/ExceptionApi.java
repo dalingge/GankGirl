@@ -8,6 +8,12 @@ package com.dalingge.gankio.http;
  */
 public class ExceptionApi extends RuntimeException{
 
+    /**
+     * 定义异常类型
+     */
+    public final static byte TYPE_NETWORK = 100;
+    public final static byte TYPE_JSON = 101;
+
     public ExceptionApi(int resultCode) {
         this(getApiExceptionMessage(resultCode));
     }
@@ -24,6 +30,17 @@ public class ExceptionApi extends RuntimeException{
      */
     private static String getApiExceptionMessage(int code){
         String message = "";
+        switch (code) {
+            case TYPE_NETWORK:
+                message = "网络连接失败，请检查网络设置";
+                break;
+            case TYPE_JSON:
+                message = "数据解析异常";
+                break;
+            default:
+                message = "未知错误";
+
+        }
         return message;
     }
 }

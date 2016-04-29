@@ -43,13 +43,13 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private List<GirlBean.ResultsBean> mData;
+    private List<GirlBean> mData;
     private RequestManager glideRequest;
     private String mType;
     private OnItemClickListener mOnItemClickListener;
     private boolean mShowFooter = true;
 
-    public WelfareAdapter(Context context, String type,List<GirlBean.ResultsBean> data) {
+    public WelfareAdapter(Context context, String type,List<GirlBean> data) {
         this.mContext = context;
         this.mType = type;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -61,26 +61,26 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public GirlBean.ResultsBean getItem(int position) {
+    public GirlBean getItem(int position) {
         return mData == null ? null : mData.get(position);
     }
 
-    public List<GirlBean.ResultsBean> getData() {
+    public List<GirlBean> getData() {
         return mData;
     }
 
 
-    public void setDate(List<GirlBean.ResultsBean> data) {
+    public void setDate(List<GirlBean> data) {
         mData=data;
     }
 
-    public void add(GirlBean.ResultsBean resultsBean,int position) {
+    public void add(GirlBean resultsBean,int position) {
         position = position == LAST_POSITION ? getItemCount()  : position;
         mData.add(position,resultsBean);
         notifyItemInserted(position);
     }
 
-    public void addItem(int position,GirlBean.ResultsBean resultsBean) {
+    public void addItem(int position,GirlBean resultsBean) {
         mData.add(position,resultsBean);
         notifyItemInserted(position);
     }
@@ -140,7 +140,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        GirlBean.ResultsBean resultsBean = mData.get(position);
+        GirlBean resultsBean = mData.get(position);
         if (viewHolder instanceof CirlCardViewHolder) {
             bindGirlItem(position, (CirlCardViewHolder) viewHolder, resultsBean);
         } else if (viewHolder instanceof VideoCardViewHolder) {
@@ -151,7 +151,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    private void bindGirlItem(int position, final CirlCardViewHolder viewHolder, GirlBean.ResultsBean resultsBean) {
+    private void bindGirlItem(int position, final CirlCardViewHolder viewHolder, GirlBean resultsBean) {
         glideRequest.load(resultsBean.getUrl())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -165,13 +165,13 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
     }
 
-    private void bindVideoItem(int position, VideoCardViewHolder viewHolder, GirlBean.ResultsBean resultsBean) {
+    private void bindVideoItem(int position, VideoCardViewHolder viewHolder, GirlBean resultsBean) {
         viewHolder.tvTitle.setText(resultsBean.getDesc());
         viewHolder.tvAuthor.setText(resultsBean.getWho());
         viewHolder.tvDate.setText(DateUtils.formatDateDetailDay(DateUtils.parseStringToDate(resultsBean.getPublishedAt())));
     }
 
-    private void bindGanItem(int position, GanCardViewHolder viewHolder, GirlBean.ResultsBean resultsBean) {
+    private void bindGanItem(int position, GanCardViewHolder viewHolder, GirlBean resultsBean) {
         viewHolder.tvTitle.setText(resultsBean.getDesc());
         viewHolder.tvAuthor.setText(resultsBean.getWho());
         viewHolder.tvDate.setText(DateUtils.formatDateDetailDay(DateUtils.parseStringToDate(resultsBean.getPublishedAt())));

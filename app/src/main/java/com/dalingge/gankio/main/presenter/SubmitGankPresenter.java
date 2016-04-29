@@ -8,10 +8,8 @@ import android.text.TextUtils;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BasePresenter;
-import com.dalingge.gankio.bean.ResultBean;
 import com.dalingge.gankio.main.model.SubmitGankModel;
 import com.dalingge.gankio.main.view.ISubmitGankView;
-import com.dalingge.gankio.util.GsonUtils;
 import com.dalingge.gankio.util.RegexUtils;
 
 /**
@@ -32,18 +30,18 @@ public class SubmitGankPresenter extends BasePresenter<ISubmitGankView> implemen
     public SubmitGankPresenter(ISubmitGankView view) {
         super(view);
         this.context = view.getContext();
-        this.submitGankModel=new SubmitGankModel();
+        this.submitGankModel = new SubmitGankModel();
     }
 
-    public void submitGank(String tag,TextInputEditText etUrl, TextInputEditText etDesc, TextInputEditText etWho, TextInputEditText etType) {
-        this.etUrl=etUrl;
-        this.etDesc=etDesc;
-        this.etWho=etWho;
-        this.etType=etType;
+    public void submitGank(String tag, TextInputEditText etUrl, TextInputEditText etDesc, TextInputEditText etWho, TextInputEditText etType) {
+        this.etUrl = etUrl;
+        this.etDesc = etDesc;
+        this.etWho = etWho;
+        this.etType = etType;
 
         if (!validateInput()) return;
 
-        submitGankModel.submitGank(tag,etUrl.getText().toString(),etDesc.getText().toString(),etWho.getText().toString(),etType.getText().toString(),this);
+        submitGankModel.submitGank(etUrl.getText().toString(), etDesc.getText().toString(), etWho.getText().toString(), etType.getText().toString(), this);
 
     }
 
@@ -55,7 +53,7 @@ public class SubmitGankPresenter extends BasePresenter<ISubmitGankView> implemen
             hasErrors = true;
         } else {
             removeError(etUrl);
-            if(RegexUtils.checkURL(etUrl.getText().toString())){
+            if (!RegexUtils.checkURL(etUrl.getText().toString())) {
                 setError(etUrl, R.string.et_error_no_urls);
                 hasErrors = true;
             }
@@ -100,18 +98,15 @@ public class SubmitGankPresenter extends BasePresenter<ISubmitGankView> implemen
 
     @Override
     public void onSuccess(String msg) {
-        ResultBean result= (ResultBean) GsonUtils.fromJson(msg,ResultBean.class);
-        if(!result.isError()){
-            etUrl.setText(null);
-            etDesc.setText(null);
-            etWho.setText(null);
-            etType.setText(null);
-        }
-        mView.showSuccessMsg(result.getMsg());
+        etUrl.setText(null);
+        etDesc.setText(null);
+        etWho.setText(null);
+        etType.setText(null);
+        mView.showSuccessMsg(msg);
     }
 
     @Override
-    public void onFailure(String msg, Exception e) {
-        mView.showFailMsg();
+    public void onFailure(String msg, Throwable e) {
+        mView.showFailMsg(e.getMessage());
     }
 }

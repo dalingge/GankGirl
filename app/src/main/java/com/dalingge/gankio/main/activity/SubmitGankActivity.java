@@ -3,13 +3,9 @@ package com.dalingge.gankio.main.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -96,7 +92,7 @@ public class SubmitGankActivity extends BaseActivity<SubmitGankPresenter> implem
     }
 
     @Override
-    public void showFailMsg() {
-        Toast.makeText(this,"网络异常！",Toast.LENGTH_LONG).show();
+    public void showFailMsg(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
 }

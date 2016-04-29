@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.dalingge.gankio.util.PreferencesUtils;
 import com.dalingge.gankio.util.log.L;
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * FileName:GankApp.java
@@ -34,7 +31,6 @@ public class GankApp extends Application {
         //初始化日志工具
         L.init(BuildConfig.DEBUG);
 
-        OkHttpUtils.getInstance().debug("OkHttpUtils").setConnectTimeout(100000, TimeUnit.MILLISECONDS);
     }
 
 }
