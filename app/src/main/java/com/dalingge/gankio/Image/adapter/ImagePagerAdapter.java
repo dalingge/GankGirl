@@ -20,9 +20,9 @@ import java.util.List;
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 
     private ViewPager viewPager;
-    private List<GirlBean.ResultsBean> resultsBeanList;
+    private List<GirlBean> resultsBeanList;
     private int index;
-    public ImagePagerAdapter(FragmentManager fm, ViewPager viewPager, List<GirlBean.ResultsBean> resultsBeanList, int index) {
+    public ImagePagerAdapter(FragmentManager fm, ViewPager viewPager, List<GirlBean> resultsBeanList, int index) {
         super(fm);
         this.viewPager=viewPager;
         this.resultsBeanList=resultsBeanList;

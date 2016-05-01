@@ -1,13 +1,11 @@
 package com.dalingge.gankio.main.model;
 
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.util.GsonUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.dalingge.gankio.http.HttpMethods;
 
 import java.util.List;
 
-import okhttp3.Call;
+import rx.Subscriber;
 
 /**
  * FileName:WelfareModel.java
@@ -19,24 +17,33 @@ import okhttp3.Call;
 public class WelfareModel {
 
 
-    public void loadNews(String tag,String url, final OnLoadDataListListener listener) {
-        StringCallback callback=new StringCallback() {
+    public void loadNews(String type,int pageIndex, final OnLoadDataListListener listener) {
+        Subscriber subscriber = new Subscriber<List<GirlBean>>() {
             @Override
-            public void onResponse(String response) {
-                GirlBean girlBean= (GirlBean) GsonUtils.fromJson(response,GirlBean.class);
-                listener.onSuccess(girlBean.getResults());
+            public void onCompleted() {
+                if (!isUnsubscribed()) {
+                    unsubscribe();
+                }
             }
             @Override
-            public void onError(Call call, Exception e) {
+            public void onError(Throwable e) {
+
                 listener.onFailure("load news list failure.", e);
             }
 
+            @Override
+            public void onNext(List<GirlBean> girlBean) {
+
+                listener.onSuccess(girlBean);
+            }
         };
-        OkHttpUtils.get().url(url).tag(tag).build().execute(callback);
+
+        HttpMethods.getInstance().getData(subscriber, type, pageIndex);
+
     }
 
     public interface OnLoadDataListListener {
-        void onSuccess(List<GirlBean.ResultsBean> list);
-        void onFailure(String msg, Exception e);
+        void onSuccess(List<GirlBean> list);
+        void onFailure(String msg, Throwable e);
     }
 }

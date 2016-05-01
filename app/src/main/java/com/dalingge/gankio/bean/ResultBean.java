@@ -6,7 +6,7 @@ package com.dalingge.gankio.bean;
  * Author: dingby(445850053@qq.com)
  * Date: 2016/4/11
  */
-public class ResultBean {
+public class ResultBean<T>  {
 
     /**
      * error : false
@@ -30,5 +30,26 @@ public class ResultBean {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    //用来模仿Data
+    private T results;
+
+    public T getResults() {
+        return results;
+    }
+
+    public void setResults(T results) {
+        this.results = results;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("title=" + error);
+        if (null != results) {
+            sb.append(" results:" + results.toString());
+        }
+        return sb.toString();
     }
 }

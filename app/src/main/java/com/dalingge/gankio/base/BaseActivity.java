@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.dalingge.gankio.R;
 import com.umeng.analytics.MobclickAgent;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,7 +58,6 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
     protected void onDestroy() {
         super.onDestroy();
         //取消请求
-        OkHttpUtils.getInstance().cancelTag(getName());
         ButterKnife.unbind(getName());
     }
 

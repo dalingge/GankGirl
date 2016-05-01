@@ -21,9 +21,8 @@ package com.dalingge.gankio.util;
 import android.support.annotation.AnimRes;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
-public class InOutAnimationUtils {
+public class AnimationUtils {
 
     public static void animateIn(final View v, @AnimRes int anim) {
         if (v.getVisibility() == View.VISIBLE) {
@@ -32,7 +31,7 @@ public class InOutAnimationUtils {
 
         v.clearAnimation();
 
-        Animation animation = AnimationUtils.loadAnimation(v.getContext(), anim);
+        Animation animation = android.view.animation.AnimationUtils.loadAnimation(v.getContext(), anim);
 
         animation.setAnimationListener(new AnimationListenerAdapter() {
             @Override
@@ -51,7 +50,7 @@ public class InOutAnimationUtils {
 
         v.clearAnimation();
 
-        Animation animation = AnimationUtils.loadAnimation(v.getContext(), anim);
+        Animation animation = android.view.animation.AnimationUtils.loadAnimation(v.getContext(), anim);
 
         animation.setAnimationListener(new AnimationListenerAdapter() {
             @Override

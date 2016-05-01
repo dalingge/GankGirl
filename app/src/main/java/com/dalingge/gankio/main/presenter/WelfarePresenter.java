@@ -1,9 +1,7 @@
 package com.dalingge.gankio.main.presenter;
 
 import com.dalingge.gankio.base.BasePresenter;
-import com.dalingge.gankio.bean.Constants;
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.model.WelfareModel;
 import com.dalingge.gankio.main.view.IWelfareView;
 
@@ -25,32 +23,24 @@ public class WelfarePresenter extends BasePresenter<IWelfareView> implements Wel
         mWelfareModel=new WelfareModel();
     }
 
-    public void loadNews(String tag,String type, int pageIndex) {
+    public void loadNews(String type, int pageIndex) {
 
-        String url = getUrl(type, pageIndex);
         //只有第一页的或者刷新的时候才显示刷新进度条
         if(pageIndex == 1) {
             mView.showRefresh();
         }
-        mWelfareModel.loadNews(tag,url, this);
-    }
-    private String getUrl(String type, int pageIndex) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(Constants.API_DATE)
-                .append(GankCategory.valueOf(type).toString())
-                .append(Constants.END_URL)
-                .append(pageIndex);
-        return sb.toString();
+        mWelfareModel.loadNews(type,pageIndex, this);
     }
 
     @Override
-    public void onSuccess(List<GirlBean.ResultsBean> list) {
+    public void onSuccess(List<GirlBean> list) {
         mView.hideRefresh();
         mView.addData(list);
     }
 
     @Override
-    public void onFailure(String msg, Exception e) {
+    public void onFailure(String msg, Throwable e) {
+
         mView.hideRefresh();
         mView.showLoadFailMsg();
     }
