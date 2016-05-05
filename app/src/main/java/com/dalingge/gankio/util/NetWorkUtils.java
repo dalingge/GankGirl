@@ -67,7 +67,6 @@ public class NetWorkUtils {
                 (networkInfo = manager.getActiveNetworkInfo()) == null) {
             return type;
         }
-        ;
 
         if (networkInfo.isConnected()) {
             String typeName = networkInfo.getTypeName();

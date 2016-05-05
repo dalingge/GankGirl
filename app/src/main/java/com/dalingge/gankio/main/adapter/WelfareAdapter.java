@@ -156,6 +156,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transform(new GlideRoundTransform(mContext, 8))
+                .animate(R.anim.image_zoom_in)
                 .into(new BitmapImageViewTarget(viewHolder.imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
