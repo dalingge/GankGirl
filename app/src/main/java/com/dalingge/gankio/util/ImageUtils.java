@@ -1,11 +1,8 @@
 package com.dalingge.gankio.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 
 import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.R;
@@ -47,10 +44,6 @@ public class ImageUtils {
         String fileName= timeStamp + ".jpg";
         File pictureFile = new File(file, fileName);
 
-//        if (pictureFile == null) {
-//            L.d("Error creating media file, check storage permissions: ");
-//            return ;
-//        }
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -63,15 +56,6 @@ public class ImageUtils {
         }
 
         return pictureFile;
-    }
-
-    public static Uri storeImageUri(Context context,Bitmap bitmap) {
-        final File file = storeImageFile(context,bitmap);
-        Uri uri = FileProvider.getUriForFile(context, AUTHORITY_IMAGES, file);
-        // 通知图库更新
-        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-        context.sendBroadcast(scannerIntent);
-        return uri;
     }
 
 
@@ -87,11 +71,6 @@ public class ImageUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Uri uri = Uri.fromFile(file);
-        // 通知图库更新
-        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-        context.sendBroadcast(scannerIntent);
 
     }
 }

@@ -51,26 +51,5 @@ public class MainModel {
         };
         HttpMethods.getInstance().getRandomImage(subscriber, count);
 
-//        StringCallback callback=new StringCallback() {
-//            @Override
-//            public void onResponse(String response) {
-//                GirlBean girlBean= (GirlBean) GsonUtils.fromJson(response,GirlBean.class);
-//                Glide.with(context)
-//                        .load(girlBean.get(0).getUrl()).asBitmap()
-//                        .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-//
-//                            @Override
-//                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                                File imgFile = new File(context.getFilesDir(), "start.jpg");
-//                                ImageUtils.saveImage(imgFile,resource);
-//                            }
-//                        });
-//            }
-//            @Override
-//            public void onError(Call call, Exception e) {
-//            }
-//
-//        };
-//        OkHttpUtils.get().url(url).build().execute(callback);
     }
 }

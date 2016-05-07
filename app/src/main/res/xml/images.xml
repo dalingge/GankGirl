@@ -20,6 +20,6 @@
 
     <external-path
         name="images"
-        path="Gank/image" />
+        path="gank" />
 
 </paths>
