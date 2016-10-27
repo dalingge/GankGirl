@@ -22,7 +22,7 @@ import rx.Subscriber;
  * Author: dingby(445850053@qq.com)
  * Date: 2016/4/12
  */
-public class MainModel {
+public class MainModel{
 
     public void getSplashImage(final Context context,  int count) {
 

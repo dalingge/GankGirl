@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -61,9 +61,9 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
     private static final String AUTHORITY_IMAGES = BuildConfig.APPLICATION_ID + ".images";
 
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @Bind(R.id.pull_back_layout)
+    @BindView(R.id.pull_back_layout)
     PullBackLayout pullBackLayout;
 
     private int index;

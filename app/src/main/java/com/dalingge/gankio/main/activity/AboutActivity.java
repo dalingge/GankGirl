@@ -9,7 +9,8 @@ import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
 
 /**
  * FileName:AboutActivity.java
@@ -21,9 +22,9 @@ import butterknife.Bind;
 public class AboutActivity extends BaseActivity {
 
 
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.tv_version)
+    @BindView(R.id.tv_version)
     TextView tvVersion;
 
     public static Intent newIntent(Context context) {

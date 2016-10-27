@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_viewpage_arrays">
+        <item>福利</item>
+        <item>iOS</item>
+        <item>Android</item>
+        <item>前端</item>
+        <item>App</item>
+        <item>拓展资源</item>
+        <item>瞎推荐</item>
+        <item>休息视频</item>
+    </string-array>
+</resources>

@@ -14,7 +14,9 @@ import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.main.presenter.SubmitGankPresenter;
 import com.dalingge.gankio.main.view.ISubmitGankView;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
+
 
 /**
  * FileName: SubmitGankActivity.java
@@ -24,15 +26,15 @@ import butterknife.Bind;
  */
 public class SubmitGankActivity extends BaseActivity<SubmitGankPresenter> implements ISubmitGankView {
 
-    @Bind(R.id.et_url)
+    @BindView(R.id.et_url)
     TextInputEditText etUrl;
-    @Bind(R.id.et_desc)
+    @BindView(R.id.et_desc)
     TextInputEditText etDesc;
-    @Bind(R.id.et_who)
+    @BindView(R.id.et_who)
     TextInputEditText etWho;
-    @Bind(R.id.et_type)
+    @BindView(R.id.et_type)
     TextInputEditText etType;
-    @Bind(R.id.fab_send)
+    @BindView(R.id.fab_send)
     FloatingActionButton fabSend;
 
     private SubmitGankPresenter submitGankPresenter;

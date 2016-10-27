@@ -14,7 +14,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.util.DateUtils;
 import com.dalingge.gankio.util.GlideRoundTransform;
 import com.dalingge.gankio.widget.RatioImageView;
@@ -22,8 +21,9 @@ import com.dalingge.gankio.widget.RatioImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 /**
  * FileName:WelfareAdapter.java
@@ -34,8 +34,7 @@ import butterknife.ButterKnife;
  */
 public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int LAST_POSITION = -1 ;
-
+    private static final int LAST_POSITION = -1 ;
     private static final int TYPE_GIRL = 0;
     private static final int TYPE_GAN = 1;
     private static final int TYPE_VIDEO = 2;
@@ -80,7 +79,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyItemInserted(position);
     }
 
-    public void addItem(int position,GirlBean resultsBean) {
+    void addItem(int position,GirlBean resultsBean) {
         mData.add(position,resultsBean);
         notifyItemInserted(position);
     }
@@ -95,30 +94,21 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        switch (GankCategory.valueOf(mType)) {
-            case 福利:
+        switch (mType) {
+            case "福利":
                 return TYPE_GIRL;
-            case iOS:
-            case Android:
-            case 前端:
-            case App:
-            case 拓展资源:
-            case 瞎推荐:
+            case "iOS":
+            case "Android":
+            case "前端":
+            case "App":
+            case "拓展资源":
+            case "瞎推荐":
                 return TYPE_GAN;
-            case 休息视频:
+            case "休息视频":
                 return TYPE_VIDEO;
             default:
                 return TYPE_FOOTER;
         }
-        // 最后一个item设置为footerView
-//        if(!mShowFooter) {
-//            return TYPE_GIRL;
-//        }
-//        if (position + 1 == getItemCount()) {
-//            return TYPE_FOOTER;
-//        } else {
-//            return TYPE_GIRL;
-//        }
     }
 
     @Override
@@ -189,14 +179,14 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
+        void onItemClick(View view, int position);
     }
 
-    public class CirlCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.radio_iv)
+    class CirlCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.radio_iv)
         RatioImageView imageView;
 
-        public CirlCardViewHolder(View itemView) {
+        CirlCardViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -205,20 +195,20 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(view, this.getPosition());
+                mOnItemClickListener.onItemClick(view, getAdapterPosition());
             }
         }
     }
 
-    public class VideoCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.tv_title)
+    class VideoCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tv_title)
         TextView tvTitle;
-        @Bind(R.id.tv_author)
+        @BindView(R.id.tv_author)
         TextView tvAuthor;
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView tvDate;
 
-        public VideoCardViewHolder(View itemView) {
+         VideoCardViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -227,20 +217,20 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(view, this.getPosition());
+                mOnItemClickListener.onItemClick(view, getAdapterPosition());
             }
         }
     }
 
-    public class GanCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.tv_title)
+     class GanCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tv_title)
         TextView tvTitle;
-        @Bind(R.id.tv_author)
+        @BindView(R.id.tv_author)
         TextView tvAuthor;
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView tvDate;
 
-        public GanCardViewHolder(View itemView) {
+         GanCardViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -249,7 +239,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(view, this.getPosition());
+                mOnItemClickListener.onItemClick(view, getAdapterPosition());
             }
         }
     }

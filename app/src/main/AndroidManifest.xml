@@ -37,9 +37,9 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5701f91767e58ec514000eef" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
 
         <!-- ###################添加Glide 全局设置###################### -->
         <meta-data android:name="com.dalingge.gankio.config.GlideConfig"

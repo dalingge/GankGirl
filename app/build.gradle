@@ -1,19 +1,48 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
+apply plugin: 'android-command'
+//apply plugin: 'realm-android'
+
+def gitVersionCode() {
+    def cmd = 'git rev-list HEAD --first-parent --count'
+    cmd.execute().text.trim().toInteger()
+}
+
+def gitVersionTag() {
+    def cmd = 'git describe --tags'
+    def version = cmd.execute().text.trim()
+    def pattern = "-(\\d+)-g"
+    def matcher = version =~ pattern
+    if (matcher) {
+        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
+    } else {
+        version = version + ".0"
+    }
+    return version
+}
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    def app = rootProject.ext.android
+    compileSdkVersion app.compileSdkVersion as int
+    buildToolsVersion app.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.dalingge.gankio"
-        minSdkVersion 19
-        targetSdkVersion 23
-        versionCode 4
-        versionName "1.1.2"
+        applicationId app.applicationId
+        minSdkVersion app.minSdkVersion as int
+        targetSdkVersion app.targetSdkVersion as int
+        versionCode app.versionCode as int
+        versionName app.versionName
+        jackOptions {
+            enabled true
+        }
+    }
 
-        // AndroidManifest.xml 里面UMENG_CHANNEL的value为 ${UMENG_CHANNEL_VALUE}
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "channel_name"]
+    command {
+        events 2000
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
@@ -22,57 +51,19 @@ android {
     }
 
     buildTypes {
-        debug {
-            // 显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-
-            versionNameSuffix "-debug"
-            minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
-
+        debug { // 为了不和 release 版本冲突
+            applicationIdSuffix ".debug"
         }
-
-
         release {
-
-            // 不显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            debuggable false
-            //代码混淆
-            minifyEnabled true
-            //zip优化
-            zipAlignEnabled true
-            //移除无用的resource文件
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-
-    productFlavors {
-        fir{}
-        wandoujia {}
-        baidu {}
-        qihu360 {}
-        uc {}
-        xiaomi {}
-        c91{}
-        waps{}
-        myapp{}
-    }
-
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-    }
-
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
+        if (variant.buildType.name.equals('release')) {
+            variant.mergedFlavor.versionCode = gitVersionCode()
+            variant.mergedFlavor.versionName = gitVersionTag()
         }
     }
 }
@@ -80,19 +71,26 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.android.support:cardview-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'io.reactivex:rxjava:1.1.3'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile rootProject.ext.dependencies["SupportAppcompatV4"]
+    compile rootProject.ext.dependencies["SupportAppcompatV7"]
+    compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
+    compile rootProject.ext.dependencies["SupportDesign"]
+    compile rootProject.ext.dependencies["SupportCardview"]
+    compile rootProject.ext.dependencies["Butterknife"]
+    annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
+    compile "io.realm:realm-android-library:2.1.0"
+    compile "io.realm:realm-annotations:2.1.0"
+    annotationProcessor "io.realm:realm-annotations-processor:2.1.0"
+    compile rootProject.ext.dependencies["Glide"]
+    compile rootProject.ext.dependencies["GlideOkHttp"]
+    compile rootProject.ext.dependencies["Retrofit"]
+    compile rootProject.ext.dependencies["RetrofitConverterGson"]
+    compile rootProject.ext.dependencies["RetrofitAdapterRxJava"]
+    compile rootProject.ext.dependencies["OkHttpLoggingInterceptor"]
+    compile rootProject.ext.dependencies["RxJava"]
+    compile rootProject.ext.dependencies["RxAndroid"]
+    compile rootProject.ext.dependencies["RxLifecycle"]
+    compile rootProject.ext.dependencies["RxLifecycleComponents"]
+    compile rootProject.ext.dependencies["MaterialDialogs"]
+    compile rootProject.ext.dependencies["Umeng"]
 }

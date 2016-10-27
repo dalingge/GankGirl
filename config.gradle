@@ -1,0 +1,77 @@
+ext {
+    android = [
+        compileSdkVersion: 25,
+        buildToolsVersion: "25.0.0",
+        applicationId    : "com.dalingge.gankio",
+        minSdkVersion    : 19, // Android 4.1
+        targetSdkVersion : 25,
+        versionCode      : 4,
+        versionName      : "1.2.1",
+        resConfigs       : "zh"
+    ]
+
+
+    def supportVersion = "25.0.0"
+    def butterKnifeVersion = "8.4.0"
+    def glideVersion = "3.7.0"
+    def glideOkhttpVer = "1.4.0@aar"
+    def materialDialogs = "0.8.5.9"
+    def retrofitVersion = "2.1.0"
+    def gsonVersion = "2.4"
+    def okHttpVersion = "3.4.1"
+    def okioVersion = "1.6.0"
+    def dagger2Version ="2.6"
+    def rxJavaVersion = "x.y.z"
+    def rxAndroidVersion = "1.2.1"
+    def rxPermission = "0.7.0@aar"
+    def rxBindingVersion = "0.4.0"
+    def rxLifecycleVersion = "0.7.0"
+    def rxNettyVersion = "0.5.2-RC1"
+    def rvAnimatorsVer = "2.2.3"
+
+    dependencies = [
+
+        // Android support library
+        SupportAppcompatV7      : "com.android.support:appcompat-v7:$supportVersion",
+        SupportDesign           : "com.android.support:design:$supportVersion",
+        SupportRecyclerViewV7   : "com.android.support:recyclerview-v7:$supportVersion",
+        SupportCardViewV7       : "com.android.support:cardview-v7:$supportVersion",
+        SupportAppcompatV4      : "com.android.support:support-v4:$supportVersion",
+        SupportCardview         : "com.android.support:cardview-v7:$supportVersion",
+
+        // Nice utils
+        ButterknifeCompiler     : "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
+        Butterknife             : "com.jakewharton:butterknife:$butterKnifeVersion",
+        Glide                   : "com.github.bumptech.glide:glide:$glideVersion",
+        GlideOkHttp             : "com.github.bumptech.glide:okhttp3-integration:$glideOkhttpVer",
+        //dagger
+        Dagger2                 : "com.google.dagger:dagger:$dagger2Version",
+        Dagger2AptCompiler      : "com.google.dagger:dagger-compiler:$dagger2Version",
+        // Rx ..
+        RxJava                  : "io.reactivex:rxjava:$rxJavaVersion",
+        RxAndroid               : "io.reactivex:rxandroid:$rxAndroidVersion",
+        RxPermission            : "com.tbruyelle.rxpermissions:rxpermissions:$rxPermission",
+        RxBinding               : "com.jakewharton.rxbinding:rxbinding:$rxBindingVersion",
+        RxBindingSupportV4      : "com.jakewharton.rxbinding:rxbinding-support-v4:$rxBindingVersion",
+        RxBindingSupportV7      : "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$rxBindingVersion",
+        RxBindingDesign         : "com.jakewharton.rxbinding:rxbinding-design:$rxBindingVersion",
+        RxBindingRecyclerView   : "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:$rxBindingVersion",
+        RxLifecycle             : "com.trello:rxlifecycle:$rxLifecycleVersion",
+        RxLifecycleComponents   : "com.trello:rxlifecycle-components:$rxLifecycleVersion",
+        RxNetty                 : "io.reactivex:rxnetty-tcp:$rxNettyVersion",
+        // Network
+        Okttp                   : "com.squareup.okhttp3:okhttp:$okHttpVersion",
+        Okio                    : "com.squareup.okio:okio:$okioVersion",
+        Retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+        RetrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+        RetrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+        OkHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+        Gson                    : "com.google.code.gson:gson:$gsonVersion",
+
+        // widget
+        RVanimators             : "jp.wasabeef:recyclerview-animators:$rvAnimatorsVer",
+        MaterialDialogs         : "com.afollestad.material-dialogs:core:$materialDialogs",
+        // 友盟
+        Umeng                   : "com.umeng.analytics:analytics:latest.integration"
+    ]
+}

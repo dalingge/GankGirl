@@ -9,18 +9,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
 import com.dalingge.gankio.main.fragment.WelfareListFragment;
-import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.presenter.MainPresenter;
 import com.dalingge.gankio.main.view.IMainView;
 import com.dalingge.gankio.util.PreferencesUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import rx.Observable;
+
 
 /**
  * FileName:MainActivity.java
@@ -32,11 +32,11 @@ import butterknife.Bind;
 public class MainActivity extends BaseActivity<MainPresenter> implements IMainView {
 
 
-    @Bind(R.id.tab_layout)
+    @BindView(R.id.tab_layout)
     TabLayout tablayout;
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
 
     private MainPresenter mainPresenter;
@@ -54,20 +54,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         mainPresenter=new MainPresenter(this);
 
         tabsAdapter = new ViewPageFragmentAdapter(getSupportFragmentManager(), tablayout, viewPager);
+        String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
 
-        for (GankCategory gankCategory : GankCategory.values()) {
-                tabsAdapter.addTab(gankCategory.name().toString(), "", WelfareListFragment.class,
-                        getBundle(gankCategory.name()));
-        }
-        viewPager.setOffscreenPageLimit(GankCategory.values().length);
+        Observable.from(title).subscribe(s ->  {
+            tabsAdapter.addTab(s, "", WelfareListFragment.class,
+                    getBundle(s));
+
+        });
+        viewPager.setOffscreenPageLimit(title.length);
         viewPager.setAdapter(tabsAdapter);
         tablayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(SubmitGankActivity.newIntent(view.getContext()));
-            }
-        });
+        fab.setOnClickListener(view ->  startActivity(SubmitGankActivity.newIntent(view.getContext())));
 
 
         mainPresenter.getSplashImage();

@@ -14,7 +14,6 @@ import com.dalingge.gankio.Image.activity.ImagePagerActivity;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.main.adapter.WelfareAdapter;
-import com.dalingge.gankio.main.model.GankCategory;
 import com.dalingge.gankio.main.presenter.WelfarePresenter;
 import com.dalingge.gankio.main.view.IWelfareView;
 import com.dalingge.gankio.util.animator.recyclerview.adapter.AlphaAnimatorAdapter;
@@ -25,7 +24,9 @@ import com.dalingge.gankio.web.WebActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
+
 
 /**
  * FileName:WelfareListFragment.java
@@ -38,7 +39,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
 
     public static final String BUNDLE_KEY_TYPE="BUNDLE_KEY_TYPE";
 
-    @Bind(R.id.recycle_view)
+    @BindView(R.id.recycle_view)
     RecyclerView recycleView;
 
     private List<GirlBean> mData = new ArrayList<>();
@@ -88,6 +89,20 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
 
     private void initView() {
         welfarePresenter = new WelfarePresenter(this);
+
+        welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType,mData);
+        if(mType.equals("福利")){
+            mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            recycleView.setLayoutManager(mStaggeredGridLayoutManager);
+            recycleView.setAdapter(welfareAdapter);
+        }  else {
+            mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recycleView.setLayoutManager(mLinearLayoutManager);
+            AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(welfareAdapter, recycleView);
+            recycleView.setAdapter(animatorAdapter);
+        }
+
+        welfareAdapter.setOnItemClickListener(mOnItemClickListener);
         recycleView.setHasFixedSize(true);
         recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
         recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,7 +110,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(mType.equals(GankCategory.福利.name())){
+                if(mType.equals("福利")){
                     int[] positions = new int[mStaggeredGridLayoutManager.getSpanCount()];
                     mStaggeredGridLayoutManager.findLastVisibleItemPositions(positions);
                     for (int position : positions) {
@@ -136,7 +151,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
                         0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
             }
 
-            if(mType.equals(GankCategory.福利.name())){
+            if(mType.equals("福利")){
 
                 ActivityCompat.startActivity(getActivity(),ImagePagerActivity.newIntent(view.getContext(),position,welfareAdapter.getData()),options.toBundle());
             }else {
@@ -160,21 +175,9 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
     @Override
     public void addData(List<GirlBean> girlList) {
         mData.addAll(girlList);
-        if(pageIndex ==1) {
-            welfareAdapter = new WelfareAdapter(getActivity().getApplicationContext(),mType,mData);
-            if(mType.equals(GankCategory.福利.name())){
-                mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                recycleView.setLayoutManager(mStaggeredGridLayoutManager);
-                recycleView.setAdapter(welfareAdapter);
-            }  else {
-                mLinearLayoutManager = new LinearLayoutManager(getActivity());
-                recycleView.setLayoutManager(mLinearLayoutManager);
-                AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(welfareAdapter, recycleView);
-                recycleView.setAdapter(animatorAdapter);
-            }
-
-            welfareAdapter.setOnItemClickListener(mOnItemClickListener);
-        } else {
+//        if(pageIndex ==1) {
+//
+//        } else {
             //如果没有更多数据了,则隐藏footer布局
             if(girlList == null || girlList.size() == 0) {
                 welfareAdapter.isShowFooter(false);
@@ -186,7 +189,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
 //            for (int i=count;i< mData.size();i++) {
 //                welfareAdapter.add(mData.get(i),i);
 //            }
-        }
+//
         pageIndex += 1;
     }
 

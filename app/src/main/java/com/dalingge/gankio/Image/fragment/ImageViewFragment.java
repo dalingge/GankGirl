@@ -15,8 +15,9 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseFragment;
 import com.dalingge.gankio.widget.TouchImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
+
 
 /**
  * FileName:ImageViewFragment.java
@@ -27,7 +28,7 @@ import butterknife.OnClick;
  */
 public class ImageViewFragment extends BaseFragment implements RequestListener<String, GlideDrawable> {
 
-    @Bind(R.id.touch_image_view)
+    @BindView(R.id.touch_image_view)
     TouchImageView touchImageView;
 
     private ImagePagerActivity activity;

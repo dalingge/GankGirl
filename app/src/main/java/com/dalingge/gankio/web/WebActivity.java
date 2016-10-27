@@ -17,16 +17,17 @@ import android.widget.FrameLayout;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
 
 public class WebActivity extends BaseActivity {
 
     private static final String EXTRA_URL = "extra_url";
     private static final String EXTRA_TITLE = "extra_title";
 
-    @Bind(R.id.video_fullView)
+    @BindView(R.id.video_fullView)
     FrameLayout videoFullView;
-    @Bind(R.id.web_View)
+    @BindView(R.id.web_View)
     WebView webView;
 
     private View xCustomView;

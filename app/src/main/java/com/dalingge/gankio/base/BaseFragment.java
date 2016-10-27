@@ -44,6 +44,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         //取消请求
-        ButterKnife.unbind(getName());
+       // ButterKnife.unbind(getName());
     }
 }

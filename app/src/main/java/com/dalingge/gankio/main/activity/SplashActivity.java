@@ -14,11 +14,13 @@ import com.dalingge.gankio.base.BaseActivity;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
+
 
 public class SplashActivity extends BaseActivity {
 
-    @Bind(R.id.iv_start)
+    @BindView(R.id.iv_start)
     ImageView ivStart;
 
     @Override

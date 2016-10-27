@@ -8,10 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dalingge.gankio.R;
-import com.umeng.analytics.MobclickAgent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+
 
 /**
  * FileName:BaseActivity.java
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity <P extends BasePresenter> extends AppCompatActivity {
 
     @Nullable
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     /**
@@ -45,20 +46,20 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+       // MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+      ///  MobclickAgent.onPause(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //取消请求
-        ButterKnife.unbind(getName());
+        //ButterKnife.unbind(getName());
     }
 
     private void initToolBar() {

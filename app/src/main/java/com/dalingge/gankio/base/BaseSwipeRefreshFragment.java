@@ -5,7 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.dalingge.gankio.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
 
 /**
  * FileName:BaseSwipeRefreshFragment.java
@@ -16,7 +17,7 @@ import butterknife.Bind;
  */
 public abstract class BaseSwipeRefreshFragment <P extends BasePresenter> extends BaseFragment<P> implements IBaseSwipeRefreshView ,SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.swipe_refresh_widget)
+    @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshWidget;
 
 
