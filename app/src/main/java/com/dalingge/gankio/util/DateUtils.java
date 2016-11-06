@@ -3,6 +3,7 @@ package com.dalingge.gankio.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * FileName:DateUtils.java
@@ -16,11 +17,11 @@ public class DateUtils {
     private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd");
+            return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         }
     };
 
-    private static SimpleDateFormat day = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat day = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
     /**
      * 格式化日期(精确到天)
