@@ -1,4 +1,4 @@
-package com.dalingge.gankio.bean;
+package com.dalingge.gankio.common;
 
 /**
  * FileName:Constants.java

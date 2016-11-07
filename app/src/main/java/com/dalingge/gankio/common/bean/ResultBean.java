@@ -1,4 +1,6 @@
-package com.dalingge.gankio.bean;
+package com.dalingge.gankio.common.bean;
+
+import java.io.Serializable;
 
 /**
  * FileName: ResultBean.java
@@ -6,7 +8,7 @@ package com.dalingge.gankio.bean;
  * Author: dingby(445850053@qq.com)
  * Date: 2016/4/11
  */
-public class ResultBean<T>  {
+public class ResultBean<T>  implements Serializable{
 
     /**
      * error : false

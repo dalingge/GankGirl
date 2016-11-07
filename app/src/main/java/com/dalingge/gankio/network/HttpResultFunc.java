@@ -1,7 +1,7 @@
 package com.dalingge.gankio.network;
 
 
-import com.dalingge.gankio.bean.ResultBean;
+import com.dalingge.gankio.common.bean.ResultBean;
 
 import rx.functions.Func1;
 

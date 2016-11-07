@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.GankApp;
-import com.dalingge.gankio.bean.Constants;
-import com.dalingge.gankio.bean.ResultBean;
+import com.dalingge.gankio.common.Constants;
+import com.dalingge.gankio.common.bean.ResultBean;
 import com.dalingge.gankio.util.FileUtils;
 import com.dalingge.gankio.util.NetWorkUtils;
 import com.google.gson.Gson;

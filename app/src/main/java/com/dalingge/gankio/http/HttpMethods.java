@@ -1,8 +1,8 @@
 package com.dalingge.gankio.http;
 
-import com.dalingge.gankio.bean.Constants;
+import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.bean.ResultBean;
+import com.dalingge.gankio.common.bean.ResultBean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
