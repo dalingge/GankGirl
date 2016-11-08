@@ -8,6 +8,9 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
+import javax.net.ssl.SSLHandshakeException;
 
 import retrofit2.adapter.rxjava.HttpException;
 
@@ -62,7 +65,7 @@ public class HttpExceptionHandle {
             ex = new ResponeThrowable(e, ERROR.NETWORD_ERROR);
             ex.message = "连接失败";
             return ex;
-        } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
+        } else if (e instanceof SSLHandshakeException) {
             ex = new ResponeThrowable(e, ERROR.SSL_ERROR);
             ex.message = "证书验证失败";
             return ex;
@@ -70,7 +73,7 @@ public class HttpExceptionHandle {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
-        } else if (e instanceof java.net.SocketTimeoutException) {
+        } else if (e instanceof SocketTimeoutException) {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;

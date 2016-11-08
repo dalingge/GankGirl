@@ -13,7 +13,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity implements BaseView<P>{
 
-    private static final String PRESENTER_STATE_KEY = "activity_presenter_state";
+    private static final String PRESENTER_STATE_KEY = "presenter_state";
 
     private PresenterLifecycleDelegate<P> presenterDelegate =
             new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<P>fromViewClass(getClass()));
@@ -50,12 +50,8 @@ public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity i
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+        if (savedInstanceState != null)
+            presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
     }
 
     @Override
@@ -71,8 +67,14 @@ public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity i
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        presenterDelegate.onDropView();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenterDelegate.onDestroy(true);
+        presenterDelegate.onDestroy(!isChangingConfigurations());
     }
 }

@@ -69,9 +69,9 @@ public class BaseFragment<P extends BasePresenter> extends RxFragment implements
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenterDelegate.onDestroy(false);
+    public void onPause() {
+        super.onPause();
+        presenterDelegate.onDropView();
     }
 
     @Override
