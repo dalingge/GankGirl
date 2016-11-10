@@ -1,25 +1,17 @@
-package com.dalingge.gankio.main.activity;
+package com.dalingge.gankio.module.main;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.base.BaseActivity;
-import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
+import com.dalingge.gankio.common.base.BaseActivity;
+import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.main.activity.AboutActivity;
 import com.dalingge.gankio.main.fragment.WelfareListFragment;
-import com.dalingge.gankio.main.presenter.MainPresenter;
-import com.dalingge.gankio.main.view.IMainView;
 import com.dalingge.gankio.util.PreferencesUtils;
-
-import butterknife.BindView;
-import rx.Observable;
 
 
 /**
@@ -29,18 +21,19 @@ import rx.Observable;
  * Email:445850053@qq.com
  * Date:16/4/2
  */
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainView {
+@RequiresPresenter(MainPresenter.class)
+public class MainActivity extends BaseActivity<MainPresenter> {
 
 
-    @BindView(R.id.tab_layout)
-    TabLayout tablayout;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-
-    private MainPresenter mainPresenter;
-    private ViewPageFragmentAdapter tabsAdapter;
+//    @BindView(R.id.tab_layout)
+//    TabLayout tablayout;
+//    @BindView(R.id.view_pager)
+//    ViewPager viewPager;
+//    @BindView(R.id.fab)
+//    FloatingActionButton fab;
+//
+//    private MainPresenter mainPresenter;
+//    private ViewPageFragmentAdapter tabsAdapter;
 
     @Override
     protected int getLayout() {
@@ -49,25 +42,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
 
     @Override
     protected void initView() {
-        setTitle(R.string.title_main);
-
-        mainPresenter=new MainPresenter(this);
-
-        tabsAdapter = new ViewPageFragmentAdapter(getSupportFragmentManager(), tablayout, viewPager);
-        String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
-
-        Observable.from(title).subscribe(s ->  {
-            tabsAdapter.addTab(s, "", WelfareListFragment.class,
-                    getBundle(s));
-
-        });
-        viewPager.setOffscreenPageLimit(title.length);
-        viewPager.setAdapter(tabsAdapter);
-        tablayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-        fab.setOnClickListener(view ->  startActivity(SubmitGankActivity.newIntent(view.getContext())));
-
-
-        mainPresenter.getSplashImage();
+//        setTitle(R.string.title_main);
+//
+//        mainPresenter=new MainPresenter(this);
+//
+//        tabsAdapter = new ViewPageFragmentAdapter(getSupportFragmentManager(), tablayout, viewPager);
+//        String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
+//
+//        Observable.from(title).subscribe(s ->  {
+//            tabsAdapter.addTab(s, "", WelfareListFragment.class,
+//                    getBundle(s));
+//
+//        });
+//        viewPager.setOffscreenPageLimit(title.length);
+//        viewPager.setAdapter(tabsAdapter);
+//        tablayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
+//        fab.setOnClickListener(view ->  startActivity(SubmitGankActivity.newIntent(view.getContext())));
+//
+//
+//        mainPresenter.getSplashImage();
 
     }
 
@@ -95,7 +88,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     @Override
     protected void onResume() {
         super.onResume();
-
         int uiMode = getResources().getConfiguration().uiMode;
         int dayNightUiMode = uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (dayNightUiMode == Configuration.UI_MODE_NIGHT_NO) {
@@ -135,9 +127,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public Context getContext() {
-        return this;
-    }
 
 }

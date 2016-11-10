@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
+import com.dalingge.gankio.module.main.MainActivity;
 
 import java.io.File;
 

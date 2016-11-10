@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".main.activity.MainActivity"
+        <activity android:name=".module.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
