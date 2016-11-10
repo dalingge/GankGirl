@@ -2,22 +2,26 @@ package com.dalingge.gankio.module.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.main.activity.AboutActivity;
 import com.dalingge.gankio.main.fragment.WelfareListFragment;
+import com.dalingge.gankio.module.home.HomeFragment;
+import com.dalingge.gankio.module.mine.MineFragment;
+import com.dalingge.gankio.module.star.StarFragment;
 import com.dalingge.gankio.util.PreferencesUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 
 /**
@@ -28,13 +32,14 @@ import butterknife.ButterKnife;
  * Date:16/4/2
  */
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends BaseActivity<MainPresenter> {
+public class MainActivity extends BaseActivity<MainPresenter> implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    @BindView(R.id.contentLayout)
-    FrameLayout contentLayout;
     @BindView(R.id.buttonNavigationView)
     BottomNavigationView buttonNavigationView;
 
+    private HomeFragment mHomeFragment;
+    private StarFragment mStarFragment;
+    private MineFragment mMineFragment;
 
 //    @BindView(R.id.tab_layout)
 //    TabLayout tablayout;
@@ -53,10 +58,8 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
     @Override
     protected void initView() {
-        buttonNavigationView.setOnNavigationItemSelectedListener(item -> {
-            Toast.makeText(this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
-            return false;
-        });
+        setDefaultFragment();
+        buttonNavigationView.setOnNavigationItemSelectedListener(this);
 //        setTitle(R.string.title_main);
 //
 //        mainPresenter=new MainPresenter(this);
@@ -80,6 +83,48 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     }
 
 
+
+    /**
+     * 设置默认的Fragment
+     */
+    private void setDefaultFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        mHomeFragment = HomeFragment.newInstance("Home");
+        transaction.replace(R.id.contentLayout, mHomeFragment);
+        transaction.commit();
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        //开启事务
+        FragmentTransaction transaction = fm.beginTransaction();
+        switch (item.getItemId()){
+            case R.id.item_navigation_home:
+                if (mHomeFragment == null) {
+                    mHomeFragment = HomeFragment.newInstance(item.getTitle().toString());
+                }
+                transaction.replace(R.id.contentLayout, mHomeFragment);
+                break;
+            case R.id.item_navigation_star:
+                if (mStarFragment == null) {
+                    mStarFragment = StarFragment.newInstance(item.getTitle().toString());
+                }
+                transaction.replace(R.id.contentLayout, mStarFragment);
+                break;
+            case R.id.item_navigation_mine:
+                if (mMineFragment == null) {
+                    mMineFragment = MineFragment.newInstance(item.getTitle().toString());
+                }
+                transaction.replace(R.id.contentLayout, mMineFragment);
+                break;
+        }
+        // 事务提交
+        transaction.commit();
+        return false;
+    }
     /**
      * 基类会根据不同的orderType展示相应的数据
      *
@@ -143,11 +188,4 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

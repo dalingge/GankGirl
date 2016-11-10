@@ -70,7 +70,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile rootProject.ext.dependencies["SupportAppcompatV4"]
     compile rootProject.ext.dependencies["SupportAppcompatV7"]
     compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
@@ -78,9 +77,6 @@ dependencies {
     compile rootProject.ext.dependencies["SupportCardview"]
     compile rootProject.ext.dependencies["Butterknife"]
     annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
-    compile "io.realm:realm-android-library:2.1.0"
-    compile "io.realm:realm-annotations:2.1.0"
-    annotationProcessor "io.realm:realm-annotations-processor:2.1.0"
     compile rootProject.ext.dependencies["Glide"]
     compile rootProject.ext.dependencies["GlideOkHttp"]
     compile rootProject.ext.dependencies["Retrofit"]
@@ -93,4 +89,9 @@ dependencies {
     compile rootProject.ext.dependencies["RxLifecycleComponents"]
     compile rootProject.ext.dependencies["MaterialDialogs"]
     compile rootProject.ext.dependencies["Umeng"]
+    compile 'io.realm:realm-android-library:2.1.0'
+    compile 'io.realm:realm-annotations:2.1.0'
+    compile 'com.android.support:support-v4:25.0.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'io.realm:realm-annotations-processor:2.1.0'
 }
