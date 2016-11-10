@@ -5,12 +5,6 @@ import android.support.annotation.Nullable;
 import rx.Notification;
 import rx.functions.Action2;
 
-/**
- * A class that represents a couple of View and Data.
- *
- * @param <View>
- * @param <T>
- */
 public final class Delivery<View, T> {
 
     private final View view;

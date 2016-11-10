@@ -7,26 +7,24 @@ import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
  * Created by dingboyang on 2016/11/7.
  */
 
-public interface BaseView<P extends BasePresenter> {
+interface BaseView<P extends BasePresenter> {
+
     /**
-     * Returns a current presenter factory.
+     * 获取当前Presenter代理
      */
     PresenterFactory<P> getPresenterFactory();
 
     /**
-     * Sets a presenter factory.
-     * Call this method before onCreate/onFinishInflate to override default {@link ReflectionPresenterFactory} presenter factory.
-     * Use this method for presenter dependency injection.
+     * 设置当前Presenter代理
+     * 调用这个方法之前 onCreate/onFinishInflate 覆盖默认的 {@link ReflectionPresenterFactory} presenter 代理.
+     * 使用这种方法对Presenter依赖注入。
      */
     void setPresenterFactory(PresenterFactory<P> presenterFactory);
 
     /**
-     * Returns a current attached presenter.
-     * This method is guaranteed to return a non-null value between
-     * onResume/onPause and onAttachedToWindow/onDetachedFromWindow calls
-     * if the presenter factory returns a non-null value.
+     * 获取当前 presenter
      *
-     * @return a currently attached presenter or null.
+     * @return 返回当前工厂的 presenter
      */
     P getPresenter();
 }

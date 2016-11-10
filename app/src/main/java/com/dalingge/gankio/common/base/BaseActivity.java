@@ -7,28 +7,37 @@ import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by dingboyang on 2016/11/7.
  */
 
-public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity implements BaseView<P>{
+public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity implements BaseView<P>{
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
+
+    private Unbinder unbinder;
+
+    protected abstract int getLayout();
+
+    protected abstract void initView();
 
     private PresenterLifecycleDelegate<P> presenterDelegate =
             new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<P>fromViewClass(getClass()));
 
     /**
-     * Returns a current presenter factory.
+     * 获取当前Presenter代理
      */
     public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
     /**
-     * Sets a presenter factory.
-     * Call this method before onCreate/onFinishInflate to override default {@link ReflectionPresenterFactory} presenter factory.
-     * Use this method for presenter dependency injection.
+     * 设置当前Presenter代理
+     * 调用这个方法之前 onCreate/onFinishInflate 覆盖默认的 {@link ReflectionPresenterFactory} presenter 代理.
+     * 使用这种方法对Presenter依赖注入。
      */
     @Override
     public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
@@ -36,12 +45,9 @@ public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity i
     }
 
     /**
-     * Returns a current attached presenter.
-     * This method is guaranteed to return a non-null value between
-     * onResume/onPause and onAttachedToWindow/onDetachedFromWindow calls
-     * if the presenter factory returns a non-null value.
+     * 获取当前 presenter
      *
-     * @return a currently attached presenter or null.
+     * @return 返回当前工厂的 presenter
      */
     public P getPresenter() {
         return presenterDelegate.getPresenter();
@@ -50,8 +56,11 @@ public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity i
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        setContentView(getLayout());//设置布局内容
+        if (savedInstanceState != null)//
             presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+        unbinder = ButterKnife.bind(this);  //初始化黄油刀控件绑定框架
+        this.initView();//初始化视图
     }
 
     @Override
@@ -76,5 +85,8 @@ public class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity i
     protected void onDestroy() {
         super.onDestroy();
         presenterDelegate.onDestroy(!isChangingConfigurations());
+
+        if (unbinder != null)
+            unbinder.unbind();
     }
 }

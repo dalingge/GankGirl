@@ -202,7 +202,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
             @Override
             public Subscription call() {
                 return observableFactory.call()
-                        .compose(BaseRxPresenter.this.<T>deliverReplay())
+                        .compose(BaseRxPresenter.this.deliverReplay())
                         .subscribe(split(onNext, onError));
             }
         });

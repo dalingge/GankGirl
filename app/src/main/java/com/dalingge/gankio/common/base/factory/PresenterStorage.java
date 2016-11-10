@@ -1,8 +1,9 @@
 package com.dalingge.gankio.common.base.factory;
 
-import com.dalingge.gankio.common.base.BasePresenter;
 
-import java.util.HashMap;
+import android.support.v4.util.ArrayMap;
+
+import com.dalingge.gankio.common.base.BasePresenter;
 
 /**
  *
@@ -15,8 +16,8 @@ public enum PresenterStorage {
 
     INSTANCE;
 
-    private HashMap<String, BasePresenter> idToPresenter = new HashMap<>();
-    private HashMap<BasePresenter, String> presenterToId = new HashMap<>();
+    private ArrayMap<String, BasePresenter> idToPresenter = new ArrayMap<>();
+    private ArrayMap<BasePresenter, String> presenterToId = new ArrayMap<>();
 
     /**
      * Adds a presenter to the storage

@@ -135,7 +135,7 @@ public class BasePresenter<View> {
     }
 
     /**
-     * Attaches a view to the presenter.
+     * 绑定View
      *
      * @param view a view to attach.
      */
@@ -145,7 +145,7 @@ public class BasePresenter<View> {
     }
 
     /**
-     * Detaches the presenter from a view.
+     * 解绑View
      */
     public void dropView() {
         onDropView();

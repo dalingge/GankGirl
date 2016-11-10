@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Gank</string>
-
     <string name="title_main">干货集中营</string>
 
+    <string name="empty"> </string>
+    
     <string name="action_settings">设置</string>
     <string name="action_heart">收藏</string>
     <string name="action_day_night">黑夜模式</string>
@@ -28,4 +29,8 @@
     <string name="et_error_no_desc">亲！描述下内容呗！</string>
     <string name="et_error_no_who">请填上你绰号</string>
     <string name="et_error_no_type">谢谢！@类型</string>
+    
+    <string name="empty_tips_null">暂无数据</string>
+    <string name="empty_tips_netword">请检查你的网络连接</string>
+    <string name="empty_tips_btn">重试</string>
 </resources>

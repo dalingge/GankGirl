@@ -2,18 +2,57 @@ package com.dalingge.gankio.common.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
 import com.trello.rxlifecycle.components.support.RxFragment;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by dingboyang on 2016/11/7.
  */
 
-public class BaseFragment<P extends BasePresenter> extends RxFragment implements BaseView<P>{
+public abstract class BaseFragment<P extends BasePresenter> extends RxFragment implements BaseView<P>{
 
     private static final String PRESENTER_STATE_KEY = "fragment_presenter_state";
+
+    protected View rootView;
+    private Unbinder unbinder;
+
+    private boolean _isVisible;
+    private MaterialDialog _waitDialog;
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initView(View view);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (rootView == null) {
+            rootView = inflater.inflate(getLayoutId(), container, false);
+            unbinder = ButterKnife.bind(this, rootView);
+            initView(rootView);
+        }
+        ViewGroup parent = (ViewGroup) rootView.getParent();
+        if (parent != null) {
+            parent.removeView(rootView);
+        }
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    protected ActionBar getActionBar() {
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
+    }
+
 
     // 在ViewPager中,虽然Fragment被destroy了,再是实例似乎并没有被销毁,重新重新创建的时候并不会初始化这里的参数,而是
     // 仍然保留成员变量的值
@@ -21,30 +60,22 @@ public class BaseFragment<P extends BasePresenter> extends RxFragment implements
             new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<P>fromViewClass(getClass()));
 
     /**
-     * Returns a current presenter factory.
+     * 获取当前Presenter
      */
     public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
     /**
-     * Sets a presenter factory.
-     * Call this method before onCreate/onFinishInflate to override default {@link ReflectionPresenterFactory} presenter factory.
-     * Use this method for presenter dependency injection.
+     * 设置Presenter
+     * 调用这个方法之前 onCreate/onFinishInflate 覆盖默认的 {@link ReflectionPresenterFactory} presenter factory.
+     * 使用这种方法对presenter依赖注入。
      */
     @Override
     public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
         presenterDelegate.setPresenterFactory(presenterFactory);
     }
 
-    /**
-     * Returns a current attached presenter.
-     * This method is guaranteed to return a non-null value between
-     * onResume/onPause and onAttachedToWindow/onDetachedFromWindow calls
-     * if the presenter factory returns a non-null value.
-     *
-     * @return a currently attached presenter or null.
-     */
     public P getPresenter() {
         return presenterDelegate.getPresenter();
     }

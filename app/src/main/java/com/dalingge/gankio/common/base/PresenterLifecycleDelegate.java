@@ -9,7 +9,7 @@ import com.dalingge.gankio.common.base.factory.PresenterStorage;
 
 
 /**
- * This class adopts a View lifecycle to the Presenter`s lifecycle.
+ * 这类采用View 生命周期到Presenter的生命周期。
  *
  * @param <P> a type of the presenter.
  */
@@ -94,8 +94,8 @@ public final class PresenterLifecycleDelegate<P extends BasePresenter> {
     public void onRestoreInstanceState(Bundle presenterState) {
         if (presenter != null)
             throw new IllegalArgumentException("onRestoreInstanceState() should be called before onResume()");
-//        this.bundle = ParcelFn.unmarshall(ParcelFn.marshall(presenterState));
-        this.bundle = presenterState;
+        this.bundle = ParcelFn.unmarshall(ParcelFn.marshall(presenterState));
+        //this.bundle = presenterState;
     }
 
     /**
@@ -133,15 +133,10 @@ public final class PresenterLifecycleDelegate<P extends BasePresenter> {
      * {@link android.app.Fragment#onDestroy()},
      * {@link android.view.View#onDetachedFromWindow()}
      */
-    public void onDestroy(boolean destroy) {
-        if (presenter != null) {
-            // 解绑View
-            presenter.dropView();
-            if (destroy) {
-                presenter.destroy();
-                // 诱使GC回收
-                presenter = null;
-            }
+    public void onDestroy(boolean isFinal) {
+        if (presenter != null && isFinal) {
+            presenter.destroy();
+            presenter = null; // 诱使GC回收
         }
     }
 }
