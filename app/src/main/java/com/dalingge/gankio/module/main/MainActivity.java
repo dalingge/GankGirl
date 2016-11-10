@@ -2,9 +2,12 @@ package com.dalingge.gankio.module.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
@@ -12,6 +15,9 @@ import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.main.activity.AboutActivity;
 import com.dalingge.gankio.main.fragment.WelfareListFragment;
 import com.dalingge.gankio.util.PreferencesUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -23,6 +29,11 @@ import com.dalingge.gankio.util.PreferencesUtils;
  */
 @RequiresPresenter(MainPresenter.class)
 public class MainActivity extends BaseActivity<MainPresenter> {
+
+    @BindView(R.id.contentLayout)
+    FrameLayout contentLayout;
+    @BindView(R.id.buttonNavigationView)
+    BottomNavigationView buttonNavigationView;
 
 
 //    @BindView(R.id.tab_layout)
@@ -42,6 +53,10 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
     @Override
     protected void initView() {
+        buttonNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Toast.makeText(this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+            return false;
+        });
 //        setTitle(R.string.title_main);
 //
 //        mainPresenter=new MainPresenter(this);
@@ -98,6 +113,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         }
     }
+
     private void initNotifiableItemState(MenuItem item) {
         PreferencesUtils preferencesUtils = new PreferencesUtils(this);
         item.setChecked(preferencesUtils.getBoolean(R.string.action_day_night, false));
@@ -106,13 +122,13 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.action_day_night:
                 PreferencesUtils preferencesUtils = new PreferencesUtils(this);
-                if(item.isChecked()){
+                if (item.isChecked()) {
                     getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     preferencesUtils.saveBoolean(R.string.action_day_night, false);
-                }else {
+                } else {
                     getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     preferencesUtils.saveBoolean(R.string.action_day_night, true);
                 }
@@ -128,4 +144,10 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
