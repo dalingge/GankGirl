@@ -27,7 +27,7 @@ public class ViewPageFragmentAdapter extends FragmentStatePagerAdapter {
 
     public ViewPageFragmentAdapter(FragmentManager fm, TabLayout tabs, ViewPager pager) {
         super(fm);
-        mContext = pager.getContext();
+        mContext = tabs.getContext();
         mViewTabs = tabs;
         mViewPager = pager;
     }

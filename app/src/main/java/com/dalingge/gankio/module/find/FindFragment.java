@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.home;
+package com.dalingge.gankio.module.find;
 
 
 import android.os.Bundle;
@@ -8,28 +8,23 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.base.BaseLazyFragment;
+import com.dalingge.gankio.common.base.BaseFragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseLazyFragment {
+public class FindFragment extends BaseFragment {
 
 
-    public HomeFragment() {
+    public FindFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    protected void lazyLoad() {
-
     }
 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_find;
     }
 
     @Override
@@ -37,9 +32,8 @@ public class HomeFragment extends BaseLazyFragment {
 
     }
 
-
-    public static HomeFragment newInstance(String param1) {
-        HomeFragment fragment = new HomeFragment();
+    public static FindFragment newInstance(String param1) {
+        FindFragment fragment = new FindFragment();
         Bundle args = new Bundle();
         args.putString("agrs1", param1);
         fragment.setArguments(args);

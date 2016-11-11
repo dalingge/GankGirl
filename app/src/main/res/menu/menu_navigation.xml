@@ -4,16 +4,21 @@
         android:id="@+id/item_navigation_home"
         android:checked="true"
         android:icon="@drawable/ic_navigation_home"
-        android:title="首页"/>
+        android:title="@string/button_navigation_home_text"/>
+
+    <item
+        android:id="@+id/item_navigation_find"
+        android:icon="@drawable/ic_navigation_find"
+        android:title="@string/button_navigation_find_text"/>
 
     <item
         android:id="@+id/item_navigation_star"
         android:icon="@drawable/ic_navigation_star"
-        android:title="收藏"/>
+        android:title="@string/button_navigation_star_text"/>
 
     <item
         android:id="@+id/item_navigation_mine"
         android:icon="@drawable/ic_navigation_mine"
-        android:title="我的"/>
+        android:title="@string/button_navigation_mine_text"/>
 
 </menu>

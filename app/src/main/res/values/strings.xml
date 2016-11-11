@@ -4,6 +4,11 @@
 
     <string name="empty"> </string>
 
+    <string name="button_navigation_home_text">首页</string>
+    <string name="button_navigation_find_text">发现</string>
+    <string name="button_navigation_star_text">收藏</string>
+    <string name="button_navigation_mine_text">我的</string>
+
     <string name="action_settings">设置</string>
     <string name="action_heart">收藏</string>
     <string name="action_day_night">黑夜模式</string>
