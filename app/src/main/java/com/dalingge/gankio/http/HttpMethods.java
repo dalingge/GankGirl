@@ -88,7 +88,7 @@ public class HttpMethods {
     public void getData(Subscriber<List<GirlBean>> subscriber, String type, int pageIndex){
 
         Observable observable = gankApi.getData(type, pageIndex)
-                .map(new HttpResultFunc<List<GirlBean>>());
+                .map(new HttpResultFunc<>());
 
         toSubscribe(observable, subscriber);
     }
@@ -101,7 +101,7 @@ public class HttpMethods {
     public void getRandomImage(Subscriber<List<GirlBean>> subscriber,int count){
 
         Observable observable = gankApi.getRandomImage(count)
-                .map(new HttpResultFunc<List<GirlBean>>());
+                .map(new HttpResultFunc<>());
 
         toSubscribe(observable, subscriber);
     }
