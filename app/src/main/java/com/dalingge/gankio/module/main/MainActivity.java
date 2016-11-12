@@ -56,7 +56,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
         setDefaultFragment(0);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

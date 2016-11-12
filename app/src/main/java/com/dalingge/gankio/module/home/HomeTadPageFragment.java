@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.base.BasePresenter;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
 import com.dalingge.gankio.main.activity.SubmitGankActivity;
 import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
@@ -20,7 +19,7 @@ import rx.Observable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeTadPageFragment<P extends BasePresenter> extends BaseTadPageFragment<P> {
+public class HomeTadPageFragment extends BaseTadPageFragment<HomePresenter> {
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
@@ -47,11 +46,8 @@ public class HomeTadPageFragment<P extends BasePresenter> extends BaseTadPageFra
     protected void onSetupTabAdapter(ViewPageFragmentAdapter adapter) {
 
         String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
-        Observable.from(title).subscribe(s ->  {
-            adapter.addTab(s, "", HomeFragment.class,
-                    getBundle(s));
+        Observable.from(title).subscribe(s -> adapter.addTab(s, "", HomeFragment.class,getBundle(s)));
 
-        });
     }
 
     /**

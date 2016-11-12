@@ -52,7 +52,7 @@ android {
 
     buildTypes {
         debug { // 为了不和 release 版本冲突
-            applicationIdSuffix ".debug"
+            //applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled false
@@ -89,9 +89,5 @@ dependencies {
     compile rootProject.ext.dependencies["RxLifecycleComponents"]
     compile rootProject.ext.dependencies["MaterialDialogs"]
     compile rootProject.ext.dependencies["Umeng"]
-    compile 'io.realm:realm-android-library:2.1.0'
-    compile 'io.realm:realm-annotations:2.1.0'
-    compile 'com.android.support:support-v4:25.0.0'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'io.realm:realm-annotations-processor:2.1.0'
 }

@@ -3,7 +3,6 @@ package com.dalingge.gankio.module.main;
 import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
-import com.dalingge.gankio.util.log.L;
 
 /**
  * FileName:MainPresenter.java
@@ -17,6 +16,5 @@ public class MainPresenter extends BaseRxPresenter<MainActivity> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        L.i("onCreate");
     }
 }

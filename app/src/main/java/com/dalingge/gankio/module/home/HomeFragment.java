@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
+import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseLazyFragment {
+@RequiresPresenter(HomePresenter.class)
+public class HomeFragment extends BaseLazyFragment<HomePresenter> {
 
 
     public HomeFragment() {

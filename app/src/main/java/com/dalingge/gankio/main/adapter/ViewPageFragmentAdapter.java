@@ -2,11 +2,9 @@ package com.dalingge.gankio.main.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +19,11 @@ import java.util.List;
 public class ViewPageFragmentAdapter extends FragmentStatePagerAdapter {
 
     private final Context mContext;
-    protected TabLayout mViewTabs;
-    private final ViewPager mViewPager;
     private final List<ViewPageInfo> mTabs = new ArrayList<>();
 
-    public ViewPageFragmentAdapter(FragmentManager fm, TabLayout tabs, ViewPager pager) {
+    public ViewPageFragmentAdapter(FragmentManager fm, Context context) {
         super(fm);
-        mContext = tabs.getContext();
-        mViewTabs = tabs;
-        mViewPager = pager;
+        mContext = context;
     }
 
     /**
