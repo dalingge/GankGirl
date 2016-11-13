@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-command'
+//apply plugin: 'android-command'
 //apply plugin: 'realm-android'
 
 def gitVersionCode() {
@@ -36,9 +36,9 @@ android {
         }
     }
 
-    command {
-        events 2000
-    }
+//    command {
+//        events 2000
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

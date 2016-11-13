@@ -22,7 +22,6 @@ import com.dalingge.gankio.util.PreferencesUtils;
 import butterknife.BindView;
 
 
-
 /**
  * FileName:MainActivity.java
  * Description:主页

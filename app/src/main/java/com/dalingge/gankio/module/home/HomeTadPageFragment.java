@@ -10,7 +10,6 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
 import com.dalingge.gankio.main.activity.SubmitGankActivity;
 import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
-import com.dalingge.gankio.main.fragment.WelfareListFragment;
 
 import butterknife.BindView;
 import rx.Observable;
@@ -58,7 +57,7 @@ public class HomeTadPageFragment extends BaseTadPageFragment<HomePresenter> {
      */
     private Bundle getBundle(String type) {
         Bundle bundle = new Bundle();
-        bundle.putString(WelfareListFragment.BUNDLE_KEY_TYPE, type);
+        bundle.putString(HomeFragment.BUNDLE_KEY_TYPE, type);
         return bundle;
     }
 }
