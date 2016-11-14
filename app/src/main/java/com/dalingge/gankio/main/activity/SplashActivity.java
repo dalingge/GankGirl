@@ -10,7 +10,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.base.BaseActivity;
+import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.module.main.MainActivity;
 
 import java.io.File;
@@ -18,11 +18,17 @@ import java.io.File;
 import butterknife.BindView;
 
 
-
 public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.iv_start)
     ImageView ivStart;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected int getLayout() {
@@ -32,13 +38,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         initImage();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        super.onCreate(savedInstanceState);
     }
 
     private void initImage() {

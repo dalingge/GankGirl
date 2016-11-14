@@ -1,23 +1,25 @@
 package com.dalingge.gankio.module.main;
 
 import android.content.res.Configuration;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.main.activity.AboutActivity;
-import com.dalingge.gankio.main.fragment.WelfareListFragment;
+import com.dalingge.gankio.module.find.FindFragment;
+import com.dalingge.gankio.module.home.HomeTadPageFragment;
+import com.dalingge.gankio.module.mine.MineFragment;
+import com.dalingge.gankio.module.star.StarFragment;
 import com.dalingge.gankio.util.PreferencesUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -28,23 +30,18 @@ import butterknife.ButterKnife;
  * Date:16/4/2
  */
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends BaseActivity<MainPresenter> {
+public class MainActivity extends BaseActivity<MainPresenter> implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    @BindView(R.id.contentLayout)
-    FrameLayout contentLayout;
     @BindView(R.id.buttonNavigationView)
     BottomNavigationView buttonNavigationView;
 
+    private HomeTadPageFragment mHomeTadPageFragment;
+    private FindFragment mFindFragment;
+    private StarFragment mStarFragment;
+    private MineFragment mMineFragment;
 
-//    @BindView(R.id.tab_layout)
-//    TabLayout tablayout;
-//    @BindView(R.id.view_pager)
-//    ViewPager viewPager;
-//    @BindView(R.id.fab)
-//    FloatingActionButton fab;
-//
-//    private MainPresenter mainPresenter;
-//    private ViewPageFragmentAdapter tabsAdapter;
+    // 定义FragmentManager对象管理器
+    private FragmentManager fragmentManager;
 
     @Override
     protected int getLayout() {
@@ -53,43 +50,101 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
     @Override
     protected void initView() {
-        buttonNavigationView.setOnNavigationItemSelectedListener(item -> {
-            Toast.makeText(this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
-            return false;
-        });
-//        setTitle(R.string.title_main);
-//
-//        mainPresenter=new MainPresenter(this);
-//
-//        tabsAdapter = new ViewPageFragmentAdapter(getSupportFragmentManager(), tablayout, viewPager);
-//        String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
-//
-//        Observable.from(title).subscribe(s ->  {
-//            tabsAdapter.addTab(s, "", WelfareListFragment.class,
-//                    getBundle(s));
-//
-//        });
-//        viewPager.setOffscreenPageLimit(title.length);
-//        viewPager.setAdapter(tabsAdapter);
-//        tablayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-//        fab.setOnClickListener(view ->  startActivity(SubmitGankActivity.newIntent(view.getContext())));
-//
-//
-//        mainPresenter.getSplashImage();
-
+        buttonNavigationView.setOnNavigationItemSelectedListener(this);
+        fragmentManager = getSupportFragmentManager();
+        setDefaultFragment(0);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_navigation_home:
+                setDefaultFragment(0);
+                break;
+            case R.id.item_navigation_find:
+                setDefaultFragment(1);
+                break;
+            case R.id.item_navigation_star:
+                setDefaultFragment(2);
+                break;
+            case R.id.item_navigation_mine:
+                setDefaultFragment(3);
+                break;
+        }
+        return false;
+    }
 
     /**
-     * 基类会根据不同的orderType展示相应的数据
+     * 设置默认的Fragment
      *
-     * @param type 要显示的数据类别
-     * @return
+     * @param index 选项卡的标号：0, 1, 2, 3
      */
-    private Bundle getBundle(String type) {
-        Bundle bundle = new Bundle();
-        bundle.putString(WelfareListFragment.BUNDLE_KEY_TYPE, type);
-        return bundle;
+    private void setDefaultFragment(int index) {
+        //开启事务
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        hideFragments(fragmentTransaction);
+        switch (index) {
+            case 0:
+                if (mHomeTadPageFragment == null) {
+                    mHomeTadPageFragment = HomeTadPageFragment.newInstance(getString(R.string.button_navigation_home_text));
+                    fragmentTransaction.add(R.id.contentLayout, mHomeTadPageFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mHomeTadPageFragment);
+                }
+                break;
+            case 1:
+                if (mFindFragment == null) {
+                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_find_text));
+                    fragmentTransaction.add(R.id.contentLayout, mFindFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mFindFragment);
+                }
+                break;
+            case 2:
+                if (mStarFragment == null) {
+                    mStarFragment = StarFragment.newInstance(getString(R.string.button_navigation_star_text));
+                    fragmentTransaction.add(R.id.contentLayout, mStarFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mStarFragment);
+                }
+                break;
+            case 3:
+                if (mMineFragment == null) {
+                    mMineFragment = MineFragment.newInstance(getString(R.string.button_navigation_mine_text));
+                    fragmentTransaction.add(R.id.contentLayout, mMineFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mMineFragment);
+                }
+                break;
+        }
+        fragmentTransaction.commit();   // 事务提交
+    }
+
+    /**
+     * 隐藏Fragment
+     *
+     * @param fragmentTransaction 事务
+     */
+    private void hideFragments(FragmentTransaction fragmentTransaction) {
+        if (mHomeTadPageFragment != null) {
+            fragmentTransaction.hide(mHomeTadPageFragment);
+        }
+
+        if (mFindFragment != null) {
+            fragmentTransaction.hide(mFindFragment);
+        }
+
+        if (mStarFragment != null) {
+            fragmentTransaction.hide(mStarFragment);
+        }
+
+        if (mMineFragment != null) {
+            fragmentTransaction.hide(mMineFragment);
+        }
     }
 
     @Override
@@ -143,11 +198,4 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

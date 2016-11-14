@@ -60,7 +60,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
         if (savedInstanceState != null)//
             presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
         unbinder = ButterKnife.bind(this);  //初始化黄油刀控件绑定框架
-        this.initView();//初始化视图
+        initView();//初始化视图
     }
 
     @Override

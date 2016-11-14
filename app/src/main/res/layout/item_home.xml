@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    style="@style/CardViewStyle"
+    app:cardCornerRadius="@dimen/CardViewCornerRadius"
+    app:cardElevation="@dimen/CardViewElevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_home_gank_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/empty"
+            android:scaleType="centerCrop"
+            app:srcCompat="@color/accent" />
+
+        <TextView
+            android:id="@+id/tv_home_gank_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_toStartOf="@+id/iv_home_gank_img"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="@dimen/text_size_16"
+            android:text="2016年美国选举：选举人谁拿的票多？" />
+
+        <TextView
+            android:id="@+id/tv_home_gank_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_home_gank_title"
+            android:layout_margin="8dp"
+            android:text="dalingge"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/tv_home_gank_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_home_gank_title"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@+id/tv_home_gank_author"
+            android:text="2016-11-11"
+            android:textSize="@dimen/text_size_14" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
