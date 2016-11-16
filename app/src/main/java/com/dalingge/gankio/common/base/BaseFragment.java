@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
 import com.trello.rxlifecycle.components.support.RxFragment;
@@ -28,7 +27,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     private Unbinder unbinder;
 
     private boolean _isVisible;
-    private MaterialDialog _waitDialog;
 
     protected abstract int getLayoutId();
 

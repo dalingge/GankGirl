@@ -10,7 +10,7 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BasePresenter;
 import com.dalingge.gankio.main.model.SubmitGankModel;
 import com.dalingge.gankio.main.view.ISubmitGankView;
-import com.dalingge.gankio.util.RegexUtils;
+import com.dalingge.gankio.common.utils.RegexUtils;
 
 /**
  * FileName: SubmitGankPresenter.java

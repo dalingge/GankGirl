@@ -3,8 +3,7 @@ package com.dalingge.gankio;
 import android.app.Application;
 import android.content.Context;
 
-import com.dalingge.gankio.util.PreferencesUtils;
-import com.dalingge.gankio.util.log.L;
+import com.dalingge.gankio.common.utils.PreferencesUtils;
 
 /**
  * FileName:GankApp.java
@@ -47,10 +46,6 @@ public class GankApp extends Application {
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 //
 //        }
-
-        //初始化日志工具
-        L.init(BuildConfig.DEBUG);
-
     }
 
 }

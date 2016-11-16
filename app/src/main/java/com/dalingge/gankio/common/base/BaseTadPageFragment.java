@@ -17,15 +17,12 @@ import butterknife.BindView;
 
 public abstract class BaseTadPageFragment<P extends BasePresenter> extends BaseFragment<P>{
 
-    @BindView(R.id.tab_layout)
-    protected TabLayout tabLayout;
-    @BindView(R.id.view_pager)
-    protected ViewPager viewPager;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+    @BindView(R.id.view_pager) ViewPager viewPager;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ViewPageFragmentAdapter viewPageFragmentAdapter=new ViewPageFragmentAdapter(getChildFragmentManager(),getContext());
         onSetupTabAdapter(viewPageFragmentAdapter);
         viewPager.setAdapter(viewPageFragmentAdapter);

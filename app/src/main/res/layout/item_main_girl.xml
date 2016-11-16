@@ -9,7 +9,7 @@
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp">
 
-    <com.dalingge.gankio.widget.RatioImageView
+    <com.dalingge.gankio.common.widgets.RatioImageView
         android:id="@+id/radio_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

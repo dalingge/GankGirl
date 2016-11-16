@@ -16,10 +16,10 @@ import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.main.adapter.WelfareAdapter;
 import com.dalingge.gankio.main.presenter.WelfarePresenter;
 import com.dalingge.gankio.main.view.IWelfareView;
-import com.dalingge.gankio.util.animator.recyclerview.adapter.AlphaAnimatorAdapter;
-import com.dalingge.gankio.util.animator.recyclerview.itemanimator.SlideInOutBottomItemAnimator;
+import com.dalingge.gankio.module.web.WebActivity;
+import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
+import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
 import com.dalingge.gankio.util.log.L;
-import com.dalingge.gankio.web.WebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +157,7 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
             }else {
                 GirlBean resultsBean = welfareAdapter.getItem(position);
 
-                ActivityCompat.startActivity(getActivity(),WebActivity.newIntent(view.getContext(),resultsBean.getUrl(),resultsBean.getDesc()),options.toBundle());
+                ActivityCompat.startActivity(getActivity(), WebActivity.newIntent(view.getContext(),resultsBean.getUrl(),resultsBean.getDesc()),options.toBundle());
             }
         }
     };

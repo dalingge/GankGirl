@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.dalingge.gankio.base.BasePresenter;
 import com.dalingge.gankio.main.model.MainModel;
 import com.dalingge.gankio.main.view.IMainView;
-import com.dalingge.gankio.util.NetWorkUtils;
+import com.dalingge.gankio.common.utils.NetWorkUtils;
 
 /**
  * FileName:MainPresenter.java

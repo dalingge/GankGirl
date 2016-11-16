@@ -6,8 +6,8 @@ import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.GankApp;
 import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.bean.ResultBean;
-import com.dalingge.gankio.util.FileUtils;
-import com.dalingge.gankio.util.NetWorkUtils;
+import com.dalingge.gankio.common.utils.FileUtils;
+import com.dalingge.gankio.common.utils.NetWorkUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -203,7 +203,10 @@ public class HttpRetrofit {
     public static <T> Observable.Transformer<ResultBean<T>, T> toTransformer() {
         return tObservable ->
                 tObservable.map(new HttpResultFunc<>())
-                        .onErrorResumeNext(new HttpResponseFunc<>());
+                        .onErrorResumeNext(new HttpResponseFunc<>())
+                        .subscribeOn(Schedulers.io())//访问网络切换异步线程
+                        .unsubscribeOn(Schedulers.io())//销毁访问网络切换异步线程
+                        .observeOn(AndroidSchedulers.mainThread()); //响应结果处理切换成主线程
 
     }
 

@@ -11,7 +11,10 @@ import android.view.View;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
-import com.dalingge.gankio.util.animator.recyclerview.adapter.AlphaAnimatorAdapter;
+import com.dalingge.gankio.common.bean.GankBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -29,6 +32,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> {
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshWidget;
 
+    private ArrayList<GankBean> mData = new ArrayList<>();
+    private HomeAdapter mHomeAdapter;
     private String mType;
 
     @Override
@@ -52,12 +57,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> {
 
     @Override
     protected void initView(View view) {
-        HomeAdapter homeAdapter =new HomeAdapter(getActivity());
+
+        mHomeAdapter =new HomeAdapter(getActivity(),mData);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(homeAdapter, recycleView);
         recycleView.setLayoutManager(mLinearLayoutManager);
         recycleView.setHasFixedSize(true);
-        recycleView.setAdapter(animatorAdapter);
+        recycleView.setAdapter(mHomeAdapter);
+
     }
 
+    public void addData(List<GankBean> gankBeanList) {
+        mData.addAll(gankBeanList);
+        mHomeAdapter.notifyDataSetChanged();
+    }
+
+    public void showMessage(String message){
+
+    }
 }

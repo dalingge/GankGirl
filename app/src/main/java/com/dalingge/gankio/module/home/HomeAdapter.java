@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.dalingge.gankio.R;
+import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.common.utils.DateUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +28,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private Context mContext;
     private RequestManager mRequestManager;
+    private ArrayList<GankBean> mData =new ArrayList<>();
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context,ArrayList<GankBean> data) {
         this.mContext = context;
         mRequestManager = Glide.with(mContext);
+        mData=data;
     }
 
     @Override
@@ -38,12 +44,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        GankBean gankBean = mData.get(position);
+        holder.tvHomeGankTitle.setText(gankBean.desc);
+        holder.tvHomeGankAuthor.setText(gankBean.who);
+        holder.tvHomeGankDate.setText(DateUtils.formatDateDetailDay(DateUtils.parseStringToDate(gankBean.publishedAt)));
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mData == null ? 0 : mData.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

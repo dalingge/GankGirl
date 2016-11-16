@@ -9,6 +9,7 @@ import com.dalingge.gankio.common.base.delivery.DeliverFirst;
 import com.dalingge.gankio.common.base.delivery.DeliverLatestCache;
 import com.dalingge.gankio.common.base.delivery.DeliverReplay;
 import com.dalingge.gankio.common.base.delivery.Delivery;
+import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import java.util.ArrayList;
 
@@ -86,9 +87,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * Starts the given restartable.
+     * 可重新开始
      *
-     * @param restartableId id of the restartable
+     * @param restartableId 重新请求ID
      */
     public void start(int restartableId) {
         stop(restartableId);
@@ -97,9 +98,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * Unsubscribes a restartable
+     * 取消订阅可重新开始的
      *
-     * @param restartableId id of a restartable.
+     * @param restartableId 重新请求ID
      */
     public void stop(int restartableId) {
         requested.remove((Integer) restartableId);
@@ -109,10 +110,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * Checks if a restartable is unsubscribed.
+     * 检查如果取消订阅可重新开始的。
      *
-     * @param restartableId id of the restartable.
-     * @return true if the subscription is null or unsubscribed, false otherwise.
+     * @param restartableId 重新请求ID
+     * @return 如果订阅是null或unsubscribed 返回true 否则false 。
      */
     public boolean isUnsubscribed(int restartableId) {
         Subscription subscription = restartableSubscriptions.get(restartableId);
@@ -125,14 +126,14 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * {@link #deliverFirst()},
      * {@link #split(Action2, Action2)}.
      *
-     * @param restartableId     an id of the restartable.
-     * @param observableFactory a factory that should return an Observable when the restartable should run.
-     * @param onNext            a callback that will be called when received data should be delivered to view.
-     * @param onError           a callback that will be called if the source observable emits onError.
-     * @param <T>               the type of the observable.
+     * @param restartableId     重新请求ID
+     * @param observableFactory 返回一个可观测时可重新起动的运行。
+     * @param onNext            回调时将调用接收的数据应该传递给视图。
+     * @param onError           回调错误到onError。
+     * @param <T>               可观察类型
      */
     public <T> void restartableFirst(int restartableId, final Func0<Observable<T>> observableFactory,
-                                     final Action2<View, T> onNext, @Nullable final Action2<View, Throwable> onError) {
+                                     final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Func0<Subscription>() {
             @Override
@@ -157,14 +158,14 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * {@link #deliverLatestCache()},
      * {@link #split(Action2, Action2)}.
      *
-     * @param restartableId     an id of the restartable.
-     * @param observableFactory a factory that should return an Observable when the restartable should run.
-     * @param onNext            a callback that will be called when received data should be delivered to view.
-     * @param onError           a callback that will be called if the source observable emits onError.
-     * @param <T>               the type of the observable.
+     * @param restartableId     重新请求ID
+     * @param observableFactory 返回一个可观测时可重新起动的运行。
+     * @param onNext            回调时将调用接收的数据应该传递给视图。
+     * @param onError           回调错误到onError。
+     * @param <T>               可观察类型
      */
     public <T> void restartableLatestCache(int restartableId, final Func0<Observable<T>> observableFactory,
-                                           final Action2<View, T> onNext, @Nullable final Action2<View, Throwable> onError) {
+                                           final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Func0<Subscription>() {
             @Override
@@ -189,14 +190,14 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * {@link #deliverReplay()},
      * {@link #split(Action2, Action2)}.
      *
-     * @param restartableId     an id of the restartable.
-     * @param observableFactory a factory that should return an Observable when the restartable should run.
-     * @param onNext            a callback that will be called when received data should be delivered to view.
-     * @param onError           a callback that will be called if the source observable emits onError.
-     * @param <T>               the type of the observable.
+     * @param restartableId     重新请求ID
+     * @param observableFactory 返回一个可观测时可重新起动的运行。
+     * @param onNext            回调时将调用接收的数据应该传递给视图。
+     * @param onError           回调错误到onError。
+     * @param <T>               可观察类型
      */
     public <T> void restartableReplay(int restartableId, final Func0<Observable<T>> observableFactory,
-                                      final Action2<View, T> onNext, @Nullable final Action2<View, Throwable> onError) {
+                                      final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Func0<Subscription>() {
             @Override
@@ -262,7 +263,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param <T>     a type on onNext value.
      * @return an Action1 that splits a received {@link Delivery} into two {@link Action2} onNext and onError calls.
      */
-    public <T> Action1<Delivery<View, T>> split(final Action2<View, T> onNext, @Nullable final Action2<View, Throwable> onError) {
+    public <T> Action1<Delivery<View, T>> split(final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
         return new Action1<Delivery<View, T>>() {
             @Override
             public void call(Delivery<View, T> delivery) {

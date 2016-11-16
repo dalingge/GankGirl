@@ -2,6 +2,8 @@ package com.dalingge.gankio.common.base.delivery;
 
 import android.support.annotation.Nullable;
 
+import com.dalingge.gankio.network.HttpExceptionHandle;
+
 import rx.Notification;
 import rx.functions.Action2;
 
@@ -15,11 +17,11 @@ public final class Delivery<View, T> {
         this.notification = notification;
     }
 
-    public void split(Action2<View, T> onNext, @Nullable Action2<View, Throwable> onError) {
+    public void split(Action2<View, T> onNext, @Nullable Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
         if (notification.getKind() == Notification.Kind.OnNext)
             onNext.call(view, notification.getValue());
         else if (onError != null && notification.getKind() == Notification.Kind.OnError)
-            onError.call(view, notification.getThrowable());
+            onError.call(view, (HttpExceptionHandle.ResponeThrowable) notification.getThrowable());
     }
 
     @Override

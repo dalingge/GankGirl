@@ -13,7 +13,7 @@ import com.bumptech.glide.request.target.Target;
 import com.dalingge.gankio.Image.activity.ImagePagerActivity;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseFragment;
-import com.dalingge.gankio.widget.TouchImageView;
+import com.dalingge.gankio.common.widgets.TouchImageView;
 
 import butterknife.BindView;
 import butterknife.OnClick;

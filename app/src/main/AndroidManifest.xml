@@ -42,7 +42,7 @@
             <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
 
         <!-- ###################添加Glide 全局设置###################### -->
-        <meta-data android:name="com.dalingge.gankio.config.GlideConfig"
+        <meta-data android:name="com.dalingge.gankio.common.config.GlideConfig"
             android:value="GlideModule"/>
 
 
@@ -64,8 +64,9 @@
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
-            android:name=".web.WebActivity"
+            android:name=".module.web.WebActivity"
             android:configChanges="orientation|screenSize" />
+
         <activity
             android:name=".main.activity.AboutActivity"
             android:screenOrientation="portrait" />

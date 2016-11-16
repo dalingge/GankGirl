@@ -87,7 +87,6 @@ dependencies {
     compile rootProject.ext.dependencies["RxAndroid"]
     compile rootProject.ext.dependencies["RxLifecycle"]
     compile rootProject.ext.dependencies["RxLifecycleComponents"]
-    compile rootProject.ext.dependencies["MaterialDialogs"]
     compile rootProject.ext.dependencies["Umeng"]
     testCompile 'junit:junit:4.12'
 }

@@ -46,11 +46,35 @@
     </style>
 
 
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <!--tab的最大的宽度-->
+        <!--<item name="tabMaxWidth">@dimen/design_tab_max_width</item>-->
+        <!--tab指示标的颜色-->
+        <item name="tabIndicatorColor">@color/icons</item>
+        <!--tab 指示标的高度-->
+        <item name="tabIndicatorHeight">2dp</item>
+        <!--tab字体的样式-->
+        <item name="tabTextAppearance">@style/TabTextStyle</item>
+        <!--tab 选中时的颜色-->
+        <!--<item name="tabSelectedTextColor">#69f</item>-->
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">scrollable</item>
+    </style>
+
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <!--Tab字体的大小-->
+        <!--<item name="android:textSize">@dimen/text_size_14</item>-->
+        <!--Tab字体的默认的颜色-->
+        <!--<item name="android:textColor">#1d000000</item>-->
+        <!--Tab字体是否为大写-->
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="CardViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/activity_vertical_margin</item>
-        <item name="android:layout_marginRight">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>

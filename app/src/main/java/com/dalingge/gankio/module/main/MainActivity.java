@@ -17,7 +17,7 @@ import com.dalingge.gankio.module.find.FindFragment;
 import com.dalingge.gankio.module.home.HomeTadPageFragment;
 import com.dalingge.gankio.module.mine.MineFragment;
 import com.dalingge.gankio.module.star.StarFragment;
-import com.dalingge.gankio.util.PreferencesUtils;
+import com.dalingge.gankio.common.utils.PreferencesUtils;
 
 import butterknife.BindView;
 

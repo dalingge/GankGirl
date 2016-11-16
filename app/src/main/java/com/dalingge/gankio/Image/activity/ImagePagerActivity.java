@@ -21,10 +21,10 @@ import com.dalingge.gankio.Image.adapter.ImagePagerAdapter;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.bean.GirlBean;
-import com.dalingge.gankio.util.AnimationUtils;
-import com.dalingge.gankio.util.RxUtils;
+import com.dalingge.gankio.common.utils.AnimationUtils;
+import com.dalingge.gankio.common.utils.RxUtils;
 import com.dalingge.gankio.util.log.L;
-import com.dalingge.gankio.widget.PullBackLayout;
+import com.dalingge.gankio.common.widgets.PullBackLayout;
 
 import java.io.File;
 import java.io.IOException;

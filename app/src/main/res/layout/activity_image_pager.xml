@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dalingge.gankio.widget.PullBackLayout
+    <com.dalingge.gankio.common.widgets.PullBackLayout
         android:id="@+id/pull_back_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,9 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.dalingge.gankio.widget.PullBackLayout>
+    </com.dalingge.gankio.common.widgets.PullBackLayout>
 
-    <com.dalingge.gankio.widget.InsetsToolbar
+    <com.dalingge.gankio.common.widgets.InsetsToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

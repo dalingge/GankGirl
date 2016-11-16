@@ -9,7 +9,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.http.HttpMethods;
-import com.dalingge.gankio.util.ImageUtils;
+import com.dalingge.gankio.common.utils.ImageUtils;
 
 import java.io.File;
 import java.util.List;
