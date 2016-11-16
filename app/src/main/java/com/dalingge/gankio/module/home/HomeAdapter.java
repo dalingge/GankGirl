@@ -26,14 +26,43 @@ import butterknife.OnClick;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
+    private static final int LAST_POSITION = -1;
+
     private Context mContext;
     private RequestManager mRequestManager;
-    private ArrayList<GankBean> mData =new ArrayList<>();
+    private ArrayList<GankBean> mData;
 
-    public HomeAdapter(Context context,ArrayList<GankBean> data) {
+    public HomeAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
         mRequestManager = Glide.with(mContext);
-        mData=data;
+        mData =data;
+        for (int i = 0; i < mData.size(); i++) {
+            addItem(i, mData.get(i));
+        }
+    }
+
+    public GankBean getItem(int position) {
+        return mData == null ? null : mData.get(position);
+    }
+
+    public ArrayList<GankBean> getData() {
+        return mData;
+    }
+
+
+    public void setDate(ArrayList<GankBean> data) {
+        mData = data;
+    }
+
+    public void add(GankBean resultsBean, int position) {
+        position = position == LAST_POSITION ? getItemCount() : position;
+        mData.add(position, resultsBean);
+        notifyItemInserted(position);
+    }
+
+    void addItem(int position, GankBean resultsBean) {
+        mData.add(position, resultsBean);
+        notifyItemInserted(position);
     }
 
     @Override

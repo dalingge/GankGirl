@@ -2,7 +2,6 @@ package com.dalingge.gankio.network;
 
 import android.content.Context;
 
-import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.GankApp;
 import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.bean.ResultBean;
@@ -96,8 +95,7 @@ public class HttpRetrofit {
 //        httpClientBuilder.socketFactory(getSSLSocketFactory(AppContext._context, certificates));
 //        String hosts[] = {Constants.API_URL};
 //        httpClientBuilder.hostnameVerifier(getHostnameVerifier(hosts));
-        if (BuildConfig.DEBUG)
-            httpClientBuilder.addInterceptor(interceptor); //添加日志拦截器（该方法也可以设置公共参数，头信息）
+        httpClientBuilder.addInterceptor(interceptor); //添加日志拦截器（该方法也可以设置公共参数，头信息）
         httpClientBuilder.addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
         //httpClientBuilder.retryOnConnectionFailure(true); //错误重连
         return httpClientBuilder.build();

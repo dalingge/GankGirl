@@ -13,13 +13,12 @@ import android.view.View;
 import com.dalingge.gankio.Image.activity.ImagePagerActivity;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
+import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
 import com.dalingge.gankio.main.adapter.WelfareAdapter;
 import com.dalingge.gankio.main.presenter.WelfarePresenter;
 import com.dalingge.gankio.main.view.IWelfareView;
 import com.dalingge.gankio.module.web.WebActivity;
-import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
-import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
-import com.dalingge.gankio.util.log.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,8 +127,6 @@ public class WelfareListFragment extends LazyFragment implements IWelfareView<Gi
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem + 1 == welfareAdapter.getItemCount()
                         && welfareAdapter.isShowFooter()) {
-                    //加载更多
-                    L.d("loading more data");
                     welfarePresenter.loadNews(mType, pageIndex );
                 }
             }

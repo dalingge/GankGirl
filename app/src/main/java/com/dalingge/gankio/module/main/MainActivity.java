@@ -12,14 +12,12 @@ import android.view.MenuItem;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.common.utils.PreferencesUtils;
 import com.dalingge.gankio.main.activity.AboutActivity;
 import com.dalingge.gankio.module.find.FindFragment;
 import com.dalingge.gankio.module.home.HomeTadPageFragment;
 import com.dalingge.gankio.module.mine.MineFragment;
 import com.dalingge.gankio.module.star.StarFragment;
-import com.dalingge.gankio.common.utils.PreferencesUtils;
-
-import butterknife.BindView;
 
 
 /**
@@ -32,7 +30,7 @@ import butterknife.BindView;
 @RequiresPresenter(MainPresenter.class)
 public class MainActivity extends BaseActivity<MainPresenter> implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    @BindView(R.id.buttonNavigationView)
+  //  @BindView(R.id.buttonNavigationView)
     BottomNavigationView buttonNavigationView;
 
     private HomeTadPageFragment mHomeTadPageFragment;
@@ -50,6 +48,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
 
     @Override
     protected void initView() {
+        buttonNavigationView = (BottomNavigationView)findViewById(R.id.buttonNavigationView);
         buttonNavigationView.setOnNavigationItemSelectedListener(this);
         fragmentManager = getSupportFragmentManager();
         setDefaultFragment(0);

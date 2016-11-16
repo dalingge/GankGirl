@@ -7,7 +7,6 @@ import android.os.Environment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
-import com.dalingge.gankio.util.log.L;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +63,6 @@ public class RxUtils {
                     fos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    L.d("Error accessing file: " + e.getMessage());
                 }
                 return Observable.just(pictureFile);
             }

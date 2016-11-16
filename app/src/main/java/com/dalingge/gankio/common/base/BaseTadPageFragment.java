@@ -9,25 +9,26 @@ import android.view.View;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
 
-import butterknife.BindView;
-
 /**
  * Created by dingboyang on 2016/11/11.
  */
 
 public abstract class BaseTadPageFragment<P extends BasePresenter> extends BaseFragment<P>{
 
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
+    //@BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+   // @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewPager = (ViewPager)view.findViewById(R.id.view_pager);
+        tabLayout = (TabLayout)view.findViewById(R.id.tab_layout);
         ViewPageFragmentAdapter viewPageFragmentAdapter=new ViewPageFragmentAdapter(getChildFragmentManager(),getContext());
         onSetupTabAdapter(viewPageFragmentAdapter);
         viewPager.setAdapter(viewPageFragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-
 //        try {
 //            Class<?> tab = tabLayout.getClass();
 //            Field tabStrip = tab.getDeclaredField("mTabStrip");

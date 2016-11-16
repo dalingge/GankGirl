@@ -24,10 +24,15 @@ public class HomePresenter extends BaseRxPresenter<HomeFragment> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        restartableLatestCache(REQUEST_ITEMS, new Func0<Observable<List<GankBean>>>() {
+    }
+
+
+    public void request(int id ,String type) {
+
+        restartableLatestCache(id, new Func0<Observable<List<GankBean>>>() {
             @Override
             public Observable<List<GankBean>> call() {
-                return HttpRetrofit.getInstance().apiService.getData("Android", 1)
+                return HttpRetrofit.getInstance().apiService.getData(type, 1)
                         .compose(HttpRetrofit.toTransformer());
             }
         }, new Action2<HomeFragment, List<GankBean>>() {
@@ -41,5 +46,7 @@ public class HomePresenter extends BaseRxPresenter<HomeFragment> {
                 homeFragment.showMessage(responeThrowable.message);
             }
         });
+
+        start(id);
     }
 }

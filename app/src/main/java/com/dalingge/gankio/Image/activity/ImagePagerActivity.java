@@ -23,7 +23,6 @@ import com.dalingge.gankio.base.BaseActivity;
 import com.dalingge.gankio.bean.GirlBean;
 import com.dalingge.gankio.common.utils.AnimationUtils;
 import com.dalingge.gankio.common.utils.RxUtils;
-import com.dalingge.gankio.util.log.L;
 import com.dalingge.gankio.common.widgets.PullBackLayout;
 
 import java.io.File;
@@ -242,7 +241,6 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
                                     wm.setStream(getContentResolver().openInputStream(uri));
                                     Toast.makeText(ImagePagerActivity.this, R.string.set_wallpaper_success, Toast.LENGTH_LONG).show();
                                 } catch (IOException e) {
-                                    L.e("Failed to set wallpaper", e);
                                     Toast.makeText(ImagePagerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }

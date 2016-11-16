@@ -21,7 +21,7 @@ public final class Delivery<View, T> {
         if (notification.getKind() == Notification.Kind.OnNext)
             onNext.call(view, notification.getValue());
         else if (onError != null && notification.getKind() == Notification.Kind.OnError)
-            onError.call(view, (HttpExceptionHandle.ResponeThrowable) notification.getThrowable());
+            onError.call(view, (HttpExceptionHandle.ResponeThrowable)notification.getThrowable());
     }
 
     @Override

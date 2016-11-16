@@ -60,12 +60,12 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        if (variant.buildType.name.equals('release')) {
-            variant.mergedFlavor.versionCode = gitVersionCode()
-            variant.mergedFlavor.versionName = gitVersionTag()
-        }
-    }
+//    applicationVariants.all { variant ->
+//        if (variant.buildType.name.equals('release')) {
+//            variant.mergedFlavor.versionCode = gitVersionCode()
+//            variant.mergedFlavor.versionName = gitVersionTag()
+//        }
+//    }
 }
 
 dependencies {

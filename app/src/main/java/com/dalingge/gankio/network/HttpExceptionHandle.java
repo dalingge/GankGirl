@@ -2,6 +2,8 @@ package com.dalingge.gankio.network;
 
 import android.net.ParseException;
 
+import com.dalingge.gankio.GankApp;
+import com.dalingge.gankio.R;
 import com.google.gson.JsonParseException;
 
 import org.apache.http.conn.ConnectTimeoutException;
@@ -46,7 +48,7 @@ public class HttpExceptionHandle {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    ex.message = "网络错误";
+                    ex.message = GankApp.context().getString(R.string.network_error);
                     break;
             }
             return ex;
@@ -59,27 +61,27 @@ public class HttpExceptionHandle {
                 || e instanceof JSONException
                 || e instanceof ParseException) {
             ex = new ResponeThrowable(e, ERROR.PARSE_ERROR);
-            ex.message = "解析错误";
+            ex.message = GankApp.context().getString(R.string.network_error_parse);
             return ex;
         } else if (e instanceof ConnectException) {
             ex = new ResponeThrowable(e, ERROR.NETWORD_ERROR);
-            ex.message = "连接失败";
+            ex.message = GankApp.context().getString(R.string.network_error_connect);
             return ex;
         } else if (e instanceof SSLHandshakeException) {
             ex = new ResponeThrowable(e, ERROR.SSL_ERROR);
-            ex.message = "证书验证失败";
+            ex.message =  GankApp.context().getString(R.string.network_error_ssl);
             return ex;
         } else if (e instanceof ConnectTimeoutException) {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
-            ex.message = "连接超时";
+            ex.message =  GankApp.context().getString(R.string.network_error_timeout);
             return ex;
         } else if (e instanceof SocketTimeoutException) {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
-            ex.message = "连接超时";
+            ex.message =  GankApp.context().getString(R.string.network_error_timeout);
             return ex;
         } else {
             ex = new ResponeThrowable(e, ERROR.UNKNOWN);
-            ex.message = "未知错误";
+            ex.message = GankApp.context().getString(R.string.network_error_unknown);
             return ex;
         }
     }

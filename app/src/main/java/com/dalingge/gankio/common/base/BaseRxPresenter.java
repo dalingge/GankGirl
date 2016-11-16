@@ -139,7 +139,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
             @Override
             public Subscription call() {
                 return observableFactory.call()
-                        .compose(BaseRxPresenter.this.<T>deliverFirst())
+                        .compose(BaseRxPresenter.this.deliverFirst())
                         .subscribe(split(onNext, onError));
             }
         });
@@ -171,7 +171,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
             @Override
             public Subscription call() {
                 return observableFactory.call()
-                        .compose(BaseRxPresenter.this.<T>deliverLatestCache())
+                        .compose(BaseRxPresenter.this.deliverLatestCache())
                         .subscribe(split(onNext, onError));
             }
         });

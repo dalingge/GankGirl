@@ -1,5 +1,7 @@
 package com.dalingge.gankio.common.base;
 
+import android.os.Bundle;
+
 /**
  * Created by dingboyang on 2016/11/9.
  */
@@ -10,6 +12,15 @@ public abstract class BaseLazyFragment<P extends BasePresenter> extends BaseFrag
     protected boolean isPrepared;
     //标志位 fragment是否可见
     protected boolean isVisible;
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //初始化view的各控件
+        isPrepared = true;
+        lazyLoad();
+    }
 
     /**
      * 在这里实现Fragment数据的缓加载.
