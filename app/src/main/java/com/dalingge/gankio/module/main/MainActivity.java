@@ -13,9 +13,8 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.utils.PreferencesUtils;
-import com.dalingge.gankio.main.activity.AboutActivity;
 import com.dalingge.gankio.module.find.FindFragment;
-import com.dalingge.gankio.module.home.HomeTadPageFragment;
+import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
 import com.dalingge.gankio.module.mine.MineFragment;
 import com.dalingge.gankio.module.star.StarFragment;
 
@@ -33,7 +32,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
   //  @BindView(R.id.buttonNavigationView)
     BottomNavigationView buttonNavigationView;
 
-    private HomeTadPageFragment mHomeTadPageFragment;
+    private GankTadPageFragment mGankTadPageFragment;
     private FindFragment mFindFragment;
     private StarFragment mStarFragment;
     private MineFragment mMineFragment;
@@ -84,12 +83,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
         hideFragments(fragmentTransaction);
         switch (index) {
             case 0:
-                if (mHomeTadPageFragment == null) {
-                    mHomeTadPageFragment = HomeTadPageFragment.newInstance(getString(R.string.button_navigation_home_text));
-                    fragmentTransaction.add(R.id.contentLayout, mHomeTadPageFragment);
+                if (mGankTadPageFragment == null) {
+                    mGankTadPageFragment = GankTadPageFragment.newInstance(getString(R.string.button_navigation_home_text));
+                    fragmentTransaction.add(R.id.contentLayout, mGankTadPageFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
-                    fragmentTransaction.show(mHomeTadPageFragment);
+                    fragmentTransaction.show(mGankTadPageFragment);
                 }
                 break;
             case 1:
@@ -129,8 +128,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
      * @param fragmentTransaction 事务
      */
     private void hideFragments(FragmentTransaction fragmentTransaction) {
-        if (mHomeTadPageFragment != null) {
-            fragmentTransaction.hide(mHomeTadPageFragment);
+        if (mGankTadPageFragment != null) {
+            fragmentTransaction.hide(mGankTadPageFragment);
         }
 
         if (mFindFragment != null) {
@@ -189,7 +188,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 recreate();
                 return true;
             case R.id.action_about:
-                startActivity(AboutActivity.newIntent(this));
+              //  startActivity(AboutActivity.newIntent(this));
                 return true;
 
         }

@@ -1,4 +1,4 @@
-package com.dalingge.gankio.main.adapter;
+package com.dalingge.gankio.common.base.view;
 
 import android.content.Context;
 import android.os.Bundle;

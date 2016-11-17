@@ -52,7 +52,7 @@ android {
 
     buildTypes {
         debug { // 为了不和 release 版本冲突
-            //applicationIdSuffix ".debug"
+           // applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled false
@@ -60,12 +60,12 @@ android {
         }
     }
 
-//    applicationVariants.all { variant ->
-//        if (variant.buildType.name.equals('release')) {
-//            variant.mergedFlavor.versionCode = gitVersionCode()
-//            variant.mergedFlavor.versionName = gitVersionTag()
-//        }
-//    }
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equals('release')) {
+            variant.mergedFlavor.versionCode = gitVersionCode()
+            variant.mergedFlavor.versionName = gitVersionTag()
+        }
+    }
 }
 
 dependencies {

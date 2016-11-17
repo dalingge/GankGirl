@@ -15,12 +15,12 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.base.BaseActivity;
+import com.dalingge.gankio.common.base.BaseToolbarActivity;
 
 import butterknife.BindView;
 
 
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseToolbarActivity {
 
     private static final String EXTRA_URL = "extra_url";
     private static final String EXTRA_TITLE = "extra_title";

@@ -1,14 +1,16 @@
-package com.dalingge.gankio.module.home;
+package com.dalingge.gankio.module.home.gank;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
@@ -16,6 +18,8 @@ import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
+import com.dalingge.gankio.module.web.WebActivity;
+import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +28,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-@RequiresPresenter(HomePresenter.class)
-public class HomeFragment extends BaseLazyFragment<HomePresenter> implements SwipeRefreshLayout.OnRefreshListener {
+@RequiresPresenter(GankPresenter.class)
+public class GankFragment extends BaseLazyFragment<GankPresenter> implements SwipeRefreshLayout.OnRefreshListener,GankAdapter.OnItemClickListener {
 
-    public static final String BUNDLE_KEY_ID = "BUNDLE_KEY_ID";
     public static final String BUNDLE_KEY_TYPE = "BUNDLE_KEY_TYPE";
 
     //@BindView(R.id.recycle_view)
@@ -36,8 +39,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
     SwipeRefreshLayout swipeRefreshWidget;
 
     private ArrayList<GankBean> mData = new ArrayList<>();
-    private HomeAdapter mHomeAdapter;
-    private int mId;
+    private GankAdapter mGankAdapter;
     private String mType;
 
     @Override
@@ -45,7 +47,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            mId =args.getInt(BUNDLE_KEY_ID);
             mType = args.getString(BUNDLE_KEY_TYPE);
         }
     }
@@ -64,7 +65,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_gank;
     }
 
     @Override
@@ -75,8 +76,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
                 R.color.primary, R.color.accent,
                 R.color.primary_dark, R.color.primary_light);
         swipeRefreshWidget.setOnRefreshListener(this);
-        mHomeAdapter = new HomeAdapter(getActivity(), mData);
-        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(mHomeAdapter, recycleView);
+        mGankAdapter = new GankAdapter(getActivity(), mData);
+        mGankAdapter.setOnItemClickListener(this);
+        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(mGankAdapter, recycleView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(mLinearLayoutManager);
         recycleView.setHasFixedSize(true);
@@ -84,10 +86,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
         recycleView.setAdapter(animatorAdapter);
     }
 
-    public void addData(List<GankBean> gankBeanList) {
+    @Override
+    public void onRefresh() {
+        mData.clear();
+        getPresenter().request(mType);
+    }
+
+    public void onAddData(List<GankBean> gankBeanList) {
         hideRefresh();
         mData.addAll(gankBeanList);
-        mHomeAdapter.notifyDataSetChanged();
+        mGankAdapter.notifyDataSetChanged();
+    }
+
+    public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
+        hideRefresh();
+        Snackbar.make(recycleView.getRootView(), responeThrowable.message, Snackbar.LENGTH_SHORT).show();
     }
 
     private void showRefresh(){
@@ -96,25 +109,26 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter> implements Swi
 
     private void hideRefresh(){
         // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        swipeRefreshWidget.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        swipeRefreshWidget.postDelayed(()-> {
                 if(swipeRefreshWidget != null){
                     swipeRefreshWidget.setRefreshing(false);
-                }
             }
         },1000);
     }
 
-    public void showMessage(String message) {
-        hideRefresh();
-        Snackbar.make(recycleView.getRootView(), message, Snackbar.LENGTH_SHORT).show();
-        Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
-    }
-
     @Override
-    public void onRefresh() {
-        mData.clear();
-        getPresenter().request(mId,mType);
+    public void onItemClick(View view, int position) {
+         ActivityOptionsCompat options;
+        if (Build.VERSION.SDK_INT >= 21) {
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    getActivity(), view,  mGankAdapter.getItem(position)._id);
+        } else {
+            options = ActivityOptionsCompat.makeScaleUpAnimation(
+                    view,
+                    view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
+                    0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
+        }
+        GankBean resultsBean = mGankAdapter.getItem(position);
+        ActivityCompat.startActivity(getActivity(), WebActivity.newIntent(view.getContext(),resultsBean.url,resultsBean.desc),options.toBundle());
     }
 }

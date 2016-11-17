@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.dalingge.gankio.R;
@@ -32,7 +33,6 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
         super.onCreate(savedInstanceState);
         this.initToolBar(); //初始化ToolBar
     }
-
     /**
      * 初始化toolbar
      */
@@ -56,6 +56,17 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
@@ -73,4 +84,7 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
             defaultTipsHelper = new DefaultTipsHelper(this, view);
     }
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 }

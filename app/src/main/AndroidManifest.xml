@@ -38,12 +38,13 @@
             android:name="UMENG_APPKEY"
             android:value="5701f91767e58ec514000eef" />
         <!--<meta-data-->
-            <!--android:name="UMENG_CHANNEL"-->
-            <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+        <!--android:name="UMENG_CHANNEL"-->
+        <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
 
         <!-- ###################添加Glide 全局设置###################### -->
-        <meta-data android:name="com.dalingge.gankio.common.config.GlideConfig"
-            android:value="GlideModule"/>
+        <meta-data
+            android:name="com.dalingge.gankio.common.config.GlideConfig"
+            android:value="GlideModule" />
 
 
         <activity
@@ -57,37 +58,37 @@
         </activity>
 
         <!--<activity android:name=".module.main.MainActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation"-->
-            <!--android:hardwareAccelerated="true"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="adjustPan"/>-->
+        <!--android:configChanges="keyboardHidden|orientation"-->
+        <!--android:hardwareAccelerated="true"-->
+        <!--android:launchMode="singleTop"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:windowSoftInputMode="adjustPan"/>-->
 
-        <!--<activity-->
-            <!--android:name=".module.web.WebActivity"-->
-            <!--android:configChanges="orientation|screenSize" />-->
+        <activity
+            android:name=".module.home.submit.SubmitGankActivity"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.web.WebActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".module.AboutActivity"
+            android:screenOrientation="portrait" />
         <!--<activity-->
-            <!--android:name=".main.activity.AboutActivity"-->
-            <!--android:screenOrientation="portrait" />-->
-        <!--<activity-->
-            <!--android:name=".Image.activity.ImagePagerActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/ImageViewTheme" />-->
+        <!--android:name=".Image.activity.ImagePagerActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@style/ImageViewTheme" />-->
 
         <!--<provider-->
-            <!--android:name=".Image.activity.ImageFileProvider"-->
-            <!--android:authorities="com.dalingge.gankio.images"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/images" />-->
+        <!--android:name=".Image.activity.ImageFileProvider"-->
+        <!--android:authorities="com.dalingge.gankio.images"-->
+        <!--android:exported="false"-->
+        <!--android:grantUriPermissions="true">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--android:resource="@xml/images" />-->
         <!--</provider>-->
-
-        <!--<activity-->
-            <!--android:name=".main.activity.SubmitGankActivity"-->
-            <!--android:screenOrientation="portrait" />-->
 
     </application>
 

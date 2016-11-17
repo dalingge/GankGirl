@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.main.adapter.ViewPageFragmentAdapter;
+import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
 
 /**
  * Created by dingboyang on 2016/11/11.
@@ -18,7 +18,7 @@ public abstract class BaseTadPageFragment<P extends BasePresenter> extends BaseF
     //@BindView(R.id.tab_layout)
     TabLayout tabLayout;
    // @BindView(R.id.view_pager)
-    ViewPager viewPager;
+   protected ViewPager viewPager;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

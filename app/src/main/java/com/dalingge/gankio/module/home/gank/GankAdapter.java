@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.home;
+package com.dalingge.gankio.module.home.gank;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.utils.DateUtils;
@@ -24,18 +25,17 @@ import butterknife.OnClick;
  * Created by dingboyang on 2016/11/13.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
 
     private static final int LAST_POSITION = -1;
 
     private Context mContext;
-    private RequestManager mRequestManager;
     private ArrayList<GankBean> mData;
+    private OnItemClickListener mOnItemClickListener;
 
-    public HomeAdapter(Context context, ArrayList<GankBean> data) {
+    public GankAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
-        mRequestManager = Glide.with(mContext);
-        mData =data;
+        mData = data;
         for (int i = 0; i < mData.size(); i++) {
             addItem(i, mData.get(i));
         }
@@ -68,7 +68,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.item_home, parent, false));
+                .inflate(R.layout.item_home_gank, parent, false));
     }
 
     @Override
@@ -77,6 +77,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tvHomeGankTitle.setText(gankBean.desc);
         holder.tvHomeGankAuthor.setText(gankBean.who);
         holder.tvHomeGankDate.setText(DateUtils.formatDateDetailDay(DateUtils.parseStringToDate(gankBean.publishedAt)));
+
+        if (gankBean.images != null && !gankBean.images.isEmpty()) {
+            holder.ivHomeGankImg.setVisibility(View.VISIBLE);
+            DrawableRequestBuilder<String> requestBuilder = Glide.with(mContext)
+                    .load(gankBean.images.get(0)+"?imageView2/0/w/100")
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.color.accent)
+                    .crossFade();
+            requestBuilder.into(holder.ivHomeGankImg);
+        }else {
+            holder.ivHomeGankImg.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -102,7 +114,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         @OnClick(R.id.card_view)
         public void onClick(View view) {
-
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(view, getAdapterPosition());
+            }
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

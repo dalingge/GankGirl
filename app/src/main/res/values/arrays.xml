@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="home_viewpage_arrays">
-        <item>iOS</item>
         <item>Android</item>
+        <item>iOS</item>
         <item>前端</item>
         <item>App</item>
         <item>拓展资源</item>
+    </string-array>
+
+    <string-array name="submit_gank_type_arrays">
+        <item>Android</item>
+        <item>iOS</item>
+        <item>前端</item>
+        <item>App</item>
+        <item>拓展资源</item>
+        <item>福利</item>
+        <item>瞎推荐</item>
+        <item>休息视频</item>
     </string-array>
 </resources>
