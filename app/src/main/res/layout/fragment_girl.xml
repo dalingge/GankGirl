@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dalingge.gankio.module.star.StarFragment">
+    tools:context="com.dalingge.gankio.module.find.FindFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
