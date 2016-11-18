@@ -21,7 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-
 /**
  * Created by dingboyang on 2016/11/18.
  */
@@ -83,6 +82,18 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
                 .error(R.color.accent)
                 .crossFade();
         requestBuilder.into(holder.ivGirlImg);
+//        glideRequest.load(gankBean.url)
+//                .asBitmap()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .transform(new GlideRoundTransform(mContext, 4))
+//                .animate(R.anim.image_zoom_in)
+//                .into(new BitmapImageViewTarget(holder.ivGirlImg) {
+//                    @Override
+//                    protected void setResource(Bitmap resource) {
+//                        holder.ivGirlImg.setOriginalSize(resource.getWidth(), resource.getHeight());
+//                        holder.ivGirlImg.setImageBitmap(resource);
+//                    }
+//                });
     }
 
     @Override
