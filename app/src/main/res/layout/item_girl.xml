@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    style="@style/CardViewStyle"
+    app:cardCornerRadius="@dimen/CardViewCornerRadius"
+    app:cardElevation="@dimen/CardViewElevation">
+    <com.dalingge.gankio.common.widgets.RatioImageView
+        android:id="@+id/iv_girl_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        tools:ignore="ContentDescription"
+        tools:src="@color/primary_light" />
+</android.support.v7.widget.CardView>

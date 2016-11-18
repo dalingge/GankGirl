@@ -2,16 +2,15 @@ package com.dalingge.gankio.module.home.gank;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.dalingge.gankio.R;
+import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
 import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
 import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
 
@@ -20,9 +19,6 @@ import rx.Observable;
  * A simple {@link Fragment} subclass.
  */
 public class GankTadPageFragment extends BaseTadPageFragment {
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
 
     public static GankTadPageFragment newInstance(String param1) {
         GankTadPageFragment fragment = new GankTadPageFragment();
@@ -59,7 +55,7 @@ public class GankTadPageFragment extends BaseTadPageFragment {
      */
     private Bundle getBundle(String type) {
         Bundle bundle = new Bundle();
-        bundle.putString(GankFragment.BUNDLE_KEY_TYPE, type);
+        bundle.putString(Constants.BUNDLE_KEY_TYPE, type);
         return bundle;
     }
 

@@ -12,4 +12,6 @@ public class Constants {
 
     public static final String API_URL = "https://gank.io/api/";
 
+    public static final String BUNDLE_KEY_TYPE = "BUNDLE_KEY_TYPE";
+
 }

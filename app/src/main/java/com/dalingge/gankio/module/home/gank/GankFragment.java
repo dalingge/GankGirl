@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.dalingge.gankio.R;
+import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
@@ -23,6 +24,8 @@ import com.dalingge.gankio.network.HttpExceptionHandle;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +33,9 @@ import java.util.List;
 @RequiresPresenter(GankPresenter.class)
 public class GankFragment extends BaseLazyFragment<GankPresenter> implements SwipeRefreshLayout.OnRefreshListener,GankAdapter.OnItemClickListener {
 
-    public static final String BUNDLE_KEY_TYPE = "BUNDLE_KEY_TYPE";
-
-    //@BindView(R.id.recycle_view)
+    @BindView(R.id.recycle_view)
     RecyclerView recycleView;
-    ///@BindView(R.id.swipe_refresh_widget)
+    @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshWidget;
 
     private ArrayList<GankBean> mData = new ArrayList<>();
@@ -46,7 +47,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            mType = args.getString(BUNDLE_KEY_TYPE);
+            mType = args.getString(Constants.BUNDLE_KEY_TYPE);
         }
     }
 
@@ -69,8 +70,6 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
 
     @Override
     protected void initView(View view) {
-        recycleView = (RecyclerView) view.findViewById(R.id.recycle_view);
-        swipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
         swipeRefreshWidget.setColorSchemeResources(
                 R.color.primary, R.color.accent,
                 R.color.primary_dark, R.color.primary_light);

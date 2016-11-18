@@ -1,12 +1,10 @@
-package com.dalingge.gankio.module.home.gank;
+package com.dalingge.gankio.module.girl;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
@@ -14,7 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.bean.GankBean;
-import com.dalingge.gankio.common.utils.DateUtils;
+import com.dalingge.gankio.common.widgets.RatioImageView;
 
 import java.util.ArrayList;
 
@@ -22,11 +20,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+
 /**
- * Created by dingboyang on 2016/11/13.
+ * Created by dingboyang on 2016/11/18.
  */
 
-public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
+public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
 
     private static final int LAST_POSITION = -1;
 
@@ -34,7 +34,8 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
     private ArrayList<GankBean> mData;
     private OnItemClickListener mOnItemClickListener;
     private RequestManager glideRequest;
-    public GankAdapter(Context context, ArrayList<GankBean> data) {
+
+    public GirlAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
         glideRequest = Glide.with(mContext);
         this.mData = data;
@@ -70,27 +71,18 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.item_home_gank, parent, false));
+                .inflate(R.layout.item_girl, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         GankBean gankBean = mData.get(position);
-        holder.tvHomeGankTitle.setText(gankBean.desc);
-        holder.tvHomeGankAuthor.setText(gankBean.who);
-        holder.tvHomeGankDate.setText(DateUtils.formatDateDetailDay(DateUtils.parseStringToDate(gankBean.publishedAt)));
-
-        if (gankBean.images != null && !gankBean.images.isEmpty()) {
-            holder.ivHomeGankImg.setVisibility(View.VISIBLE);
-            DrawableRequestBuilder<String> requestBuilder = Glide.with(mContext)
-                    .load(gankBean.images.get(0)+"?imageView2/0/w/400")
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .error(R.color.accent)
-                    .crossFade();
-            requestBuilder.into(holder.ivHomeGankImg);
-        }else {
-            holder.ivHomeGankImg.setVisibility(View.GONE);
-        }
+        DrawableRequestBuilder<String> requestBuilder = Glide.with(mContext)
+                .load(gankBean.url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.color.accent)
+                .crossFade();
+        requestBuilder.into(holder.ivGirlImg);
     }
 
     @Override
@@ -100,14 +92,8 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_home_gank_img)
-        ImageView ivHomeGankImg;
-        @BindView(R.id.tv_home_gank_title)
-        TextView tvHomeGankTitle;
-        @BindView(R.id.tv_home_gank_author)
-        TextView tvHomeGankAuthor;
-        @BindView(R.id.tv_home_gank_date)
-        TextView tvHomeGankDate;
+        @BindView(R.id.iv_girl_img)
+        RatioImageView ivGirlImg;
 
         ViewHolder(View itemView) {
             super(itemView);

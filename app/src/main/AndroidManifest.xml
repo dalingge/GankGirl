@@ -75,20 +75,21 @@
         <activity
             android:name=".module.AboutActivity"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-        <!--android:name=".Image.activity.ImagePagerActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:theme="@style/ImageViewTheme" />-->
 
-        <!--<provider-->
-        <!--android:name=".Image.activity.ImageFileProvider"-->
-        <!--android:authorities="com.dalingge.gankio.images"-->
-        <!--android:exported="false"-->
-        <!--android:grantUriPermissions="true">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--android:resource="@xml/images" />-->
-        <!--</provider>-->
+        <activity
+            android:name=".module.girl.ImagePagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageViewTheme" />
+
+        <provider
+            android:name=".module.girl.ImageFileProvider"
+            android:authorities="com.dalingge.gankio.images"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/images" />
+        </provider>
 
     </application>
 

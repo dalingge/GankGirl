@@ -14,10 +14,12 @@ import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.utils.PreferencesUtils;
 import com.dalingge.gankio.module.AboutActivity;
+import com.dalingge.gankio.module.find.FindFragment;
 import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
 import com.dalingge.gankio.module.mine.MineFragment;
-import com.dalingge.gankio.module.find.FindFragment;
+
+import butterknife.BindView;
 
 
 /**
@@ -30,7 +32,7 @@ import com.dalingge.gankio.module.find.FindFragment;
 @RequiresPresenter(MainPresenter.class)
 public class MainActivity extends BaseActivity<MainPresenter> implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-  //  @BindView(R.id.buttonNavigationView)
+    @BindView(R.id.buttonNavigationView)
     BottomNavigationView buttonNavigationView;
 
     private GankTadPageFragment mGankTadPageFragment;
@@ -48,7 +50,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
 
     @Override
     protected void initView() {
-        buttonNavigationView = (BottomNavigationView)findViewById(R.id.buttonNavigationView);
         buttonNavigationView.setOnNavigationItemSelectedListener(this);
         fragmentManager = getSupportFragmentManager();
         setDefaultFragment(0);
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 break;
             case 1:
                 if (mGirlFragment == null) {
-                    mGirlFragment = GirlFragment.newInstance(getString(R.string.button_navigation_find_text));
+                    mGirlFragment = GirlFragment.newInstance(getString(R.string.button_navigation_girl_text));
                     fragmentTransaction.add(R.id.contentLayout, mGirlFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
@@ -103,7 +104,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 break;
             case 2:
                 if (mFindFragment == null) {
-                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_girl_text));
+                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_find_text));
                     fragmentTransaction.add(R.id.contentLayout, mFindFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
