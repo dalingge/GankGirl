@@ -199,14 +199,13 @@ public class WebActivity extends BaseToolbarActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         videoFullView.removeAllViews();
         webView.loadUrl("about:blank");
         webView.stopLoading();
         webView.setWebChromeClient(null);
         webView.setWebViewClient(null);
         webView.destroy();
-        webView = null;
+        super.onDestroy();
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

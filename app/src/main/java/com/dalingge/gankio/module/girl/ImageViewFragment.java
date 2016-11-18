@@ -1,4 +1,4 @@
-package com.dalingge.gankio.Image.fragment;
+package com.dalingge.gankio.module.girl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.dalingge.gankio.Image.activity.ImagePagerActivity;
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.base.BaseFragment;
+import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.widgets.TouchImageView;
 
 import butterknife.BindView;
@@ -36,11 +35,6 @@ public class ImageViewFragment extends BaseFragment implements RequestListener<S
     private String url;
     private boolean initialShown;
 
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_image_view;
-    }
-
     public static ImageViewFragment newFragment(String url, boolean initialShown) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
@@ -50,6 +44,16 @@ public class ImageViewFragment extends BaseFragment implements RequestListener<S
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_image_view;
+    }
+
+    @Override
+    protected void initView(View view) {
+
     }
 
     @Override

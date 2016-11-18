@@ -4,7 +4,6 @@ package com.dalingge.gankio.module.home.gank;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -129,6 +128,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
                     0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
         }
         GankBean resultsBean = mGankAdapter.getItem(position);
-        ActivityCompat.startActivity(getActivity(), WebActivity.newIntent(view.getContext(),resultsBean.url,resultsBean.desc),options.toBundle());
+        getActivity().startActivity(WebActivity.newIntent(getActivity(),resultsBean.url,resultsBean.desc));
+      //  ActivityCompat.startActivity(getActivity(), WebActivity.newIntent(getActivity(),resultsBean.url,resultsBean.desc),options.toBundle());
     }
 }

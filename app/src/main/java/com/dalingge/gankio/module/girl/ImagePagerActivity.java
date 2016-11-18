@@ -1,4 +1,4 @@
-package com.dalingge.gankio.Image.activity;
+package com.dalingge.gankio.module.girl;
 
 import android.annotation.TargetApi;
 import android.app.WallpaperManager;
@@ -17,10 +17,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dalingge.gankio.BuildConfig;
-import com.dalingge.gankio.Image.adapter.ImagePagerAdapter;
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.base.BaseActivity;
-import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.common.base.BaseToolbarActivity;
+import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.utils.AnimationUtils;
 import com.dalingge.gankio.common.utils.RxUtils;
 import com.dalingge.gankio.common.widgets.PullBackLayout;
@@ -45,7 +44,7 @@ import rx.subscriptions.CompositeSubscription;
  * Email:445850053@qq.com
  * Date:16/4/4
  */
-public class ImagePagerActivity extends BaseActivity implements PullBackLayout.Callback {
+public class ImagePagerActivity extends BaseToolbarActivity implements PullBackLayout.Callback {
 
     private static final String EXTRA_IMAGE_INDEX = "image_index";
     private static final String EXTRA_IMAGE_URLS = "image_urls";
@@ -67,9 +66,9 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
     private int index;
     private ImagePagerAdapter imagePagerAdapter;
-    private List<GirlBean> resultsBeanList;
+    private List<GankBean> resultsBeanList;
 
-    public static Intent newIntent(Context context, int index, List<GirlBean> resultsBeanList) {
+    public static Intent newIntent(Context context, int index, List<GankBean> resultsBeanList) {
         Intent intent = new Intent(context, ImagePagerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ImagePagerActivity.EXTRA_IMAGE_URLS, (Serializable) resultsBeanList);
@@ -90,7 +89,6 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
 
     @Override
     protected void initView() {
-        setTitle(null);
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +101,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         pullBackLayout.setCallback(this);
 
         index = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
-        resultsBeanList = (List<GirlBean>) getIntent().getSerializableExtra(EXTRA_IMAGE_URLS);
+        resultsBeanList = (List<GankBean>) getIntent().getSerializableExtra(EXTRA_IMAGE_URLS);
 
         imagePagerAdapter = new ImagePagerAdapter(getSupportFragmentManager(), viewPager, resultsBeanList, index);
 
@@ -147,9 +145,9 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         setEnterSharedElementCallback(new SharedElementCallback() {
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                GirlBean image = resultsBeanList.get(viewPager.getCurrentItem());
+                GankBean image = resultsBeanList.get(viewPager.getCurrentItem());
                 sharedElements.clear();
-                sharedElements.put(image.get_id(), imagePagerAdapter.getCurrent().getSharedElement());
+                sharedElements.put(image._id, imagePagerAdapter.getCurrent().getSharedElement());
             }
         });
     }
@@ -174,7 +172,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_share) {
-            Subscription subscription =RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().getUrl(), getCurrentImage().get_id())
+            Subscription subscription =RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<File, Uri>() {
                         @Override
@@ -201,7 +199,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
             addSubscription(subscription);
             return true;
         } else if (id == R.id.action_save) {
-            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().getUrl(), getCurrentImage().get_id())
+            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .retry()
                     .subscribe(new Action1<File>() {
@@ -221,7 +219,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
             addSubscription(subscription);
             return true;
         } else if (id == R.id.action_set_wallpaper) {
-            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().getUrl(), getCurrentImage().get_id())
+            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<File, Uri>() {
                         @Override
@@ -268,7 +266,7 @@ public class ImagePagerActivity extends BaseActivity implements PullBackLayout.C
         }
     }
 
-    private GirlBean getCurrentImage() {
+    private GankBean getCurrentImage() {
         return resultsBeanList.get(viewPager.getCurrentItem());
     }
 

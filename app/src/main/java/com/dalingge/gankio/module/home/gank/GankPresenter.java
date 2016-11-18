@@ -29,4 +29,5 @@ public class GankPresenter extends BaseRxPresenter<GankFragment> {
         mType=type;
         start(REQUEST_ITEMS);
     }
+
 }

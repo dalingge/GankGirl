@@ -1,4 +1,4 @@
-package com.dalingge.gankio.Image.activity;
+package com.dalingge.gankio.module.girl;
 
 import android.net.Uri;
 import android.support.v4.content.FileProvider;

@@ -202,17 +202,19 @@ public class HttpRetrofit {
         return tObservable ->
                 tObservable.map(new HttpResultFunc<>())
                         .onErrorResumeNext(new HttpResponseFunc<>())
-                        .subscribeOn(Schedulers.io())//访问网络切换异步线程
-                        .unsubscribeOn(Schedulers.io())//销毁访问网络切换异步线程
-                        .observeOn(AndroidSchedulers.mainThread()); //响应结果处理切换成主线程
+                        .compose(toSubscribe());
     }
 
-//    public static <> Observable.Transformer<ResultBean, String> toStringTransformer() {
-//        return tObservable -> tObservable.subscribeOn(Schedulers.io())//访问网络切换异步线程
-//                .unsubscribeOn(Schedulers.io())//销毁访问网络切换异步线程
-//                .observeOn(AndroidSchedulers.mainThread()); //响应结果处理切换成主线程
-//
-//    }
+    public static Observable.Transformer<ResultBean, String> toStringTransformer() {
+        return tObservable ->
+                tObservable.map(httpResult -> {
+                    if (httpResult.isError()) {
+                        throw new RuntimeException(httpResult.getMsg());
+                    }
+                    return httpResult.getMsg();
+                }).onErrorResumeNext(new HttpResponseFunc<>())
+                        .compose(toSubscribe());
+    }
 
     private static class HttpResponseFunc<T> implements Func1<Throwable, Observable<T>> {
         @Override

@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.find;
+package com.dalingge.gankio.module.girl;
 
 
 import android.os.Bundle;
@@ -14,31 +14,30 @@ import com.dalingge.gankio.common.base.BaseFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindFragment extends BaseFragment {
+public class GirlFragment extends BaseFragment {
 
 
-    public FindFragment() {
+    public GirlFragment() {
         // Required empty public constructor
-    }
-
-
-    public static FindFragment newInstance(String param1) {
-        FindFragment fragment = new FindFragment();
-        Bundle args = new Bundle();
-        args.putString("agrs1", param1);
-        fragment.setArguments(args);
-        return fragment;
     }
 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_find;
+        return R.layout.fragment_girl;
     }
 
     @Override
     protected void initView(View view) {
 
+    }
+
+    public static GirlFragment newInstance(String param1) {
+        GirlFragment fragment = new GirlFragment();
+        Bundle args = new Bundle();
+        args.putString("agrs1", param1);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -50,6 +49,5 @@ public class FindFragment extends BaseFragment {
         TextView tv = (TextView)view.findViewById(R.id.tv_location);
         tv.setText(agrs1);
     }
-
 
 }

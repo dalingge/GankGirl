@@ -13,10 +13,11 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.utils.PreferencesUtils;
-import com.dalingge.gankio.module.find.FindFragment;
+import com.dalingge.gankio.module.AboutActivity;
+import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
 import com.dalingge.gankio.module.mine.MineFragment;
-import com.dalingge.gankio.module.star.StarFragment;
+import com.dalingge.gankio.module.find.FindFragment;
 
 
 /**
@@ -33,8 +34,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
     BottomNavigationView buttonNavigationView;
 
     private GankTadPageFragment mGankTadPageFragment;
+    private GirlFragment mGirlFragment;
     private FindFragment mFindFragment;
-    private StarFragment mStarFragment;
     private MineFragment mMineFragment;
 
     // 定义FragmentManager对象管理器
@@ -59,10 +60,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
             case R.id.item_navigation_home:
                 setDefaultFragment(0);
                 break;
-            case R.id.item_navigation_find:
+            case R.id.item_navigation_girl:
                 setDefaultFragment(1);
                 break;
-            case R.id.item_navigation_star:
+            case R.id.item_navigation_find:
                 setDefaultFragment(2);
                 break;
             case R.id.item_navigation_mine:
@@ -92,21 +93,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 }
                 break;
             case 1:
+                if (mGirlFragment == null) {
+                    mGirlFragment = GirlFragment.newInstance(getString(R.string.button_navigation_find_text));
+                    fragmentTransaction.add(R.id.contentLayout, mGirlFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mGirlFragment);
+                }
+                break;
+            case 2:
                 if (mFindFragment == null) {
-                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_find_text));
+                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_girl_text));
                     fragmentTransaction.add(R.id.contentLayout, mFindFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
                     fragmentTransaction.show(mFindFragment);
-                }
-                break;
-            case 2:
-                if (mStarFragment == null) {
-                    mStarFragment = StarFragment.newInstance(getString(R.string.button_navigation_star_text));
-                    fragmentTransaction.add(R.id.contentLayout, mStarFragment);
-                } else {
-                    // 如果不为空，则直接将它显示出来
-                    fragmentTransaction.show(mStarFragment);
                 }
                 break;
             case 3:
@@ -132,12 +133,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
             fragmentTransaction.hide(mGankTadPageFragment);
         }
 
-        if (mFindFragment != null) {
-            fragmentTransaction.hide(mFindFragment);
+        if (mGirlFragment != null) {
+            fragmentTransaction.hide(mGirlFragment);
         }
 
-        if (mStarFragment != null) {
-            fragmentTransaction.hide(mStarFragment);
+        if (mFindFragment != null) {
+            fragmentTransaction.hide(mFindFragment);
         }
 
         if (mMineFragment != null) {
@@ -188,7 +189,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 recreate();
                 return true;
             case R.id.action_about:
-              //  startActivity(AboutActivity.newIntent(this));
+                startActivity(AboutActivity.newIntent(this));
                 return true;
 
         }

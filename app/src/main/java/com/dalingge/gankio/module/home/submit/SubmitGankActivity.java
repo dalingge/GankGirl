@@ -15,6 +15,7 @@ import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.utils.RegexUtils;
+import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import butterknife.BindView;
 
@@ -131,7 +132,9 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
         Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void onFailure(String msg) {
-        Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_SHORT).show();
+    public void onFailure(HttpExceptionHandle.ResponeThrowable responeThrowable) {
+        Snackbar.make(coordinatorLayout, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
     }
+
+
 }

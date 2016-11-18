@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.bean.GankBean;
@@ -32,10 +33,11 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<GankBean> mData;
     private OnItemClickListener mOnItemClickListener;
-
+    private RequestManager glideRequest;
     public GankAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
-        mData = data;
+        glideRequest = Glide.with(mContext);
+        this.mData = data;
         for (int i = 0; i < mData.size(); i++) {
             addItem(i, mData.get(i));
         }
@@ -81,7 +83,7 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
         if (gankBean.images != null && !gankBean.images.isEmpty()) {
             holder.ivHomeGankImg.setVisibility(View.VISIBLE);
             DrawableRequestBuilder<String> requestBuilder = Glide.with(mContext)
-                    .load(gankBean.images.get(0)+"?imageView2/0/w/100")
+                    .load(gankBean.images.get(0)+"?imageView2/0/w/400")
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .error(R.color.accent)
                     .crossFade();
@@ -89,6 +91,19 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
         }else {
             holder.ivHomeGankImg.setVisibility(View.GONE);
         }
+
+//        glideRequest.load(resultsBean.getUrl())
+//                .asBitmap()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .transform(new GlideRoundTransform(mContext, 8))
+//                .animate(R.anim.image_zoom_in)
+//                .into(new BitmapImageViewTarget(viewHolder.imageView) {
+//                    @Override
+//                    protected void setResource(Bitmap resource) {
+//                        viewHolder.imageView.setOriginalSize(resource.getWidth(), resource.getHeight());
+//                        viewHolder.imageView.setImageBitmap(resource);
+//                    }
+//                });
     }
 
     @Override

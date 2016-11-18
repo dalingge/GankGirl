@@ -1,12 +1,11 @@
-package com.dalingge.gankio.Image.adapter;
+package com.dalingge.gankio.module.girl;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.dalingge.gankio.Image.fragment.ImageViewFragment;
-import com.dalingge.gankio.bean.GirlBean;
+import com.dalingge.gankio.common.bean.GankBean;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ import java.util.List;
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 
     private ViewPager viewPager;
-    private List<GirlBean> resultsBeanList;
+    private List<GankBean> resultsBeanList;
     private int index;
-    public ImagePagerAdapter(FragmentManager fm, ViewPager viewPager, List<GirlBean> resultsBeanList, int index) {
+    public ImagePagerAdapter(FragmentManager fm, ViewPager viewPager, List<GankBean> resultsBeanList, int index) {
         super(fm);
         this.viewPager=viewPager;
         this.resultsBeanList=resultsBeanList;
@@ -37,7 +36,7 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return ImageViewFragment.newFragment(
-                resultsBeanList.get(position).getUrl(),
+                resultsBeanList.get(position).url,
                 position == index);
     }
 

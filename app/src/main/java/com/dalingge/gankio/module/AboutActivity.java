@@ -1,5 +1,7 @@
 package com.dalingge.gankio.module;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.widget.TextView;
 
@@ -70,9 +72,9 @@ public class AboutActivity extends BaseToolbarActivity {
     @BindView(R.id.tv_version)
     TextView tvVersion;
 
-//    public static Intent newIntent(Context context) {
-//        return new Intent(context, AboutActivity.class);
-//    }
+    public static Intent newIntent(Context context) {
+        return new Intent(context, AboutActivity.class);
+    }
 
     @Override
     protected boolean isBack() {
