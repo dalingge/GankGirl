@@ -1,17 +1,19 @@
 package com.dalingge.gankio.module.girl;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.common.utils.GlideRoundTransform;
 import com.dalingge.gankio.common.widgets.RatioImageView;
 
 import java.util.ArrayList;
@@ -32,11 +34,9 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<GankBean> mData;
     private OnItemClickListener mOnItemClickListener;
-    private RequestManager glideRequest;
 
     public GirlAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
-        glideRequest = Glide.with(mContext);
         this.mData = data;
         for (int i = 0; i < mData.size(); i++) {
             addItem(i, mData.get(i));
@@ -76,24 +76,20 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         GankBean gankBean = mData.get(position);
-        DrawableRequestBuilder<String> requestBuilder = Glide.with(mContext)
+        BitmapRequestBuilder<String, Bitmap> requestBuilder = Glide.with(mContext)
                 .load(gankBean.url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.color.accent)
-                .crossFade();
-        requestBuilder.into(holder.ivGirlImg);
-//        glideRequest.load(gankBean.url)
-//                .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .transform(new GlideRoundTransform(mContext, 4))
-//                .animate(R.anim.image_zoom_in)
-//                .into(new BitmapImageViewTarget(holder.ivGirlImg) {
-//                    @Override
-//                    protected void setResource(Bitmap resource) {
-//                        holder.ivGirlImg.setOriginalSize(resource.getWidth(), resource.getHeight());
-//                        holder.ivGirlImg.setImageBitmap(resource);
-//                    }
-//                });
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .transform(new GlideRoundTransform(mContext, 4))
+                .animate(R.anim.image_alpha_in)
+                .error(R.color.accent);
+        requestBuilder.into(new BitmapImageViewTarget(holder.ivGirlImg){
+            @Override
+            protected void setResource(Bitmap resource) {
+                holder.ivGirlImg.setOriginalSize(resource.getWidth(), resource.getHeight());
+                holder.ivGirlImg.setImageBitmap(resource);
+            }
+        });
     }
 
     @Override

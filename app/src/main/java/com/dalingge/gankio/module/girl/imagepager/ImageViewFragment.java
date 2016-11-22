@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.girl;
+package com.dalingge.gankio.module.girl.imagepager;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

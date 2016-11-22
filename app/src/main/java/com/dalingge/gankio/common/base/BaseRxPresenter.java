@@ -255,8 +255,8 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * Returns a method that can be used for manual restartable chain build. It returns an Action1 that splits
-     * a received {@link Delivery} into two {@link Action2} onNext and onError calls.
+     * 返回一个方法,可以用于手动可重新起动的链构建.它返回一个Action1
+     * 将收到的{@link Delivery}分为两个{@link Action2} onNext和onError调用。
      *
      * @param onNext  a method that will be called if the delivery contains an emitted onNext value.
      * @param onError a method that will be called if the delivery contains an onError throwable.

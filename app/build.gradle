@@ -1,24 +1,23 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-command'
 //apply plugin: 'realm-android'
 
-def gitVersionCode() {
-    def cmd = 'git rev-list HEAD --first-parent --count'
-    cmd.execute().text.trim().toInteger()
-}
+//def gitVersionCode() {
+//    def cmd = 'git rev-list HEAD --first-parent --count'
+//    cmd.execute().text.trim().toInteger()
+//}
 
-def gitVersionTag() {
-    def cmd = 'git describe --tags'
-    def version = cmd.execute().text.trim()
-    def pattern = "-(\\d+)-g"
-    def matcher = version =~ pattern
-    if (matcher) {
-        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
-    } else {
-        version = version + ".0"
-    }
-    return version
-}
+//def gitVersionTag() {
+//    def cmd = 'git describe --tags'
+//    def version = cmd.execute().text.trim()
+//    def pattern = "-(\\d+)-g"
+//    def matcher = version =~ pattern
+//    if (matcher) {
+//        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
+//    } else {
+//        version = version + ".0"
+//    }
+//    return version
+//}
 
 android {
     def app = rootProject.ext.android
@@ -35,10 +34,6 @@ android {
             enabled true
         }
     }
-
-//    command {
-//        events 2000
-//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -60,12 +55,12 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        if (variant.buildType.name.equals('release')) {
-            variant.mergedFlavor.versionCode = gitVersionCode()
-            variant.mergedFlavor.versionName = gitVersionTag()
-        }
-    }
+//    applicationVariants.all { variant ->
+//        if (variant.buildType.name.equals('release')) {
+//            variant.mergedFlavor.versionCode = gitVersionCode()
+//            variant.mergedFlavor.versionName = gitVersionTag()
+//        }
+//    }
 }
 
 dependencies {
@@ -75,8 +70,10 @@ dependencies {
     compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
     compile rootProject.ext.dependencies["SupportDesign"]
     compile rootProject.ext.dependencies["SupportCardview"]
-    compile rootProject.ext.dependencies["Butterknife"]
-    annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
+//    compile rootProject.ext.dependencies["Butterknife"]
+//    annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile rootProject.ext.dependencies["Glide"]
     compile rootProject.ext.dependencies["GlideOkHttp"]
     compile rootProject.ext.dependencies["Retrofit"]

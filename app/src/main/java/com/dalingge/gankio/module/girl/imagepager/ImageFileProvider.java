@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.girl;
+package com.dalingge.gankio.module.girl.imagepager;
 
 import android.net.Uri;
 import android.support.v4.content.FileProvider;

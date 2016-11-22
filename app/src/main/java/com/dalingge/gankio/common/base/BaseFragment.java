@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
+import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
+import com.dalingge.gankio.common.widgets.tips.TipsHelper;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import butterknife.ButterKnife;
@@ -26,7 +28,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     protected View rootView;
     private Unbinder unbinder;
 
-    private boolean _isVisible;
+    protected TipsHelper defaultTipsHelper;
 
     protected abstract int getLayoutId();
 
@@ -37,7 +39,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
             unbinder = ButterKnife.bind(this, rootView);
-            initView(rootView);
+             initView(rootView);
         }
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
@@ -51,6 +53,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
+    public void setTipView(View view) {
+        if (defaultTipsHelper == null)
+            defaultTipsHelper = new DefaultTipsHelper(getContext(), view);
+    }
+
+    public TipsHelper getDefaultTipsHelper() {
+        return defaultTipsHelper;
+    }
 
     // 在ViewPager中,虽然Fragment被destroy了,再是实例似乎并没有被销毁,重新重新创建的时候并不会初始化这里的参数,而是
     // 仍然保留成员变量的值

@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
@@ -29,6 +30,8 @@ public class WebActivity extends BaseToolbarActivity {
     FrameLayout videoFullView;
     @BindView(R.id.web_View)
     WebView webView;
+    @BindView(R.id.progressbar)
+    ProgressBar progressbar;
 
     private View xCustomView;
     private WebChromeClient.CustomViewCallback xCustomViewCallback;
@@ -57,7 +60,7 @@ public class WebActivity extends BaseToolbarActivity {
         mUrl = getIntent().getStringExtra(EXTRA_URL);
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
 
-        WebSettings ws =webView.getSettings();
+        WebSettings ws = webView.getSettings();
 
         ws.setJavaScriptEnabled(true);
         ws.setLoadWithOverviewMode(true);
@@ -67,7 +70,7 @@ public class WebActivity extends BaseToolbarActivity {
         webView.setWebChromeClient(new webChromeClient());
         webView.setWebViewClient(new webViewClient());
         webView.loadUrl(mUrl);
-        setTitle(mTitle);
+        getToolbar().setTitle(mUrl);
     }
 
     @Override
@@ -79,10 +82,10 @@ public class WebActivity extends BaseToolbarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==R.id.action_like){
+        if (id == R.id.action_like) {
 
             return true;
-        }else if(id==R.id.action_share){
+        } else if (id == R.id.action_share) {
             return true;
         }
 
@@ -153,7 +156,18 @@ public class WebActivity extends BaseToolbarActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            setTitle(title);
+            getToolbar().setTitle(title);
+            getToolbar().setSubtitle(mUrl);
+        }
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            progressbar.setProgress(newProgress);
+            if (newProgress >= 100)
+                progressbar.setVisibility(View.GONE);
+            else
+                progressbar.setVisibility(View.VISIBLE);
         }
 
     }
@@ -207,6 +221,7 @@ public class WebActivity extends BaseToolbarActivity {
         webView.destroy();
         super.onDestroy();
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -217,7 +232,7 @@ public class WebActivity extends BaseToolbarActivity {
                 } else {
                     if (webView.canGoBack()) {
                         webView.goBack();
-                    }else {
+                    } else {
                         finish();
                     }
                     return true;

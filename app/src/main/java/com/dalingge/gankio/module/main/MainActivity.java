@@ -187,6 +187,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                     getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     preferencesUtils.saveBoolean(R.string.action_day_night, true);
                 }
+                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                 recreate();
                 return true;
             case R.id.action_about:

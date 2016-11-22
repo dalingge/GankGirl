@@ -22,7 +22,7 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    protected DefaultTipsHelper defaultTipsHelper;
+    private DefaultTipsHelper defaultTipsHelper;
 
     protected boolean isBack() {
         return false;
@@ -82,6 +82,10 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
     public void setTipView(View view) {
         if (defaultTipsHelper != null)
             defaultTipsHelper = new DefaultTipsHelper(this, view);
+    }
+
+    public DefaultTipsHelper getDefaultTipsHelper() {
+        return defaultTipsHelper;
     }
 
     public Toolbar getToolbar() {

@@ -17,8 +17,7 @@ import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
-import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
-import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
+import com.dalingge.gankio.module.girl.imagepager.ImagePagerActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import java.util.ArrayList;
@@ -72,7 +71,6 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
         swipeRefreshWidget.setOnRefreshListener(this);
         mGirlAdapter = new GirlAdapter(getActivity(), mData);
         mGirlAdapter.setOnItemClickListener(this);
-        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(mGirlAdapter, recycleView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity()){
             @Override
             protected int getExtraLayoutSpace(RecyclerView.State state) {
@@ -81,8 +79,7 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
         };
         recycleView.setLayoutManager(mLinearLayoutManager);
         recycleView.setHasFixedSize(true);
-        recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
-        recycleView.setAdapter(animatorAdapter);
+        recycleView.setAdapter(mGirlAdapter);
 
         if (mData.isEmpty()) {
             showRefresh();
@@ -105,7 +102,7 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         hideRefresh();
-        Snackbar.make(recycleView.getRootView(), responeThrowable.message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(swipeRefreshWidget, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
     }
 
     private void showRefresh(){
@@ -133,6 +130,6 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
                     view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
                     0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
         }
-        ActivityCompat.startActivity(getActivity(),ImagePagerActivity.newIntent(view.getContext(),position,mGirlAdapter.getData()),options.toBundle());
+        ActivityCompat.startActivity(getActivity(), ImagePagerActivity.newIntent(view.getContext(),position,mGirlAdapter.getData()),options.toBundle());
     }
 }

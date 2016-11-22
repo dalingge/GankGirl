@@ -6,11 +6,12 @@
     style="@style/CardViewStyle"
     app:cardCornerRadius="@dimen/CardViewCornerRadius"
     app:cardElevation="@dimen/CardViewElevation">
+
     <com.dalingge.gankio.common.widgets.RatioImageView
         android:id="@+id/iv_girl_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         tools:src="@color/primary_light" />
 </android.support.v7.widget.CardView>

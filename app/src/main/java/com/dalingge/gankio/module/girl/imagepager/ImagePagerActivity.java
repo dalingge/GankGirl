@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.girl;
+package com.dalingge.gankio.module.girl.imagepager;
 
 import android.annotation.TargetApi;
 import android.app.WallpaperManager;
@@ -89,12 +89,7 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
 
     @Override
     protected void initView() {
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFinishAfterTransition();
-            }
-        });
+        getToolbar().setNavigationOnClickListener(view -> supportFinishAfterTransition());
 
         supportPostponeEnterTransition();
 
@@ -172,7 +167,7 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_share) {
-            Subscription subscription =RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
+            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<File, Uri>() {
                         @Override

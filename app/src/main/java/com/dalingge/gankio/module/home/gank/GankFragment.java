@@ -1,10 +1,8 @@
 package com.dalingge.gankio.module.home.gank;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +16,7 @@ import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
+import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
 import com.dalingge.gankio.module.web.WebActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
@@ -31,7 +30,7 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 @RequiresPresenter(GankPresenter.class)
-public class GankFragment extends BaseLazyFragment<GankPresenter> implements SwipeRefreshLayout.OnRefreshListener,GankAdapter.OnItemClickListener {
+public class GankFragment extends BaseLazyFragment<GankPresenter> implements SwipeRefreshLayout.OnRefreshListener, GankAdapter.OnItemClickListener {
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
@@ -82,6 +81,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
         recycleView.setHasFixedSize(true);
         recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
         recycleView.setAdapter(animatorAdapter);
+        defaultTipsHelper = new DefaultTipsHelper(getContext(), swipeRefreshWidget);
     }
 
     @Override
@@ -94,40 +94,39 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
         hideRefresh();
         mData.addAll(gankBeanList);
         mGankAdapter.notifyDataSetChanged();
+        if (mGankAdapter.getItemCount() == 0) {
+            defaultTipsHelper.showEmpty();
+        }
     }
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         hideRefresh();
-        Snackbar.make(recycleView.getRootView(), responeThrowable.message, Snackbar.LENGTH_SHORT).show();
+        if (mGankAdapter.getItemCount() == 0) {
+            defaultTipsHelper.showError(true, responeThrowable.message, view -> {
+                defaultTipsHelper.showLoading(true);
+                getPresenter().request(mType);
+            });
+        }
+        Snackbar.make(swipeRefreshWidget, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
     }
 
-    private void showRefresh(){
+    private void showRefresh() {
         swipeRefreshWidget.setRefreshing(true);
     }
 
-    private void hideRefresh(){
+    private void hideRefresh() {
+        defaultTipsHelper.hideLoading();
         // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        swipeRefreshWidget.postDelayed(()-> {
-                if(swipeRefreshWidget != null){
-                    swipeRefreshWidget.setRefreshing(false);
+        swipeRefreshWidget.postDelayed(() -> {
+            if (swipeRefreshWidget != null) {
+                swipeRefreshWidget.setRefreshing(false);
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-         ActivityOptionsCompat options;
-        if (Build.VERSION.SDK_INT >= 21) {
-            options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    getActivity(), view,  mGankAdapter.getItem(position)._id);
-        } else {
-            options = ActivityOptionsCompat.makeScaleUpAnimation(
-                    view,
-                    view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
-                    0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
-        }
         GankBean resultsBean = mGankAdapter.getItem(position);
-        getActivity().startActivity(WebActivity.newIntent(getActivity(),resultsBean.url,resultsBean.desc));
-      //  ActivityCompat.startActivity(getActivity(), WebActivity.newIntent(getActivity(),resultsBean.url,resultsBean.desc),options.toBundle());
+        getActivity().startActivity(WebActivity.newIntent(getActivity(), resultsBean.url, resultsBean.desc));
     }
 }

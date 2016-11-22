@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.girl;
+package com.dalingge.gankio.module.girl.imagepager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
