@@ -16,7 +16,6 @@ import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
-import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
 import com.dalingge.gankio.module.web.WebActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
@@ -81,7 +80,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
         recycleView.setHasFixedSize(true);
         recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
         recycleView.setAdapter(animatorAdapter);
-        defaultTipsHelper = new DefaultTipsHelper(getContext(), swipeRefreshWidget);
+        setTipView(swipeRefreshWidget);
     }
 
     @Override
@@ -95,16 +94,19 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
         mData.addAll(gankBeanList);
         mGankAdapter.notifyDataSetChanged();
         if (mGankAdapter.getItemCount() == 0) {
-            defaultTipsHelper.showEmpty();
+            getTipsHelper().showEmpty();
         }
     }
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         hideRefresh();
         if (mGankAdapter.getItemCount() == 0) {
-            defaultTipsHelper.showError(true, responeThrowable.message, view -> {
-                defaultTipsHelper.showLoading(true);
-                getPresenter().request(mType);
+            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getTipsHelper().showLoading(true);
+                    onRefresh();
+                }
             });
         }
         Snackbar.make(swipeRefreshWidget, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
@@ -115,7 +117,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
     }
 
     private void hideRefresh() {
-        defaultTipsHelper.hideLoading();
+        getTipsHelper().hideLoading();
         // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
         swipeRefreshWidget.postDelayed(() -> {
             if (swipeRefreshWidget != null) {

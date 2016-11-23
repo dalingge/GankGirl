@@ -27,8 +27,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
 
     protected View rootView;
     private Unbinder unbinder;
-
-    protected TipsHelper defaultTipsHelper;
+    private TipsHelper mTipsHelper;
 
     protected abstract int getLayoutId();
 
@@ -54,12 +53,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     }
 
     public void setTipView(View view) {
-        if (defaultTipsHelper == null)
-            defaultTipsHelper = new DefaultTipsHelper(getContext(), view);
+        if (mTipsHelper == null)
+            mTipsHelper = new DefaultTipsHelper(getContext(), view);
     }
 
-    public TipsHelper getDefaultTipsHelper() {
-        return defaultTipsHelper;
+    public TipsHelper getTipsHelper() {
+        return mTipsHelper;
     }
 
     // 在ViewPager中,虽然Fragment被destroy了,再是实例似乎并没有被销毁,重新重新创建的时候并不会初始化这里的参数,而是

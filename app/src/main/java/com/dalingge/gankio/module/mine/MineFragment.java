@@ -2,10 +2,8 @@ package com.dalingge.gankio.module.mine;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.TextView;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseFragment;
@@ -42,15 +40,6 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Bundle bundle = getArguments();
-        String agrs1 = bundle.getString("agrs1");
-        TextView tv = (TextView)view.findViewById(R.id.tv_location);
-        tv.setText(agrs1);
-    }
 
 
 

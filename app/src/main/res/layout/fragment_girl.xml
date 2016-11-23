@@ -6,7 +6,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:theme="@style/AppTheme.AppBarOverlay">
 
         <include layout="@layout/view_toolbar" />
 
@@ -16,7 +16,7 @@
         android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
         <android.support.v7.widget.RecyclerView

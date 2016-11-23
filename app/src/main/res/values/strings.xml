@@ -46,6 +46,4 @@
     <string name="empty_tips_netword">请检查你的网络连接</string>
     <string name="empty_tips_btn">重试</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

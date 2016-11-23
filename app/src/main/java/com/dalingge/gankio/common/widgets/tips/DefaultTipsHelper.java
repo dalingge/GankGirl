@@ -1,12 +1,13 @@
 package com.dalingge.gankio.common.widgets.tips;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.utils.DensityUtils;
@@ -19,9 +20,11 @@ public class DefaultTipsHelper implements TipsHelper{
 
     private final ProgressBar mLoadingView;
     private final View mView;
+    private final Context mContext;
 
     public DefaultTipsHelper(Context context, View view) {
         this.mView=view;
+        this.mContext=context;
         mLoadingView = new ProgressBar(context);
         mLoadingView.setPadding(0, (int) DensityUtils.dip2px(context, 10),
                 0, (int) DensityUtils.dip2px(context, 10));
@@ -62,14 +65,14 @@ public class DefaultTipsHelper implements TipsHelper{
         hideLoading();
         if (firstPage) {
             View tipsView = TipsUtils.showTips(mView, TipsType.LOADING_FAILED);
-            tipsView.findViewById(R.id.retry_btn).setOnClickListener(onClickListener);
+            AppCompatButton retryBtn= (AppCompatButton)tipsView.findViewById(R.id.retry_btn);
+            retryBtn.setOnClickListener(onClickListener);
+            retryBtn.setSupportBackgroundTintList(mContext.getResources().getColorStateList(R.color.accent));
+            retryBtn.setSupportBackgroundTintMode(PorterDuff.Mode.SRC_IN);
             if (!TextUtils.isEmpty(errorMessage)) {
                 ((TextView) tipsView.findViewById(R.id.description)).setText(errorMessage);
             }
-            return;
         }
-
-        Toast.makeText(mLoadingView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
