@@ -68,6 +68,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
 
     @Override
     protected void initView(View view) {
+
         swipeRefreshWidget.setColorSchemeResources(
                 R.color.primary, R.color.accent,
                 R.color.primary_dark, R.color.primary_light);

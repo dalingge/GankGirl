@@ -8,5 +8,5 @@
     android:minHeight="?attr/actionBarSize"
     app:elevation="@dimen/default_elevation"
     app:layout_scrollFlags="scroll|enterAlways"
-    app:popupTheme="@style/AppTheme"
-    app:theme="@style/AppTheme.AppBarOverlay"/>
+    app:popupTheme="@style/AppTheme.PopupOverlay"
+    app:theme="@style/AppTheme.Toolbar"/>

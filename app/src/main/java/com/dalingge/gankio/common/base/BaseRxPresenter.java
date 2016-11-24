@@ -217,38 +217,29 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
-     * the source {@link rx.Observable}.
-     * <p>
      * {@link #deliverLatestCache} keeps the latest onNext value and emits it each time a new view gets attached.
      * If a new onNext value appears while a view is attached, it will be delivered immediately.
      *
-     * @param <T> the type of source observable emissions
+     * @param <T> 可观察的类型
      */
     public <T> DeliverLatestCache<View, T> deliverLatestCache() {
         return new DeliverLatestCache<>(views);
     }
 
     /**
-     * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
-     * the source {@link rx.Observable}.
-     * <p>
-     * {@link #deliverFirst} delivers only the first onNext value that has been emitted by the source observable.
+     * {@link #deliverFirst} 只提供第一onNext值已经发出的可观测的来源。
      *
-     * @param <T> the type of source observable emissions
+     * @param <T> 可观察的类型
      */
     public <T> DeliverFirst<View, T> deliverFirst() {
         return new DeliverFirst<>(views);
     }
 
     /**
-     * Returns an {@link rx.Observable.Transformer} that couples views with data that has been emitted by
-     * the source {@link rx.Observable}.
-     * <p>
-     * {@link #deliverReplay} keeps all onNext values and emits them each time a new view gets attached.
-     * If a new onNext value appears while a view is attached, it will be delivered immediately.
+     * {@link #deliverReplay} 保持所有onNext值并释放他们每次一个新的视图被附加。
+     *   如果一个新的onNext值出现在一个视图,它将立即发送。
      *
-     * @param <T> the type of source observable emissions
+     * @param <T> 可观察的类型
      */
     public <T> DeliverReplay<View, T> deliverReplay() {
         return new DeliverReplay<>(views);

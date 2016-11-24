@@ -15,28 +15,25 @@ public class DeliverLatestCache<View, T> implements Observable.Transformer<T, De
 
     @Override
     public Observable<Delivery<View, T>> call(Observable<T> observable) {
-        return Observable
-            .combineLatest(
-                view,
-                observable
-                    .materialize()
-                    .filter(new Func1<Notification<T>, Boolean>() {
-                        @Override
-                        public Boolean call(Notification<T> notification) {
-                            return !notification.isOnCompleted();
-                        }
-                    }),
-                new Func2<View, Notification<T>, Delivery<View, T>>() {
+        return Observable.combineLatest(view, observable
+                                .materialize()
+                                .filter(new Func1<Notification<T>, Boolean>() {
+                                    @Override
+                                    public Boolean call(Notification<T> notification) {
+                                        return !notification.isOnCompleted();
+                                    }
+                                }),
+                        new Func2<View, Notification<T>, Delivery<View, T>>() {
+                            @Override
+                            public Delivery<View, T> call(View view, Notification<T> notification) {
+                                return view == null ? null : new Delivery<>(view, notification);
+                            }
+                        })
+                .filter(new Func1<Delivery<View, T>, Boolean>() {
                     @Override
-                    public Delivery<View, T> call(View view, Notification<T> notification) {
-                        return view == null ? null : new Delivery<>(view, notification);
+                    public Boolean call(Delivery<View, T> delivery) {
+                        return delivery != null;
                     }
-                })
-            .filter(new Func1<Delivery<View, T>, Boolean>() {
-                @Override
-                public Boolean call(Delivery<View, T> delivery) {
-                    return delivery != null;
-                }
-            });
+                });
     }
 }

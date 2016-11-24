@@ -13,13 +13,23 @@
 
         <item name="cardBackgroundColor">@color/cardview_background</item>
         <!-- 窗口背景颜色 -->
-        <item name="android:colorBackground">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
         <!--正常状态下字体颜色和icon颜色-->
         <item name="android:textColorPrimary">@color/primary_text</item>
         <item name="android:textColorSecondary">@color/secondary_text</item>
         <item name="actionOverflowMenuStyle">@style/AppTheme.PopupOverlay</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="searchViewStyle">@style/AppTheme.SearchView.ActionBar</item>
+    </style>
+    <style name="AppTheme.SearchView.ActionBar" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchHintIcon">@mipmap/ic_menu_search</item>
+    </style>
+
+
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
@@ -42,8 +52,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="CollapsingToolbarTitleStyle"
-        parent="@android:style/TextAppearance">
+    <style name="CollapsingToolbarTitleStyle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/transparent</item>
     </style>
 
@@ -52,6 +61,7 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
+
     <style name="DividerVertical">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
