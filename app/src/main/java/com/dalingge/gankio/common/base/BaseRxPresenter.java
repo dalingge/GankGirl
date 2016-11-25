@@ -22,11 +22,9 @@ import rx.subjects.BehaviorSubject;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * This is an extension of {@link BasePresenter} which provides RxJava functionality.
- * <p>
  * Created by dingboyang on 2016/11/7.
  *
- * @param <View> a type of view.
+ * @param <View> 一个类型view.
  */
 public class BaseRxPresenter<View> extends BasePresenter<View> {
 
@@ -41,44 +39,40 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     private final ArrayList<Integer> requested = new ArrayList<>();
 
     /**
-     * Returns an {@link rx.Observable} that emits the current attached view or null.
-     * See {@link BehaviorSubject} for more information.
+     * 返回 {@link rx.Observable} 释放当前的 view 或 null.
      *
-     * @return an observable that emits the current attached view or null.
+     * @return 释放当前的 view 或 null.
      */
     public Observable<View> view() {
         return views;
     }
 
     /**
-     * Registers a subscription to automatically unsubscribe it during onDestroy.
+     * 自动注册订阅退订在摧毁。
      * See {@link CompositeSubscription#add(Subscription) for details.}
      *
-     * @param subscription a subscription to add.
+     * @param subscription 添加定于
      */
     public void add(Subscription subscription) {
         subscriptions.add(subscription);
     }
 
     /**
-     * Removes and unsubscribes a subscription that has been registered with {@link #add} previously.
-     * See {@link CompositeSubscription#remove(Subscription)} for details.
+     * 删除添加的订阅
      *
-     * @param subscription a subscription to remove.
+     * @param subscription 订阅取消.
      */
     public void remove(Subscription subscription) {
         subscriptions.remove(subscription);
     }
 
     /**
-     * A restartable is any RxJava observable that can be started (subscribed) and
-     * should be automatically restarted (re-subscribed) after a process restart if
-     * it was still subscribed at the moment of saving presenter's state.
+     * 可重新开始的是任何RxJava可观测,可以启动(订阅)和应该自动重启进程重启后如果还订阅目前储蓄Presenter的状态。
      * <p>
-     * Registers a factory. Re-subscribes the restartable after the process restart.
+     * 注册一个工厂。重新订阅重启后可重新开始的过程。
      *
-     * @param restartableId id of the restartable
-     * @param factory       factory of the restartable
+     * @param restartableId 重新开始的id
+     * @param factory       重新开始的工厂
      */
     public void restartable(int restartableId, Func0<Subscription> factory) {
         restartables.put(restartableId, factory);
