@@ -38,4 +38,9 @@ public interface HttpService {
             @Field("who") String who,
             @Field("type") String type,
             @Field("debug") boolean debug);
+
+    @GET("search/query/{info}/category/all/count/" + Constants.PAZE_SIZE + "/page/{page} ")
+    Observable<ResultBean<List<GankBean>>> getSearchQuery(
+            @Path("info") String info,
+            @Path("page") int page);
 }

@@ -20,16 +20,17 @@
         <item name="actionOverflowMenuStyle">@style/AppTheme.PopupOverlay</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="searchViewStyle">@style/AppTheme.SearchView.ActionBar</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <item name="searchViewStyle">@style/AppTheme.SearchView.ActionBar</item>
     </style>
+
     <style name="AppTheme.SearchView.ActionBar" parent="Widget.AppCompat.SearchView.ActionBar">
         <item name="searchHintIcon">@mipmap/ic_menu_search</item>
     </style>
-
-
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->

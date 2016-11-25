@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 public abstract class BaseLazyFragment<P extends BasePresenter> extends BaseFragment<P>{
 
-    // 标志位 标志已经初始化完成。
+    //标志位 标志已经初始化完成。
     protected boolean isPrepared;
     //标志位 fragment是否可见
     protected boolean isVisible;

@@ -70,10 +70,8 @@ dependencies {
     compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
     compile rootProject.ext.dependencies["SupportDesign"]
     compile rootProject.ext.dependencies["SupportCardview"]
-//    compile rootProject.ext.dependencies["Butterknife"]
-//    annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile rootProject.ext.dependencies["Butterknife"]
+    annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
     compile rootProject.ext.dependencies["Glide"]
     compile rootProject.ext.dependencies["GlideOkHttp"]
     compile rootProject.ext.dependencies["Retrofit"]
@@ -82,6 +80,9 @@ dependencies {
     compile rootProject.ext.dependencies["OkHttpLoggingInterceptor"]
     compile rootProject.ext.dependencies["RxJava"]
     compile rootProject.ext.dependencies["RxAndroid"]
+    compile rootProject.ext.dependencies["RxBinding"]
+    compile rootProject.ext.dependencies["RxBindingSupportV4"]
+    compile rootProject.ext.dependencies["RxBindingSupportV7"]
     compile rootProject.ext.dependencies["RxLifecycle"]
     compile rootProject.ext.dependencies["RxLifecycleComponents"]
     compile rootProject.ext.dependencies["Umeng"]

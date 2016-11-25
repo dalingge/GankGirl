@@ -19,7 +19,7 @@ public class GankPresenter extends BaseRxPresenter<GankFragment> {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableLatestCache(REQUEST_ITEMS,
+        restartableFirst(REQUEST_ITEMS,
                 () -> HttpRetrofit.getInstance().apiService.getData(mType, 1)
                         .compose(HttpRetrofit.toTransformer())
                         .retryWhen(new RetryWhenNetworkException()),
