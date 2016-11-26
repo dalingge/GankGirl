@@ -36,7 +36,7 @@ public class BasePresenter<View> {
     /**
      * 保存状态,保存的状态将会在{@link #onCreate(Bundle)} 中作为参数背传入
      *
-     * @param state a non-null bundle which should be used to put presenter's state into.
+     * @param state 一个非空的Presenter状态
      */
     protected void onSave(Bundle state) {
     }
@@ -46,7 +46,7 @@ public class BasePresenter<View> {
      * 在哪里绑定最好呢? 我还是选择在{@link Activity#onResume()}里绑定吧, 这样的话所有UI
      * 处理在此之前就处理好了
      *
-     * @param view a view that should be taken
+     * @param view 显示的视图
      */
     protected void onTakeView(View view) {
     }
@@ -65,28 +65,28 @@ public class BasePresenter<View> {
     }
 
     /**
-     * A callback to be invoked when a presenter is about to be destroyed.
+     * 一个回调时要调用一个Presenter即将被摧毁。
      */
     public interface OnDestroyListener {
         /**
-         * Called before {@link BasePresenter#onDestroy()}.
+         * {@link BasePresenter#onDestroy()}.
          */
         void onDestroy();
     }
 
     /**
-     * Adds a listener observing {@link #onDestroy}.
+     * 添加监听器 {@link #onDestroy}.
      *
-     * @param listener a listener to add.
+     * @param listener 监听器.
      */
     public void addOnDestroyListener(OnDestroyListener listener) {
         onDestroyListeners.add(listener);
     }
 
     /**
-     * Removed a listener observing {@link #onDestroy}.
+     * 删除监听器 {@link #onDestroy}.
      *
-     * @param listener a listener to remove.
+     * @param listener 监听器.
      */
     public void removeOnDestroyListener(OnDestroyListener listener) {
         onDestroyListeners.remove(listener);
@@ -104,7 +104,7 @@ public class BasePresenter<View> {
      * 注意: {@link Activity#onActivityResult(int, int, Intent)} 是在 {@link Activity#onResume()}之前调用的,
      * 所以不要作为回调使用这个方法
      *
-     * @return a current attached view.
+     * @return 当前视图.
      */
     @Nullable
     public View getView() {
@@ -119,7 +119,7 @@ public class BasePresenter<View> {
     }
 
     /**
-     * Destroys the presenter, calling all {@link BasePresenter.OnDestroyListener} callbacks.
+     * 销毁 presenter, 调用 {@link BasePresenter.OnDestroyListener} 回调函数.
      */
     public void destroy() {
         for (OnDestroyListener listener : onDestroyListeners)
@@ -128,7 +128,7 @@ public class BasePresenter<View> {
     }
 
     /**
-     * Saves the presenter.
+     * 保存 presenter.
      */
     public void save(Bundle state) {
         onSave(state);

@@ -27,7 +27,7 @@ public interface HttpService {
             @Path("page") int page);
 
     @GET("random/data/Android/{count}")
-    Observable<ResultBean> getRandomImage(
+    Observable<ResultBean<List<GankBean>>> getRandomImage(
             @Path("count") int count);
 
     @FormUrlEncoded

@@ -33,9 +33,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
 
     private final BehaviorSubject<View> views = BehaviorSubject.create();
     private final CompositeSubscription subscriptions = new CompositeSubscription();
-
+    // 可重复使用的函数
     private final SparseArray<Func0<Subscription>> restartables = new SparseArray<>();
     private final SparseArray<Subscription> restartableSubscriptions = new SparseArray<>();
+    // 工作中的订阅者们
     private final ArrayList<Integer> requested = new ArrayList<>();
 
     /**
@@ -69,7 +70,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     /**
      * 可重新开始的是任何RxJava可观测,可以启动(订阅)和应该自动重启进程重启后如果还订阅目前储蓄Presenter的状态。
      * <p>
-     * 注册一个工厂。重新订阅重启后可重新开始的过程。
+     * 这是一个可重复使用的,已绑定订阅者的可观察对象
      *
      * @param restartableId 重新开始的id
      * @param factory       重新开始的工厂
@@ -219,7 +220,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
 
     /**
      * {@link #deliverReplay} 保持所有onNext值并释放他们每次一个新的视图被附加。
-     *   如果一个新的onNext值出现在一个视图,它将立即发送。
+     *   如果一个新的onNext值出现在一个view,它将立即发送。
      *
      * @param <T> 可观察的类型
      */

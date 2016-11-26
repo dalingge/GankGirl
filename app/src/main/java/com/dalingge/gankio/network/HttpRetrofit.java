@@ -205,6 +205,10 @@ public class HttpRetrofit {
                         .compose(toSubscribe());
     }
 
+    /**
+     *
+     * @return
+     */
     public static Observable.Transformer<ResultBean, String> toStringTransformer() {
         return tObservable ->
                 tObservable.map(httpResult -> {
@@ -216,6 +220,10 @@ public class HttpRetrofit {
                         .compose(toSubscribe());
     }
 
+    /**
+     * 异常处理
+     * @param <T>
+     */
     private static class HttpResponseFunc<T> implements Func1<Throwable, Observable<T>> {
         @Override
         public Observable<T> call(Throwable t) {
