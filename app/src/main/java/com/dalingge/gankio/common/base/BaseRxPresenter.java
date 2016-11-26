@@ -115,10 +115,6 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut that can be used instead of combining together
-     * {@link #restartable(int, Func0)},
-     * {@link #deliverFirst()},
-     * {@link #split(Action2, Action2)}.
      *
      * @param restartableId     重新请求ID
      * @param observableFactory 返回一个可观测时可重新起动的运行。
@@ -147,10 +143,6 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut that can be used instead of combining together
-     * {@link #restartable(int, Func0)},
-     * {@link #deliverLatestCache()},
-     * {@link #split(Action2, Action2)}.
      *
      * @param restartableId     重新请求ID
      * @param observableFactory 返回一个可观测时可重新起动的运行。
@@ -179,10 +171,6 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut that can be used instead of combining together
-     * {@link #restartable(int, Func0)},
-     * {@link #deliverReplay()},
-     * {@link #split(Action2, Action2)}.
      *
      * @param restartableId     重新请求ID
      * @param observableFactory 返回一个可观测时可重新起动的运行。
@@ -243,10 +231,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * 返回一个方法,可以用于手动可重新起动的链构建.它返回一个Action1
      * 将收到的{@link Delivery}分为两个{@link Action2} onNext和onError调用。
      *
-     * @param onNext  a method that will be called if the delivery contains an emitted onNext value.
-     * @param onError a method that will be called if the delivery contains an onError throwable.
-     * @param <T>     a type on onNext value.
-     * @return an Action1 that splits a received {@link Delivery} into two {@link Action2} onNext and onError calls.
+     * @param onNext  方法将调用如果交付包含一个发出下一个值。
+     * @param onError 这种方法被称为throwable如果交付包含一个错误。
+     * @param <T>     一个类型的值。
+     * @return 一个新Action1
      */
     public <T> Action1<Delivery<View, T>> split(final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
         return new Action1<Delivery<View, T>>() {
@@ -321,9 +309,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
         views.onNext(null);
     }
 
-    /**
-     * Please, use restartableXX and deliverXX methods for pushing data from RxPresenter into View.
-     */
+
     @Deprecated
     @Nullable
     @Override
