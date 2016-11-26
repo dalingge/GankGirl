@@ -26,29 +26,27 @@
         android:resizeable="true"
         android:smallScreens="true" />
 
-
     <application
         android:name=".GankApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5701f91767e58ec514000eef" />
-        <!--<meta-data-->
-        <!--android:name="UMENG_CHANNEL"-->
-        <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_CHANNEL" -->
+        <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
+
 
         <!-- ###################添加Glide 全局设置###################### -->
         <meta-data
             android:name="com.dalingge.gankio.common.config.GlideConfig"
             android:value="GlideModule" />
 
-
         <activity
-            android:name=".module.main.MainActivity"
+            android:name=".module.test.TestActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,25 +55,22 @@
             </intent-filter>
         </activity>
 
-        <!--<activity android:name=".module.main.MainActivity"-->
-        <!--android:configChanges="keyboardHidden|orientation"-->
-        <!--android:hardwareAccelerated="true"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="adjustPan"/>-->
+        <!-- <activity android:name=".module.main.MainActivity" -->
+        <!-- android:configChanges="keyboardHidden|orientation" -->
+        <!-- android:hardwareAccelerated="true" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:windowSoftInputMode="adjustPan"/> -->
 
         <activity
             android:name=".module.home.submit.SubmitGankActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.web.WebActivity"
             android:configChanges="orientation|screenSize" />
-
         <activity
             android:name=".module.AboutActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.girl.imagepager.ImagePagerActivity"
             android:screenOrientation="portrait"

@@ -20,7 +20,7 @@ import butterknife.BindView;
 public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseActivity<P> {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    protected Toolbar toolbar;
 
     private DefaultTipsHelper defaultTipsHelper;
 
