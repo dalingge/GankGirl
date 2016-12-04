@@ -11,7 +11,7 @@ import com.dalingge.gankio.common.base.factory.PresenterStorage;
 /**
  * 这类采用View 生命周期到Presenter的生命周期。
  *
- * @param <P> a type of the presenter.
+ * @param <P> 一个类型 presenter.
  */
 public final class PresenterLifecycleDelegate<P extends BasePresenter> {
 

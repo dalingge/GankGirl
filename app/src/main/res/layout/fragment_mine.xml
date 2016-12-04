@@ -41,6 +41,7 @@
                 app:theme="@style/AppTheme.AppBarOverlay" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -88,6 +89,7 @@
             <!--</LinearLayout>-->
         <!--</LinearLayout>-->
     </android.support.v4.widget.NestedScrollView>
+
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -96,4 +98,5 @@
         android:src="@mipmap/avatar_shadow"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|right|end"/>
+
 </android.support.design.widget.CoordinatorLayout>

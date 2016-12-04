@@ -40,7 +40,9 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-     private SearchView searchView;
+
+    private SearchView searchView;
+
     public static GankTadPageFragment newInstance(String param1) {
         GankTadPageFragment fragment = new GankTadPageFragment();
         Bundle args = new Bundle();
@@ -57,6 +59,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
      private List<String> stringList = new ArrayList<>();
     @Override
     protected void initView(View view) {
+        toolbar.setTitle(R.string.button_navigation_home_text);
         toolbar.inflateMenu(R.menu.menu_home);
         MenuItem item = toolbar.getMenu().findItem(R.id.search_view);
         searchView = (SearchView) MenuItemCompat.getActionView(item);

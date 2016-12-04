@@ -3,13 +3,12 @@ package com.dalingge.gankio.module.girl;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dalingge.gankio.R;
@@ -17,6 +16,8 @@ import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
+import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
 import com.dalingge.gankio.module.girl.imagepager.ImagePagerActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
@@ -25,21 +26,23 @@ import java.util.List;
 
 import butterknife.BindView;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 @RequiresPresenter(GirlPresenter.class)
-public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRefreshLayout.OnRefreshListener,GirlAdapter.OnItemClickListener {
+public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAdapter.OnItemClickListener, SuperRefreshLayout.OnSuperRefreshLayoutListener {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.recycle_view)
-    RecyclerView recycleView;
+    RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
-    SwipeRefreshLayout swipeRefreshWidget;
+    SuperRefreshLayout superRefresh;
 
     private ArrayList<GankBean> mData = new ArrayList<>();
     private GirlAdapter mGirlAdapter;
     private String mType;
+    private int page = 1;
 
     public static GirlFragment newInstance(String param1) {
         GirlFragment fragment = new GirlFragment();
@@ -65,57 +68,64 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
 
     @Override
     protected void initView(View view) {
-        swipeRefreshWidget.setColorSchemeResources(
-                R.color.primary, R.color.accent,
-                R.color.primary_dark, R.color.primary_light);
-        swipeRefreshWidget.setOnRefreshListener(this);
+        toolbar.setTitle(R.string.button_navigation_girl_text);
+        superRefresh.setOnSuperRefreshLayoutListener(this);
+        superRefresh.setRecyclerView(getActivity(), recyclerView);
         mGirlAdapter = new GirlAdapter(getActivity(), mData);
         mGirlAdapter.setOnItemClickListener(this);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity()){
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             protected int getExtraLayoutSpace(RecyclerView.State state) {
                 return 300;
             }
         };
-        recycleView.setLayoutManager(mLinearLayoutManager);
-        recycleView.setHasFixedSize(true);
-        recycleView.setAdapter(mGirlAdapter);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(mGirlAdapter));
 
+        setTipView(superRefresh);
         if (mData.isEmpty()) {
-            showRefresh();
-            onRefresh();
+            getTipsHelper().showLoading(true);
+            getPresenter().request(mType, page);
         }
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefreshing() {
         mData.clear();
-        getPresenter().request(mType);
+        page = 1;
+        getPresenter().request(mType, page);
     }
 
+    @Override
+    public void onLoadMore() {
+        page = page + 1;
+        getPresenter().request(mType, page);
+    }
 
     public void onAddData(List<GankBean> gankBeanList) {
-        hideRefresh();
+        getTipsHelper().hideLoading();
+        superRefresh.onLoadComplete();
         mData.addAll(gankBeanList);
         mGirlAdapter.notifyDataSetChanged();
+        if (mGirlAdapter.getItemCount() == 0) {
+            getTipsHelper().showEmpty();
+        }
     }
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
-        hideRefresh();
-        Snackbar.make(swipeRefreshWidget, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    private void showRefresh(){
-        swipeRefreshWidget.setRefreshing(true);
-    }
-
-    private void hideRefresh(){
-        // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        swipeRefreshWidget.postDelayed(()-> {
-            if(swipeRefreshWidget != null){
-                swipeRefreshWidget.setRefreshing(false);
-            }
-        },1000);
+        if (mGirlAdapter.getItemCount() == 0) {
+            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getTipsHelper().showLoading(true);
+                    onRefreshing();
+                }
+            });
+        } else {
+            superRefresh.onLoadComplete();
+            superRefresh.onFooterError();
+        }
     }
 
     @Override
@@ -123,13 +133,14 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements SwipeRe
         ActivityOptionsCompat options;
         if (Build.VERSION.SDK_INT >= 21) {
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    getActivity(), view,  mGirlAdapter.getItem(position)._id);
+                    getActivity(), view, mGirlAdapter.getItem(position)._id);
         } else {
             options = ActivityOptionsCompat.makeScaleUpAnimation(
                     view,
-                    view.getWidth()/2, view.getHeight()/2,//拉伸开始的坐标
+                    view.getWidth() / 2, view.getHeight() / 2,//拉伸开始的坐标
                     0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
         }
-        ActivityCompat.startActivity(getActivity(), ImagePagerActivity.newIntent(view.getContext(),position,mGirlAdapter.getData()),options.toBundle());
+        ActivityCompat.startActivity(getActivity(), ImagePagerActivity.newIntent(view.getContext(), position, mGirlAdapter.getData()), options.toBundle());
     }
+
 }

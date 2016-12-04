@@ -53,7 +53,8 @@ public class TestPresenter extends BaseRxPresenter<TestActivity> {
                                          *  当服务器的任务完成时，我们停止轮询。
                                          *  换句话说，“当任务（job）完成时，我们不拿（take）了”
                                          */
-                                        return true;
+                                        Log.v("tag", "takeUntil, call response " + gankBeen.toString());
+                                        return false;
                                     }
                                 })
                                 .filter(new Func1<List<GankBean>, Boolean>() {
@@ -64,6 +65,7 @@ public class TestPresenter extends BaseRxPresenter<TestActivity> {
                                          * 过滤（Filtering） 表示 onNext() 不会被调用.
                                          * 但是 onComplete() 仍然会被传递.
                                          */
+                                        Log.v("tag", "filter, call response " + gankBeen.toString());
                                         return true;
                                     }
                                 });
@@ -83,11 +85,5 @@ public class TestPresenter extends BaseRxPresenter<TestActivity> {
                 });
 
     }
-
-    private static final int COUNTER_START = 1;
-    private static final int ATTEMPTS = 5;
-    private static final int ORIGINAL_DELAY_IN_SECONDS = 10;
-
-
 
 }

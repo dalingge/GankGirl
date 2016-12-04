@@ -1,6 +1,5 @@
 package com.dalingge.gankio.module.test;
 
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ public class TestActivity extends BaseToolbarActivity<TestPresenter> implements 
 
     @Override
     protected void initView() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnStart = (Button) findViewById(R.id.btn_start);
         btnStop = (Button) findViewById(R.id.btn_stop);
         tvLog = (TextView) findViewById(R.id.tv_log);
@@ -52,4 +50,5 @@ public class TestActivity extends BaseToolbarActivity<TestPresenter> implements 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         tvLog.setText(responeThrowable.message);
     }
+
 }

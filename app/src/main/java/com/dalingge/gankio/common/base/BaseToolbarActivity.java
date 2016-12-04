@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -19,10 +17,8 @@ import butterknife.BindView;
 
 public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseActivity<P> {
 
-    @BindView(R.id.toolbar)
-    protected Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    private DefaultTipsHelper defaultTipsHelper;
 
     protected boolean isBack() {
         return false;
@@ -76,16 +72,6 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-    }
-
-
-    public void setTipView(View view) {
-        if (defaultTipsHelper != null)
-            defaultTipsHelper = new DefaultTipsHelper(this, view);
-    }
-
-    public DefaultTipsHelper getDefaultTipsHelper() {
-        return defaultTipsHelper;
     }
 
     public Toolbar getToolbar() {

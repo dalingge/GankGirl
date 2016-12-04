@@ -2,9 +2,12 @@ package com.dalingge.gankio.common.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
+import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
+import com.dalingge.gankio.common.widgets.tips.TipsHelper;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -20,9 +23,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
 
     private Unbinder unbinder;
 
+    private TipsHelper mTipsHelper;
+
     protected abstract int getLayout();
 
     protected abstract void initView();
+
 
     private PresenterLifecycleDelegate<P> presenterDelegate =
             new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<P>fromViewClass(getClass()));
@@ -30,6 +36,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
     /**
      * 获取当前Presenter代理
      */
+    @Override
     public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
@@ -49,6 +56,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
      *
      * @return 返回当前工厂的 presenter
      */
+    @Override
     public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
@@ -88,5 +96,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
 
         if (unbinder != null)
             unbinder.unbind();
+    }
+
+    public void setTipView(View view) {
+        if (mTipsHelper == null)
+            mTipsHelper = new DefaultTipsHelper(this, view);
+    }
+
+    //状态帧布局，通常用于网络请求的四种状态，普通、载入、错误、空白。支持Drawable或者View来展示，也可以混搭
+    public TipsHelper getTipsHelper() {
+        return mTipsHelper;
     }
 }

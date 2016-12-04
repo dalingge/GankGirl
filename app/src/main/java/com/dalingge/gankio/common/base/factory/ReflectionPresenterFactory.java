@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.dalingge.gankio.common.base.BasePresenter;
 
 /**
- * This class represents a {@link PresenterFactory} that creates a presenter using {@link Class#newInstance()} method.
+ * 这个类代表一个 {@link PresenterFactory} 创建一个Presenter {@link Class#newInstance()} 方法.
  *
  * @param <P> the type of the presenter.
  */

@@ -25,7 +25,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
 
     private static final String PRESENTER_STATE_KEY = "fragment_presenter_state";
 
-    protected View rootView;
+    private View rootView;
     private Unbinder unbinder;
     private TipsHelper mTipsHelper;
 
@@ -57,6 +57,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
             mTipsHelper = new DefaultTipsHelper(getContext(), view);
     }
 
+    //状态帧布局，通常用于网络请求的四种状态，普通、载入、错误、空白。支持Drawable或者View来展示，也可以混搭
     public TipsHelper getTipsHelper() {
         return mTipsHelper;
     }
@@ -69,6 +70,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     /**
      * 获取当前Presenter
      */
+    @Override
     public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
@@ -83,9 +85,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         presenterDelegate.setPresenterFactory(presenterFactory);
     }
 
+    @Override
     public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

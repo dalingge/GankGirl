@@ -46,4 +46,8 @@
     <string name="empty_tips_netword">请检查你的网络连接</string>
     <string name="empty_tips_btn">重试</string>
 
+    <!--footer-->
+    <string name="recycler_footer_loading">正在加载中…</string>
+    <string name="recycler_footer_network_error">点击重新加载</string>
+    <string name="recycler_footer_end">已经到底了</string>
 </resources>

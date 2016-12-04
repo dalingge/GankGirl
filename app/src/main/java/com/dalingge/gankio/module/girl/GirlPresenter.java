@@ -13,20 +13,22 @@ import com.dalingge.gankio.network.RetryWhenNetworkException;
 public class GirlPresenter extends BaseRxPresenter<GirlFragment> {
 
     private static final int REQUEST_ITEMS = 1;
-    private String mType;
+    private String type;
+    private int page;
 
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
         restartableLatestCache(REQUEST_ITEMS,
-                () -> HttpRetrofit.getInstance().apiService.getData(mType, 1).compose(HttpRetrofit.toTransformer()).retryWhen(new RetryWhenNetworkException()),
+                () -> HttpRetrofit.getInstance().apiService.getData(type, page).compose(HttpRetrofit.toTransformer()).retryWhen(new RetryWhenNetworkException()),
                 GirlFragment::onAddData,
                 GirlFragment::onNetworkError);
     }
 
-     void request(String type) {
-        mType=type;
+    void request(String type, int page) {
+        this.type = type;
+        this.page = page;
         start(REQUEST_ITEMS);
     }
 }
