@@ -37,7 +37,7 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
-    SuperRefreshLayout superRefresh;
+    SuperRefreshLayout superRefreshLayout;
 
     private ArrayList<GankBean> mData = new ArrayList<>();
     private GirlAdapter mGirlAdapter;
@@ -69,8 +69,8 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
     @Override
     protected void initView(View view) {
         toolbar.setTitle(R.string.button_navigation_girl_text);
-        superRefresh.setOnSuperRefreshLayoutListener(this);
-        superRefresh.setRecyclerView(getActivity(), recyclerView);
+        superRefreshLayout.setOnSuperRefreshLayoutListener(this);
+        superRefreshLayout.setRecyclerView(getActivity(), recyclerView);
         mGirlAdapter = new GirlAdapter(getActivity(), mData);
         mGirlAdapter.setOnItemClickListener(this);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity()) {
@@ -83,7 +83,7 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(mGirlAdapter));
 
-        setTipView(superRefresh);
+        setTipView(superRefreshLayout);
         if (mData.isEmpty()) {
             getTipsHelper().showLoading(true);
             getPresenter().request(mType, page);
@@ -103,31 +103,6 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
         getPresenter().request(mType, page);
     }
 
-    public void onAddData(List<GankBean> gankBeanList) {
-        getTipsHelper().hideLoading();
-        superRefresh.onLoadComplete();
-        mData.addAll(gankBeanList);
-        mGirlAdapter.notifyDataSetChanged();
-        if (mGirlAdapter.getItemCount() == 0) {
-            getTipsHelper().showEmpty();
-        }
-    }
-
-    public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
-        if (mGirlAdapter.getItemCount() == 0) {
-            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getTipsHelper().showLoading(true);
-                    onRefreshing();
-                }
-            });
-        } else {
-            superRefresh.onLoadComplete();
-            superRefresh.onFooterError();
-        }
-    }
-
     @Override
     public void onItemClick(View view, int position) {
         ActivityOptionsCompat options;
@@ -141,6 +116,36 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
                     0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
         }
         ActivityCompat.startActivity(getActivity(), ImagePagerActivity.newIntent(view.getContext(), position, mGirlAdapter.getData()), options.toBundle());
+    }
+
+    public void onAddData(List<GankBean> gankBeanList) {
+        getTipsHelper().hideLoading();
+        superRefreshLayout.onLoadComplete();
+        mData.addAll(gankBeanList);
+        mGirlAdapter.notifyDataSetChanged();
+        if (isFirstPage()) {
+            getTipsHelper().showEmpty();
+        }
+    }
+
+    public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
+        if (isFirstPage()) {
+            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getTipsHelper().showLoading(true);
+                    onRefreshing();
+                }
+            });
+        } else {
+            superRefreshLayout.onLoadComplete();
+            superRefreshLayout.onFooterError();
+        }
+    }
+
+
+    public boolean isFirstPage() {
+        return mGirlAdapter.getItemCount() <= 0;
     }
 
 }

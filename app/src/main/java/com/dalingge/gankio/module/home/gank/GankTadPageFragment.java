@@ -72,7 +72,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
 
         RxSearchView.queryTextChanges(searchView)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .debounce(600, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+                .debounce(300, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .filter(new Func1<CharSequence, Boolean>() {
                     @Override public Boolean call(CharSequence charSequence) {
                         // 清空搜索出来的结构

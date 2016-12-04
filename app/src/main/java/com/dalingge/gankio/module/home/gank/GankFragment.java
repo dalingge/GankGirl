@@ -2,9 +2,7 @@ package com.dalingge.gankio.module.home.gank;
 
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +12,10 @@ import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
+import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
 import com.dalingge.gankio.module.web.WebActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
@@ -29,16 +29,17 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 @RequiresPresenter(GankPresenter.class)
-public class GankFragment extends BaseLazyFragment<GankPresenter> implements SwipeRefreshLayout.OnRefreshListener, GankAdapter.OnItemClickListener {
+public class GankFragment extends BaseLazyFragment<GankPresenter> implements  GankAdapter.OnItemClickListener , SuperRefreshLayout.OnSuperRefreshLayoutListener{
 
     @BindView(R.id.recycle_view)
-    RecyclerView recycleView;
+    RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
-    SwipeRefreshLayout swipeRefreshWidget;
+    SuperRefreshLayout superRefreshLayout;
 
     private ArrayList<GankBean> mData = new ArrayList<>();
     private GankAdapter mGankAdapter;
     private String mType;
+    private int page = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,9 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
             return;
         }
 
-        if (mData.isEmpty()) {
-            showRefresh();
-            onRefresh();
+        if (isFirstPage()) {
+            getTipsHelper().showLoading(true);
+            getPresenter().request(mType,page);
         }
     }
 
@@ -69,67 +70,65 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements Swi
     @Override
     protected void initView(View view) {
 
-        swipeRefreshWidget.setColorSchemeResources(
-                R.color.primary, R.color.accent,
-                R.color.primary_dark, R.color.primary_light);
-        swipeRefreshWidget.setOnRefreshListener(this);
+        superRefreshLayout.setOnSuperRefreshLayoutListener(this);
+        superRefreshLayout.setRecyclerView(getActivity(), recyclerView);
         mGankAdapter = new GankAdapter(getActivity(), mData);
         mGankAdapter.setOnItemClickListener(this);
-        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(mGankAdapter, recycleView);
+        AlphaAnimatorAdapter animatorAdapter = new AlphaAnimatorAdapter(mGankAdapter, recyclerView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        recycleView.setLayoutManager(mLinearLayoutManager);
-        recycleView.setHasFixedSize(true);
-        recycleView.setItemAnimator(new SlideInOutBottomItemAnimator(recycleView));
-        recycleView.setAdapter(animatorAdapter);
-        setTipView(swipeRefreshWidget);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new SlideInOutBottomItemAnimator(recyclerView));
+        recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(animatorAdapter));
+        setTipView(superRefreshLayout);
+
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefreshing() {
         mData.clear();
-        getPresenter().request(mType);
+        page = 1;
+        getPresenter().request(mType, page);
     }
 
-    public void onAddData(List<GankBean> gankBeanList) {
-        hideRefresh();
-        mData.addAll(gankBeanList);
-        mGankAdapter.notifyDataSetChanged();
-        if (mGankAdapter.getItemCount() == 0) {
-            getTipsHelper().showEmpty();
-        }
-    }
-
-    public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
-        hideRefresh();
-        if (mGankAdapter.getItemCount() == 0) {
-            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getTipsHelper().showLoading(true);
-                    onRefresh();
-                }
-            });
-        }
-        Snackbar.make(swipeRefreshWidget, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    private void showRefresh() {
-        swipeRefreshWidget.setRefreshing(true);
-    }
-
-    private void hideRefresh() {
-        getTipsHelper().hideLoading();
-        // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        swipeRefreshWidget.postDelayed(() -> {
-            if (swipeRefreshWidget != null) {
-                swipeRefreshWidget.setRefreshing(false);
-            }
-        }, 1000);
+    @Override
+    public void onLoadMore() {
+        page = page + 1;
+        getPresenter().request(mType, page);
     }
 
     @Override
     public void onItemClick(View view, int position) {
         GankBean resultsBean = mGankAdapter.getItem(position);
         getActivity().startActivity(WebActivity.newIntent(getActivity(), resultsBean.url, resultsBean.desc));
+    }
+
+    public boolean isFirstPage() {
+        return mGankAdapter.getItemCount() <= 0;
+    }
+
+    public void onAddData(List<GankBean> gankBeanList) {
+        getTipsHelper().hideLoading();
+        superRefreshLayout.onLoadComplete();
+        mData.addAll(gankBeanList);
+        mGankAdapter.notifyDataSetChanged();
+        if (isFirstPage()) {
+            getTipsHelper().showEmpty();
+        }
+    }
+
+    public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
+        if (isFirstPage()) {
+            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getTipsHelper().showLoading(true);
+                    onRefreshing();
+                }
+            });
+        } else {
+            superRefreshLayout.onLoadComplete();
+            superRefreshLayout.onFooterError();
+        }
     }
 }

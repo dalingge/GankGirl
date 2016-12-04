@@ -7,9 +7,7 @@
         android:id="@+id/loading_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:gravity="center"
+        android:layout_centerInParent="true"
         android:text="@string/recycler_footer_network_error"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_14" />

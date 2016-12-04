@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 //apply plugin: 'realm-android'
 
 //def gitVersionCode() {
@@ -30,9 +31,9 @@ android {
         targetSdkVersion app.targetSdkVersion as int
         versionCode app.versionCode as int
         versionName app.versionName
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
     }
 
     compileOptions {
@@ -47,7 +48,7 @@ android {
 
     buildTypes {
         debug { // 为了不和 release 版本冲突
-           // applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled false
