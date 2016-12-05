@@ -59,6 +59,7 @@ public class WebActivity extends BaseToolbarActivity {
     protected void initView() {
         mUrl = getIntent().getStringExtra(EXTRA_URL);
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
+        getToolbar().setTitle(mUrl);
 
         WebSettings ws = webView.getSettings();
 
@@ -70,7 +71,7 @@ public class WebActivity extends BaseToolbarActivity {
         webView.setWebChromeClient(new webChromeClient());
         webView.setWebViewClient(new webViewClient());
         webView.loadUrl(mUrl);
-        getToolbar().setTitle(mUrl);
+
     }
 
     @Override
