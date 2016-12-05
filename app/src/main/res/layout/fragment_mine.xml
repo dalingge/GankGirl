@@ -7,6 +7,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
         app:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -16,6 +17,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="16dp"
             app:expandedTitleMarginStart="16dp"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@android:color/transparent">
 
@@ -27,6 +29,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/mine_bg"
                 app:layout_collapseMode="parallax"
+                android:fitsSystemWindows="true"
                 app:layout_collapseParallaxMultiplier="0.7" />
 
             <android.support.v7.widget.Toolbar
