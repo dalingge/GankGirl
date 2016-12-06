@@ -10,7 +10,7 @@
         android:fitsSystemWindows="true"
         app:theme="@style/AppTheme.AppBarOverlay">
 
-        <com.dalingge.gankio.common.widgets.ArcCollapsingToolbarLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,9 +20,7 @@
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@android:color/transparent"
-            app:arc_cropDirection="cropOutside"
-            app:arc_height="40dp"
-            app:arc_cropColor="@color/background">
+            app:arc_cropDirection="cropOutside">
 
             <ImageView
                 android:id="@+id/main.backdrop"
@@ -43,7 +41,7 @@
                 app:layout_collapseMode="pin"
                 app:theme="@style/AppTheme.AppBarOverlay" />
 
-        </com.dalingge.gankio.common.widgets.ArcCollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -92,15 +90,5 @@
         <!--</LinearLayout>-->
         <!--</LinearLayout>-->
     </android.support.v4.widget.NestedScrollView>
-
-    <ImageView
-        android:id="@+id/iv_avatar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="20dp"
-        android:contentDescription="@string/empty"
-        android:src="@mipmap/avatar_shadow"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
