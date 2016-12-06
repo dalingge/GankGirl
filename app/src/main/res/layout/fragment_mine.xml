@@ -19,8 +19,7 @@
             app:expandedTitleMarginEnd="16dp"
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:statusBarScrim="@android:color/transparent"
-            app:arc_cropDirection="cropOutside">
+            app:statusBarScrim="@android:color/transparent">
 
             <ImageView
                 android:id="@+id/main.backdrop"
