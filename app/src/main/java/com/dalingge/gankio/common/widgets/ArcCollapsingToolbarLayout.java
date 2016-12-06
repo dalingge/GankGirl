@@ -7,18 +7,17 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.utils.DensityUtils;
 
-
 /**
- * Created by dingboyang on 2016/12/5.
+ * Created by dingboyang on 2016/12/6.
  */
 
-public class ArcLayout extends RelativeLayout {
+public class ArcCollapsingToolbarLayout extends CollapsingToolbarLayout {
 
     public final static int CROP_OUTSIDE = 0;
     public final static int CROP_INSIDE = 1;
@@ -30,31 +29,31 @@ public class ArcLayout extends RelativeLayout {
     private float arcHeight;
     private Path mClipPath;
     private Paint mPaint;
-    private int mPaintColor = 0xFFFFFFFF;
+    private int paintColor = 0xFFFFFFFF;
     private PorterDuffXfermode porterDuffXfermode;
 
-    public ArcLayout(Context context) {
+    public ArcCollapsingToolbarLayout(Context context) {
         super(context);
         init(context, null);
     }
 
-    public ArcLayout(Context context, AttributeSet attrs) {
+    public ArcCollapsingToolbarLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
     public void init(Context context, AttributeSet attrs) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.ArcHeader, 0, 0);
-        arcHeight = styledAttributes.getDimension(R.styleable.ArcHeader_arc_height, DensityUtils.dip2px(context, 10));
+        arcHeight = styledAttributes.getDimension(R.styleable.ArcHeader_arc_height, DensityUtils.dip2px(context, 15));
 
         final int cropDirection = styledAttributes.getInt(R.styleable.ArcHeader_arc_cropDirection, CROP_INSIDE);
         cropInside = (cropDirection & CROP_INSIDE) == CROP_INSIDE;
-        mPaintColor = styledAttributes.getColor(R.styleable.ArcHeader_arc_cropColor, mPaintColor);
+        paintColor = styledAttributes.getColor(R.styleable.ArcHeader_arc_cropColor, getPaintColor());
         styledAttributes.recycle();
 
-        porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+        porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(mPaintColor);
+        mPaint.setXfermode(porterDuffXfermode);
         mClipPath = new Path();
     }
 
@@ -79,7 +78,7 @@ public class ArcLayout extends RelativeLayout {
     protected void dispatchDraw(Canvas canvas) {
         int saveCount = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
         super.dispatchDraw(canvas);
-        mPaint.setXfermode(porterDuffXfermode);
+        mPaint.setColor(getPaintColor());
         canvas.drawPath(mClipPath, mPaint);
         canvas.restoreToCount(saveCount);
         mPaint.setXfermode(null);
@@ -128,5 +127,14 @@ public class ArcLayout extends RelativeLayout {
 
     public float getArcHeight() {
         return arcHeight;
+    }
+
+    public int getPaintColor() {
+        return paintColor;
+    }
+
+    public void setPaintColor(int paintColor) {
+        this.paintColor = paintColor;
+      //  invalidate();
     }
 }

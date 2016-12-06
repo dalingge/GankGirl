@@ -58,7 +58,7 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
 
     @Override
     protected void initView() {
-        getToolbar().setTitle("");
+        getToolbar().setTitle("提交干货");
         etType.setOnClickListener(view -> {
             String[] types = getResources().getStringArray(R.array.submit_gank_type_arrays);
             new AlertDialog.Builder(view.getContext()).setItems(types, (dialog, which) -> etType.setText(types[which])).show();
