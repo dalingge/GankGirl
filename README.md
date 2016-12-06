@@ -28,3 +28,11 @@
 - [@代码家](http://weibo.com/u/1628291124)及他的[干货集中营](http://gank.io)
 - [@drakeet](http://weibo.com/drak11t)及他的[妹纸.gank.io](https://github.com/drakeet/Meizhi)
 - [@oxoooo](http://weibo.com/xingrz)及他的[馒头先生](https://github.com/oxoooo/mr-mantou-android)
+
+## License 许可证
+
+[![license](https://img.shields.io/github/license/viosey/hexo-theme-material.svg?style=flat-square)](https://github.com/viosey/hexo-theme-material/blob/master/LICENSE)
+
+Open sourced under the GPL v3.0 license.
+
+根据 GPL V3.0 许可证开源。
