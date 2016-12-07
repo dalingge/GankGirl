@@ -1,41 +1,32 @@
 package com.dalingge.gankio.module.girl.imagepager;
 
 import android.annotation.TargetApi;
-import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.SharedElementCallback;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
 import com.dalingge.gankio.common.bean.GankBean;
 import com.dalingge.gankio.common.utils.AnimationUtils;
-import com.dalingge.gankio.common.utils.RxUtils;
 import com.dalingge.gankio.common.widgets.PullBackLayout;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.disposables.ListCompositeDisposable;
+
 
 /**
  * FileName:ImagePagerActivity.java
@@ -153,11 +144,11 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
         return true;
     }
 
-    private CompositeSubscription mCompositeSubscription;
+    private ListCompositeDisposable mCompositeSubscription;
 
-    public void addSubscription(Subscription s) {
+    public void addSubscription(Disposable s) {
         if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
+            this.mCompositeSubscription = new ListCompositeDisposable();
         }
 
         this.mCompositeSubscription.add(s);
@@ -167,85 +158,88 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_share) {
-            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(new Func1<File, Uri>() {
-                        @Override
-                        public Uri call(File file) {
-                            return Uri.fromFile(file);
-                        }
-                    })
-                    .retry()
-                    .subscribe(new Action1<Uri>() {
-                        @Override
-                        public void call(Uri uri) {
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                            shareIntent.setType("image/jpeg");
-                            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable e) {
-                            Toast.makeText(ImagePagerActivity.this, e.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
-                        }
-                    });
-            addSubscription(subscription);
+//            Disposable subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .map(new Function<File, Object>() {
+//                        @Override
+//                        public Uri apply(File file) throws Exception {
+//                            return Uri.fromFile(file);
+//                        }
+//                    })
+//                    .retry()
+//                    .subscribe(new Consumer<Object>() {
+//                        @Override
+//                        public void accept(Object o) throws Exception {
+//                            Intent shareIntent = new Intent();
+//                            shareIntent.setAction(Intent.ACTION_SEND);
+//                            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//                            shareIntent.setType("image/jpeg");
+//                            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
+//                        }
+//
+//                    }, new Consumer<Throwable>() {
+//                        @Override
+//                        public void accept(Throwable e) {
+//                            Toast.makeText(ImagePagerActivity.this, e.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//            addSubscription(subscription);
             return true;
         } else if (id == R.id.action_save) {
-            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .retry()
-                    .subscribe(new Action1<File>() {
-                        @Override
-                        public void call(File file) {
-                            String msg = String.format(getString(R.string.save_success),
-                                    file.getPath());
-                            Toast.makeText(ImagePagerActivity.this, msg, Toast.LENGTH_LONG).show();
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable e) {
-                            Toast.makeText(ImagePagerActivity.this, e.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-            addSubscription(subscription);
+//            Disposable subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .retry()
+//                    .subscribe(new Consumer<File>() {
+//                        @Override
+//                        public void accept(File file) throws Exception {
+//                            String msg = String.format(getString(R.string.save_success),
+//                                    file.getPath());
+//                            Toast.makeText(ImagePagerActivity.this, msg, Toast.LENGTH_LONG).show();
+//                        }
+//                    }, new Consumer<Throwable>() {
+//                        @Override
+//                        public void accept(Throwable e) {
+//                            Toast.makeText(ImagePagerActivity.this, e.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//
+//            addSubscription(subscription);
             return true;
         } else if (id == R.id.action_set_wallpaper) {
-            Subscription subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(new Func1<File, Uri>() {
-                        @Override
-                        public Uri call(File file) {
-                            return FileProvider.getUriForFile(ImagePagerActivity.this, AUTHORITY_IMAGES, file);
-                        }
-                    })
-                    .retry()
-                    .subscribe(new Action1<Uri>() {
-                        @Override
-                        public void call(Uri uri) {
-                            final WallpaperManager wm = WallpaperManager.getInstance(ImagePagerActivity.this);
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                                startActivity(wm.getCropAndSetWallpaperIntent(uri));
-                            } else {
-                                try {
-                                    wm.setStream(getContentResolver().openInputStream(uri));
-                                    Toast.makeText(ImagePagerActivity.this, R.string.set_wallpaper_success, Toast.LENGTH_LONG).show();
-                                } catch (IOException e) {
-                                    Toast.makeText(ImagePagerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable e) {
-                            Toast.makeText(ImagePagerActivity.this, e.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-            addSubscription(subscription);
+//            Disposable subscription = RxUtils.saveImageAndGetPathObservable(this, getCurrentImage().url, getCurrentImage()._id)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .map(new Function<File, Object>() {
+//                        @Override
+//                        public Uri apply(File file) throws Exception {
+//                            return FileProvider.getUriForFile(ImagePagerActivity.this, AUTHORITY_IMAGES, file);
+//                        }
+//
+//                    })
+//                    .retry()
+//                    .subscribe(new Consumer<Uri>() {
+//                        @Override
+//                        public void accept(Uri uri) throws Exception {
+//                            final WallpaperManager wm = WallpaperManager.getInstance(ImagePagerActivity.this);
+//                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+//                                startActivity(wm.getCropAndSetWallpaperIntent(uri));
+//                            } else {
+//                                try {
+//                                    wm.setStream(getContentResolver().openInputStream(uri));
+//                                    Toast.makeText(ImagePagerActivity.this, R.string.set_wallpaper_success, Toast.LENGTH_LONG).show();
+//                                } catch (IOException e) {
+//                                    Toast.makeText(ImagePagerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        }
+//
+//                    }, new Consumer<Throwable>() {
+//                        @Override
+//                        public void accept(Throwable throwable) throws Exception {
+//                            Toast.makeText(ImagePagerActivity.this, throwable.getMessage() + "\n再试试...", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//
+//            addSubscription(subscription);
 
             return true;
         }
@@ -257,7 +251,7 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
     protected void onDestroy() {
         super.onDestroy();
         if (this.mCompositeSubscription != null) {
-            this.mCompositeSubscription.unsubscribe();
+            this.mCompositeSubscription.dispose();
         }
     }
 

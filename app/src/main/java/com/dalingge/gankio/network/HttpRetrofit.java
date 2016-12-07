@@ -9,6 +9,9 @@ import com.dalingge.gankio.common.utils.FileUtils;
 import com.dalingge.gankio.common.utils.NetWorkUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import org.reactivestreams.Publisher;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +30,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -35,12 +43,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+
 
 /**
  * FileName: HttpRetrofit
@@ -70,7 +74,7 @@ public class HttpRetrofit {
         retrofit = new Retrofit.Builder()
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(gson)) //  添加数据解析ConverterFactory
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) //添加RxJava
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //添加RxJava
                 .baseUrl(Constants.API_URL)
                 .build();
         apiService = retrofit.create(HttpService.class);
@@ -187,7 +191,7 @@ public class HttpRetrofit {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> toSubscribe() {
+    public static <T> FlowableTransformer<T, T> toSubscribe() {
         return tObservable -> tObservable.subscribeOn(Schedulers.io())//访问网络切换异步线程
                 .unsubscribeOn(Schedulers.io())//销毁访问网络切换异步线程
                 .observeOn(AndroidSchedulers.mainThread()); //响应结果处理切换成主线程
@@ -198,7 +202,7 @@ public class HttpRetrofit {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<ResultBean<T>, T> toTransformer() {
+    public static <T> FlowableTransformer<ResultBean<T>, T> toTransformer() {
         return tObservable ->
                 tObservable.map(new HttpResultFunc<>())
                         .onErrorResumeNext(new HttpResponseFunc<>())
@@ -206,28 +210,35 @@ public class HttpRetrofit {
     }
 
     /**
-     *
      * @return
      */
-    public static Observable.Transformer<ResultBean, String> toStringTransformer() {
-        return tObservable ->
-                tObservable.map(httpResult -> {
-                    if (httpResult.isError()) {
-                        throw new RuntimeException(httpResult.getMsg());
+    public static FlowableTransformer<ResultBean, String> toStringTransformer() {
+        return new FlowableTransformer<ResultBean, String>() {
+            @Override
+            public Publisher<String> apply(Flowable<ResultBean> upstream) {
+                return upstream.map(new Function<ResultBean, String>() {
+                    @Override
+                    public String apply(ResultBean httpResult) throws Exception {
+                        if (httpResult.isError()) {
+                            throw new RuntimeException(httpResult.getMsg());
+                        }
+                        return httpResult.getMsg();
                     }
-                    return httpResult.getMsg();
                 }).onErrorResumeNext(new HttpResponseFunc<>())
                         .compose(toSubscribe());
+            }
+        };
     }
 
     /**
      * 异常处理
+     *
      * @param <T>
      */
-    private static class HttpResponseFunc<T> implements Func1<Throwable, Observable<T>> {
+    private static class HttpResponseFunc<T> implements Function<Throwable, Flowable<T>> {
         @Override
-        public Observable<T> call(Throwable t) {
-            return Observable.error(HttpExceptionHandle.handleException(t));
+        public Flowable<T> apply(Throwable throwable) throws Exception {
+            return Flowable.error(HttpExceptionHandle.handleException(throwable));
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.dalingge.gankio.network;
 
-import rx.Subscriber;
+
+import org.reactivestreams.Subscriber;
 
 /**
  * FileName: HttpResultSubscriber
@@ -8,10 +9,8 @@ import rx.Subscriber;
  * Author: 丁博洋
  * Date: 2016/9/10
  */
-public abstract class HttpResultSubscriber<T> extends Subscriber<T> {
-    @Override
-    public void onCompleted() {
-    }
+public abstract class HttpResultSubscriber<T> implements Subscriber<T> {
+
 
     @Override
     public void onError(Throwable e) {

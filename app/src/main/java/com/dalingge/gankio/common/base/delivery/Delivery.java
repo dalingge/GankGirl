@@ -4,8 +4,9 @@ import android.support.annotation.Nullable;
 
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
-import rx.Notification;
-import rx.functions.Action2;
+import io.reactivex.Notification;
+import io.reactivex.functions.BiConsumer;
+
 
 public final class Delivery<View, T> {
 
@@ -17,11 +18,14 @@ public final class Delivery<View, T> {
         this.notification = notification;
     }
 
-    public void split(Action2<View, T> onNext, @Nullable Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
-        if (notification.getKind() == Notification.Kind.OnNext)
-            onNext.call(view, notification.getValue());
-        else if (onError != null && notification.getKind() == Notification.Kind.OnError)
-            onError.call(view, (HttpExceptionHandle.ResponeThrowable)notification.getThrowable());
+    public void split(BiConsumer<View, T> onNext, @Nullable BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) throws Exception {
+        if (notification.isOnNext()) {
+            onNext.accept(view, notification.getValue());
+        }else if(notification.isOnError()) {
+            assert onError != null;
+            onError.accept(view,(HttpExceptionHandle.ResponeThrowable)notification.getError());
+        }
+
     }
 
     @Override

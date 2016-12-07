@@ -1,39 +1,41 @@
 package com.dalingge.gankio.common.base.delivery;
 
-import rx.Notification;
-import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.Func2;
+import org.reactivestreams.Publisher;
 
-public class DeliverLatestCache<View, T> implements Observable.Transformer<T, Delivery<View, T>> {
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.Notification;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Predicate;
 
-    private final Observable<View> view;
+public class DeliverLatestCache<View, T> implements FlowableTransformer<T, Delivery<View, T>> {
 
-    public DeliverLatestCache(Observable<View> view) {
+    private final Flowable<View> view;
+
+    public DeliverLatestCache(Flowable<View> view) {
         this.view = view;
     }
 
     @Override
-    public Observable<Delivery<View, T>> call(Observable<T> observable) {
-        return Observable.combineLatest(view, observable
-                                .materialize()
-                                .filter(new Func1<Notification<T>, Boolean>() {
-                                    @Override
-                                    public Boolean call(Notification<T> notification) {
-                                        return !notification.isOnCompleted();
-                                    }
-                                }),
-                        new Func2<View, Notification<T>, Delivery<View, T>>() {
+    public Publisher<Delivery<View, T>> apply(Flowable<T> upstream) {
+        return Flowable.combineLatest(view, upstream
+                        .materialize()
+                        .filter(new Predicate<Notification<T>>() {
                             @Override
-                            public Delivery<View, T> call(View view, Notification<T> notification) {
-                                return view == null ? null : new Delivery<>(view, notification);
+                            public boolean test(Notification<T> notification) throws Exception {
+                                return !notification.isOnComplete();
                             }
-                        })
-                .filter(new Func1<Delivery<View, T>, Boolean>() {
+                        }), new BiFunction<View, Notification<T>, Delivery<View, T>>() {
                     @Override
-                    public Boolean call(Delivery<View, T> delivery) {
-                        return delivery != null;
+                    public Delivery<View, T> apply(View view, Notification<T> notification) throws Exception {
+                        return view == null ? null : new Delivery<>(view, notification);
                     }
-                });
+                }
+        ).filter(new Predicate<Delivery<View, T>>() {
+            @Override
+            public boolean test(Delivery<View, T> delivery) throws Exception {
+                return delivery != null;
+            }
+        });
     }
 }

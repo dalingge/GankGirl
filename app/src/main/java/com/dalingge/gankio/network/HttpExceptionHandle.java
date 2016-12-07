@@ -5,6 +5,7 @@ import android.net.ParseException;
 import com.dalingge.gankio.GankApp;
 import com.dalingge.gankio.R;
 import com.google.gson.JsonParseException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
@@ -14,7 +15,7 @@ import java.net.SocketTimeoutException;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import retrofit2.adapter.rxjava.HttpException;
+
 
 /**
  * FileName: HttpExceptionHandle

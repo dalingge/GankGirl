@@ -1,35 +1,41 @@
 package com.dalingge.gankio.common.base.delivery;
 
-import rx.Notification;
-import rx.Observable;
-import rx.functions.Func1;
+import org.reactivestreams.Publisher;
 
-public class DeliverFirst<View, T> implements Observable.Transformer<T, Delivery<View, T>> {
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.Notification;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
-    private final Observable<View> view;
 
-    public DeliverFirst(Observable<View> view) {
+public class DeliverFirst<View, T> implements FlowableTransformer<T, Delivery<View, T>> {
+
+    private final Flowable<View> view;
+
+    public DeliverFirst(Flowable<View> view) {
         this.view = view;
     }
 
     @Override
-    public Observable<Delivery<View, T>> call(Observable<T> observable) {
-        return observable.materialize()
-            .take(1)
-            .switchMap(new Func1<Notification<T>, Observable<? extends Delivery<View, T>>>() {
+    public Publisher<Delivery<View, T>> apply(Flowable<T> upstream) {
+        return upstream
+                .materialize()
+                .take(1)
+                .switchMap(new Function<Notification<T>, Publisher<? extends Delivery<View, T>>>() {
+                    @Override
+                    public Publisher<? extends Delivery<View, T>> apply(Notification<T> notification) throws Exception {
+                        return view.map(new Function<View, Delivery<View, T>>() {
+                            @Override
+                            public Delivery<View, T> apply(View view) throws Exception {
+                                return view == null ? null : new Delivery<>(view, notification);
+                            }
+                        });
+                    }
+                })
+            .filter(new Predicate<Delivery<View, T>>() {
                 @Override
-                public Observable<? extends Delivery<View, T>> call(final Notification<T> notification) {
-                    return view.map(new Func1<View, Delivery<View, T>>() {
-                        @Override
-                        public Delivery<View, T> call(View view) {
-                            return view == null ? null : new Delivery<>(view, notification);
-                        }
-                    });
-                }
-            })
-            .filter(new Func1<Delivery<View, T>, Boolean>() {
-                @Override
-                public Boolean call(Delivery<View, T> delivery) {
+                public boolean test(Delivery<View, T> delivery) throws Exception {
                     return delivery != null;
                 }
             })

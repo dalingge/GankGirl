@@ -8,7 +8,7 @@ import com.dalingge.gankio.common.base.factory.PresenterFactory;
 import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
 import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
 import com.dalingge.gankio.common.widgets.tips.TipsHelper;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

@@ -9,17 +9,21 @@ import com.dalingge.gankio.common.base.delivery.DeliverFirst;
 import com.dalingge.gankio.common.base.delivery.DeliverLatestCache;
 import com.dalingge.gankio.common.base.delivery.DeliverReplay;
 import com.dalingge.gankio.common.base.delivery.Delivery;
+import com.dalingge.gankio.network.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
+
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 
-import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func0;
-import rx.subjects.BehaviorSubject;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiConsumer;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.disposables.ListCompositeDisposable;
+import io.reactivex.processors.BehaviorProcessor;
+
 
 /**
  * Created by dingboyang on 2016/11/7.
@@ -31,40 +35,40 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
 
     private static final String REQUESTED_KEY = BaseRxPresenter.class.getName() + "#requested";
 
-    private final BehaviorSubject<View> views = BehaviorSubject.create();
-    private final CompositeSubscription subscriptions = new CompositeSubscription();
+    private final BehaviorProcessor<View> views = BehaviorProcessor.create();
+    private final ListCompositeDisposable subscriptions = new ListCompositeDisposable ();
     // 可重复使用的函数
-    private final SparseArray<Func0<Subscription>> restartables = new SparseArray<>();
-    private final SparseArray<Subscription> restartableSubscriptions = new SparseArray<>();
+    private final SparseArray<Function0<Disposable>> restartables = new SparseArray<>();
+    private final SparseArray<Disposable > restartableSubscriptions = new SparseArray<>();
     // 工作中的订阅者们
     private final ArrayList<Integer> requested = new ArrayList<>();
 
     /**
-     * 返回 {@link rx.Observable} 释放当前的 view 或 null.
+     * 返回 {@link io.reactivex.Flowable } 释放当前的 view 或 null.
      *
      * @return 释放当前的 view 或 null.
      */
-    public Observable<View> view() {
+    public Flowable<View> view() {
         return views;
     }
 
     /**
      * 自动注册订阅退订在摧毁。
-     * See {@link CompositeSubscription#add(Subscription) for details.}
+     * See {@link ListCompositeDisposable#(Subscription) for details.}
      *
-     * @param subscription 添加定于
+     * @param disposable 添加定于
      */
-    public void add(Subscription subscription) {
-        subscriptions.add(subscription);
+    public void add(Disposable  disposable) {
+        subscriptions.add(disposable);
     }
 
     /**
      * 删除添加的订阅
      *
-     * @param subscription 订阅取消.
+     * @param disposable 订阅取消.
      */
-    public void remove(Subscription subscription) {
-        subscriptions.remove(subscription);
+    public void remove(Disposable  disposable) {
+        subscriptions.remove(disposable);
     }
 
     /**
@@ -75,7 +79,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param restartableId 重新开始的id
      * @param factory       重新开始的工厂
      */
-    public void restartable(int restartableId, Func0<Subscription> factory) {
+    public void restartable(int restartableId, Function0<Disposable> factory) {
         restartables.put(restartableId, factory);
         if (requested.contains(restartableId))
             start(restartableId);
@@ -86,10 +90,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      *
      * @param restartableId 重新请求ID
      */
-    public void start(int restartableId) {
+    public void start(int restartableId)  {
         stop(restartableId);
         requested.add(restartableId);
-        restartableSubscriptions.put(restartableId, restartables.get(restartableId).call());
+        restartableSubscriptions.put(restartableId, restartables.get(restartableId).apply());
     }
 
     /**
@@ -99,9 +103,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      */
     public void stop(int restartableId) {
         requested.remove((Integer) restartableId);
-        Subscription subscription = restartableSubscriptions.get(restartableId);
-        if (subscription != null)
-            subscription.unsubscribe();
+        Disposable disposable = restartableSubscriptions.get(restartableId);
+        if (disposable != null)
+            disposable.dispose();
     }
 
     /**
@@ -111,8 +115,8 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @return 如果订阅是null或unsubscribed 返回true 否则false 。
      */
     public boolean isUnsubscribed(int restartableId) {
-        Subscription subscription = restartableSubscriptions.get(restartableId);
-        return subscription == null || subscription.isUnsubscribed();
+        Disposable subscription = restartableSubscriptions.get(restartableId);
+        return subscription == null || subscription.isDisposed();
     }
 
     /**
@@ -123,13 +127,13 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableFirst(int restartableId, final Func0<Observable<T>> observableFactory,
-                                     final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
+    public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory,
+                                     final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
-        restartable(restartableId, new Func0<Subscription>() {
+        restartable(restartableId, new Function0<Disposable>() {
             @Override
-            public Subscription call() {
-                return observableFactory.call()
+            public Disposable apply() {
+                return observableFactory.apply()
                         .compose(BaseRxPresenter.this.deliverFirst())
                         .subscribe(split(onNext, onError));
             }
@@ -137,9 +141,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableFirst(int, Func0, Action2, Action2)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableFirst(int, Flowable, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableFirst(int restartableId, final Func0<Observable<T>> observableFactory, final Action2<View, T> onNext) {
+    public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableFirst(restartableId, observableFactory, onNext, null);
     }
 
@@ -151,13 +155,13 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableLatestCache(int restartableId, final Func0<Observable<T>> observableFactory,
-                                           final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
+    public <T> void restartableLatestCache(int restartableId, final Function0<Flowable<T>> observableFactory,
+                                           final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
-        restartable(restartableId, new Func0<Subscription>() {
+        restartable(restartableId, new Function0<Disposable>() {
             @Override
-            public Subscription call() {
-                return observableFactory.call()
+            public Disposable apply()  {
+                return observableFactory.apply()
                         .compose(BaseRxPresenter.this.deliverLatestCache())
                         .subscribe(split(onNext, onError));
             }
@@ -165,9 +169,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableLatestCache(int, Func0, Action2, Action2)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableLatestCache(int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableLatestCache(int restartableId, final Func0<Observable<T>> observableFactory, final Action2<View, T> onNext) {
+    public <T> void restartableLatestCache(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableLatestCache(restartableId, observableFactory, onNext, null);
     }
 
@@ -179,13 +183,13 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableReplay(int restartableId, final Func0<Observable<T>> observableFactory,
-                                      final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
+    public <T> void restartableReplay(int restartableId, final Function0<Flowable<T>> observableFactory,
+                                      final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
-        restartable(restartableId, new Func0<Subscription>() {
+        restartable(restartableId, new Function0<Disposable>() {
             @Override
-            public Subscription call() {
-                return observableFactory.call()
+            public Disposable apply() {
+                return observableFactory.apply()
                         .compose(BaseRxPresenter.this.deliverReplay())
                         .subscribe(split(onNext, onError));
             }
@@ -193,9 +197,9 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableReplay(int, Func0, Action2, Action2)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableReplay(int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableReplay(int restartableId, final Func0<Observable<T>> observableFactory, final Action2<View, T> onNext) {
+    public <T> void restartableReplay(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableReplay(restartableId, observableFactory, onNext, null);
     }
 
@@ -230,26 +234,26 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
 
     /**
      * 返回一个方法,可以用于手动可重新起动的链构建.它返回一个Action1
-     * 将收到的{@link Delivery}分为两个{@link Action2} onNext和onError调用。
+     * 将收到的{@link Delivery}分为两个{@link BiConsumer} onNext和onError调用。
      *
      * @param onNext  方法将调用如果交付包含一个发出下一个值。
      * @param onError 这种方法被称为throwable如果交付包含一个错误。
      * @param <T>     一个类型的值。
      * @return 一个新Action1
      */
-    public <T> Action1<Delivery<View, T>> split(final Action2<View, T> onNext, @Nullable final Action2<View, HttpExceptionHandle.ResponeThrowable> onError) {
-        return new Action1<Delivery<View, T>>() {
+    public <T> Consumer<Delivery<View, T>> split(final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
+        return new Consumer<Delivery<View, T>>() {
             @Override
-            public void call(Delivery<View, T> delivery) {
+            public void accept(Delivery<View, T> delivery) throws Exception {
                 delivery.split(onNext, onError);
             }
         };
     }
 
     /**
-     * This is a shortcut for calling {@link #split(Action2, Action2)} when the second parameter is null.
+     * This is a shortcut for calling {@link #(Consumer, BiConsumer)} when the second parameter is null.
      */
-    public <T> Action1<Delivery<View, T>> split(Action2<View, T> onNext) {
+    public <T> Consumer<Delivery<View, T>> split(BiConsumer<View, T> onNext) {
         return split(onNext, null);
     }
 
@@ -269,11 +273,11 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     @CallSuper
     @Override
     protected void onDestroy() {
-        views.onCompleted();
-        subscriptions.unsubscribe();
+        views.onComplete();
+        subscriptions.dispose();
         for (int i = 0; i < requested.size(); i++) {
             int restartableId = requested.get(i);
-            restartableSubscriptions.get(restartableId).unsubscribe();
+            restartableSubscriptions.get(restartableId).dispose();
         }
     }
 
@@ -285,8 +289,8 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     protected void onSave(Bundle state) {
         for (int i = requested.size() - 1; i >= 0; i--) {
             int restartableId = requested.get(i);
-            Subscription subscription = restartableSubscriptions.get(restartableId);
-            if (subscription != null && subscription.isUnsubscribed())
+            Disposable disposable = restartableSubscriptions.get(restartableId);
+            if (disposable != null && disposable.isDisposed())
                 requested.remove(i);
         }
         state.putIntegerArrayList(REQUESTED_KEY, requested);

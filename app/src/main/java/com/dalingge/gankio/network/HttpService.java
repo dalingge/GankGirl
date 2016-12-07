@@ -6,12 +6,12 @@ import com.dalingge.gankio.common.bean.ResultBean;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * FileName: HttpService
@@ -22,17 +22,17 @@ import rx.Observable;
 public interface HttpService {
 
     @GET("data/{type}/" + Constants.PAZE_SIZE + "/{page}")
-    Observable<ResultBean<List<GankBean>>> getData(
+    Flowable<ResultBean<List<GankBean>>> getData(
             @Path("type") String type,
             @Path("page") int page);
 
     @GET("random/data/Android/{count}")
-    Observable<ResultBean<List<GankBean>>> getRandomImage(
+    Flowable<ResultBean<List<GankBean>>> getRandomImage(
             @Path("count") int count);
 
     @FormUrlEncoded
     @POST("add2gank")
-    Observable<ResultBean> submit(
+    Flowable<ResultBean> submit(
             @Field("url") String url,
             @Field("desc") String desc,
             @Field("who") String who,
@@ -40,7 +40,7 @@ public interface HttpService {
             @Field("debug") boolean debug);
 
     @GET("search/query/{info}/category/all/count/" + Constants.PAZE_SIZE + "/page/{page} ")
-    Observable<ResultBean<List<GankBean>>> getSearchQuery(
+    Flowable<ResultBean<List<GankBean>>> getSearchQuery(
             @Path("info") String info,
             @Path("page") int page);
 }
