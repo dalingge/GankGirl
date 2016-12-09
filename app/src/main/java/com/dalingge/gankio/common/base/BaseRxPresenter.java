@@ -5,11 +5,11 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
-import com.dalingge.gankio.common.base.delivery.DeliverFirst;
-import com.dalingge.gankio.common.base.delivery.DeliverLatestCache;
-import com.dalingge.gankio.common.base.delivery.DeliverReplay;
-import com.dalingge.gankio.common.base.delivery.Delivery;
-import com.dalingge.gankio.network.Function0;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverFirst;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverLatestCache;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverReplay;
+import com.dalingge.gankio.common.rxjava.delivery.Delivery;
+import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import org.reactivestreams.Subscription;
@@ -127,7 +127,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param <T>               可观察类型
      */
     public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory,
-                                     final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
+                                          final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Function0<Disposable>() {
             @Override
