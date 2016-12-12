@@ -16,6 +16,7 @@ public class TestPresenter extends BaseRxPresenter<TestActivity> {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
+
 //        restartableReplay(REQUEST_ITEMS,
 //                new Func0<Observable<List<GankBean>>>() {
 //                    @Override

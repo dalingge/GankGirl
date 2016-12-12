@@ -4,8 +4,7 @@ import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
-import com.dalingge.gankio.module.home.gank.GankFragment;
-import com.dalingge.gankio.network.Function0;
+import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 import com.dalingge.gankio.network.HttpRetrofit;
 import com.dalingge.gankio.network.RetryWhenNetworkException;

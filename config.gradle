@@ -29,6 +29,11 @@ ext {
     def rxNettyVersion = "0.5.2-RC1"
     def rvAnimatorsVer = "2.2.3"
 
+    def retrofitRxJava2Version = "1.0.0"
+    def rxJava2Version = "x.y.z"
+    def rxAndroid2Version = "2.0.1"
+    def rxLifecycle2Version = "2.0.1"
+
     dependencies = [
 
         // Android support library
@@ -47,7 +52,7 @@ ext {
         //dagger
         Dagger2                 : "com.google.dagger:dagger:$dagger2Version",
         Dagger2AptCompiler      : "com.google.dagger:dagger-compiler:$dagger2Version",
-        // Rx ..
+        // Rx1 ..
         RxJava                  : "io.reactivex:rxjava:$rxJavaVersion",
         RxAndroid               : "io.reactivex:rxandroid:$rxAndroidVersion",
         RxPermission            : "com.tbruyelle.rxpermissions:rxpermissions:$rxPermission",
@@ -59,12 +64,19 @@ ext {
         RxLifecycle             : "com.trello:rxlifecycle:$rxLifecycleVersion",
         RxLifecycleComponents   : "com.trello:rxlifecycle-components:$rxLifecycleVersion",
         RxNetty                 : "io.reactivex:rxnetty-tcp:$rxNettyVersion",
+        // Rx2 ..
+        RxJava2                 : "io.reactivex.rxjava2:rxjava:$rxJava2Version",
+        RxAndroid2              : "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version",
+        RxLifecycle2            : "com.trello.rxlifecycle2:rxlifecycle:$rxLifecycle2Version",
+        RxLifecycle2Android     : "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifecycle2Version",
+        RxLifecycle2Components  : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Version",
         // Network
         Okttp                   : "com.squareup.okhttp3:okhttp:$okHttpVersion",
         Okio                    : "com.squareup.okio:okio:$okioVersion",
         Retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
         RetrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
         RetrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+        RetrofitAdapterRxJava2  : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofitRxJava2Version",
         OkHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
         Gson                    : "com.google.code.gson:gson:$gsonVersion",
 

@@ -1,4 +1,4 @@
-package com.dalingge.gankio.network;
+package com.dalingge.gankio.common.rxjava;
 
 /**
  * Created by dingboyang on 2016/12/7.

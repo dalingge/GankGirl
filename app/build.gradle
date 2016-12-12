@@ -2,23 +2,23 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 //apply plugin: 'realm-android'
 
-//def gitVersionCode() {
-//    def cmd = 'git rev-list HEAD --first-parent --count'
-//    cmd.execute().text.trim().toInteger()
-//}
+def gitVersionCode() {
+    def cmd = 'git rev-list HEAD --first-parent --count'
+    cmd.execute().text.trim().toInteger()
+}
 
-//def gitVersionTag() {
-//    def cmd = 'git describe --tags'
-//    def version = cmd.execute().text.trim()
-//    def pattern = "-(\\d+)-g"
-//    def matcher = version =~ pattern
-//    if (matcher) {
-//        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
-//    } else {
-//        version = version + ".0"
-//    }
-//    return version
-//}
+def gitVersionTag() {
+    def cmd = 'git describe --tags'
+    def version = cmd.execute().text.trim()
+    def pattern = "-(\\d+)-g"
+    def matcher = version =~ pattern
+    if (matcher) {
+        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
+    } else {
+        version = version + ".0"
+    }
+    return version
+}
 
 android {
     def app = rootProject.ext.android
@@ -56,12 +56,12 @@ android {
         }
     }
 
-//    applicationVariants.all { variant ->
-//        if (variant.buildType.name.equals('release')) {
-//            variant.mergedFlavor.versionCode = gitVersionCode()
-//            variant.mergedFlavor.versionName = gitVersionTag()
-//        }
-//    }
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equals('release')) {
+            variant.mergedFlavor.versionCode = gitVersionCode()
+            variant.mergedFlavor.versionName = gitVersionTag()
+        }
+    }
 }
 
 dependencies {
@@ -77,27 +77,13 @@ dependencies {
     compile rootProject.ext.dependencies["GlideOkHttp"]
     compile rootProject.ext.dependencies["Retrofit"]
     compile rootProject.ext.dependencies["RetrofitConverterGson"]
-    //compile rootProject.ext.dependencies["RetrofitAdapterRxJava"]
-    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    compile rootProject.ext.dependencies["RetrofitAdapterRxJava2"]
     compile rootProject.ext.dependencies["OkHttpLoggingInterceptor"]
-//    compile rootProject.ext.dependencies["RxJava"]
-//    compile rootProject.ext.dependencies["RxAndroid"]
-    //RxJava的依赖包（我使用的最新版本）
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
-    //RxAndroid的依赖包
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-//    compile rootProject.ext.dependencies["RxBinding"]
-//    compile rootProject.ext.dependencies["RxBindingSupportV4"]
-//    compile rootProject.ext.dependencies["RxBindingSupportV7"]
-//    compile rootProject.ext.dependencies["RxLifecycle"]
-//    compile rootProject.ext.dependencies["RxLifecycleComponents"]
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
-
-// If you want to bind to Android-specific lifecycles
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
-
-// If you want pre-written Activities and Fragments you can subclass as providers
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+    compile rootProject.ext.dependencies["RxJava2"]
+    compile rootProject.ext.dependencies["RxAndroid2"]
+    compile rootProject.ext.dependencies["RxLifecycle2"]
+    compile rootProject.ext.dependencies["RxLifecycle2Android"]
+    compile rootProject.ext.dependencies["RxLifecycle2Components"]
     compile rootProject.ext.dependencies["Umeng"]
     testCompile 'junit:junit:4.12'
 }

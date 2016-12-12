@@ -5,11 +5,11 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
-import com.dalingge.gankio.common.base.delivery.DeliverFirst;
-import com.dalingge.gankio.common.base.delivery.DeliverLatestCache;
-import com.dalingge.gankio.common.base.delivery.DeliverReplay;
-import com.dalingge.gankio.common.base.delivery.Delivery;
-import com.dalingge.gankio.network.Function0;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverFirst;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverLatestCache;
+import com.dalingge.gankio.common.rxjava.delivery.DeliverReplay;
+import com.dalingge.gankio.common.rxjava.delivery.Delivery;
+import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import org.reactivestreams.Subscription;
@@ -20,7 +20,6 @@ import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.internal.disposables.ListCompositeDisposable;
 import io.reactivex.processors.BehaviorProcessor;
 
@@ -115,8 +114,8 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @return 如果订阅是null或unsubscribed 返回true 否则false 。
      */
     public boolean isUnsubscribed(int restartableId) {
-        Disposable subscription = restartableSubscriptions.get(restartableId);
-        return subscription == null || subscription.isDisposed();
+        Disposable disposable = restartableSubscriptions.get(restartableId);
+        return disposable == null || disposable.isDisposed();
     }
 
     /**
@@ -128,7 +127,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param <T>               可观察类型
      */
     public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory,
-                                     final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
+                                          final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Function0<Disposable>() {
             @Override
@@ -141,7 +140,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableFirst(int, Flowable, BiConsumer, BiConsumer)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableFirst (int, Flowable, BiConsumer, BiConsumer)} with the last parameter = null.
      */
     public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableFirst(restartableId, observableFactory, onNext, null);
@@ -169,7 +168,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableLatestCache(int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableLatestCache (int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
     public <T> void restartableLatestCache(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableLatestCache(restartableId, observableFactory, onNext, null);
@@ -197,7 +196,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     }
 
     /**
-     * This is a shortcut for calling {@link #restartableReplay(int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
+     * This is a shortcut for calling {@link #restartableReplay (int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
     public <T> void restartableReplay(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableReplay(restartableId, observableFactory, onNext, null);
