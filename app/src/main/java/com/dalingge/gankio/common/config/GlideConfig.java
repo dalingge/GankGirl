@@ -10,6 +10,8 @@ import com.bumptech.glide.module.GlideModule;
 
 import java.io.InputStream;
 
+import okhttp3.OkHttpClient;
+
 /**
  * FileName: GlideConfig.java
  * description:
@@ -31,7 +33,7 @@ public class GlideConfig implements GlideModule {
     @Override
     public void registerComponents(Context context, Glide glide) {
         // 配置使用OKHttp3来请求网络
-        glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
+        glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(new OkHttpClient()));
     }
 
 }

@@ -1,6 +1,5 @@
 package com.dalingge.gankio.common.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -46,9 +45,9 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
             }
         }
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            toolbar.setElevation(10.6f);
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            toolbar.setElevation(10.6f);
+//        }
     }
 
     @Override

@@ -4,7 +4,7 @@
     <color name="primary">#557cac</color>
     <color name="primary_dark">#446389</color>
     <color name="primary_light">#FFCCBC</color>
-    <color name="accent">#FF4081</color>
+    <color name="accent">#FF9C26</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
@@ -156,4 +156,9 @@
 
     <!-- search -->
     <color name="dialog_background">#7f000000</color>
+
+
+    <color name="login_background_start_color">#557cac</color>
+    <color name="login_background_middle_color">#45B3C3</color>
+    <color name="login_background_end_color">#6082B4</color>
 </resources>
