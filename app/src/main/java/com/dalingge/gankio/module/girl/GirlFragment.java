@@ -1,12 +1,14 @@
 package com.dalingge.gankio.module.girl;
 
 
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +19,7 @@ import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.common.utils.DensityUtils;
 import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
 import com.dalingge.gankio.module.girl.imagepager.ImagePagerActivity;
@@ -83,6 +86,47 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
             }
         };
         recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = -DensityUtils.dip2px(view.getContext(), 10);
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int firstPosition = layoutManager.findFirstVisibleItemPosition();
+                int lastPosition = layoutManager.findLastVisibleItemPosition();
+                int visibleCount = lastPosition - firstPosition;
+                //重置控件的位置及高度
+                int elevation = 1;
+                for (int i = firstPosition - 1; i <= (firstPosition + visibleCount) + 1; i++) {
+                    View view = layoutManager.findViewByPosition(i);
+                    if (view != null) {
+                        if (view instanceof CardView) {
+                            ((CardView) view).setCardElevation(DensityUtils.dip2px(recyclerView.getContext(), elevation));
+                            elevation += 5;
+                        }
+                        float translationY = view.getTranslationY();
+                        if (i > firstPosition && translationY != 0) {
+                            view.setTranslationY(0);
+                        }
+                    }
+                }
+
+                View firstView = layoutManager.findViewByPosition(firstPosition);
+                float firstViewTop = firstView.getTop();
+                firstView.setTranslationY(-firstViewTop / 2.0f);
+            }
+        });
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(mGirlAdapter));
 
