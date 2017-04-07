@@ -119,12 +119,9 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements  Ga
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         if (isFirstPage()) {
-            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getTipsHelper().showLoading(true);
-                    onRefreshing();
-                }
+            getTipsHelper().showError(true, responeThrowable.message, v ->  {
+                getTipsHelper().showLoading(true);
+                onRefreshing();
             });
         } else {
             superRefreshLayout.onLoadComplete();

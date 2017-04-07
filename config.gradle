@@ -3,15 +3,15 @@ ext {
         compileSdkVersion: 25,
         buildToolsVersion: "25.0.2",
         applicationId    : "com.dalingge.gankio",
-        minSdkVersion    : 19, // Android 4.1
+        minSdkVersion    : 19, // Android 4.4
         targetSdkVersion : 25,
         versionCode      : 4,
-        versionName      : "1.2.1",
+        versionName      : "2.0.1",
         resConfigs       : "zh"
     ]
 
 
-    def supportVersion = "25.3.0"
+    def supportVersion = "25.0.0"
     def butterKnifeVersion = "8.4.0"
     def glideVersion = "3.7.0"
     def glideOkhttpVer = "1.4.0@aar"

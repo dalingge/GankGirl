@@ -79,7 +79,7 @@
 
         <provider
             android:name=".module.girl.imagepager.ImageFileProvider"
-            android:authorities="com.dalingge.gankio.images"
+            android:authorities="${applicationId}.images"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

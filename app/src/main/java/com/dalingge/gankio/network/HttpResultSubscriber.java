@@ -1,7 +1,7 @@
 package com.dalingge.gankio.network;
 
 
-import org.reactivestreams.Subscriber;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * FileName: HttpResultSubscriber
@@ -9,7 +9,7 @@ import org.reactivestreams.Subscriber;
  * Author: 丁博洋
  * Date: 2016/9/10
  */
-public abstract class HttpResultSubscriber<T> implements Subscriber<T> {
+public abstract class HttpResultSubscriber<T> extends DisposableObserver<T> {
 
 
     @Override

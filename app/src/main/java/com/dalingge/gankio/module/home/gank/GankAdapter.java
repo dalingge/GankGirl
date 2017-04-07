@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.bean.GankBean;
@@ -33,10 +32,9 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<GankBean> mData;
     private OnItemClickListener mOnItemClickListener;
-    private RequestManager glideRequest;
+
     public GankAdapter(Context context, ArrayList<GankBean> data) {
         this.mContext = context;
-        glideRequest = Glide.with(mContext);
         this.mData = data;
         for (int i = 0; i < mData.size(); i++) {
             addItem(i, mData.get(i));
