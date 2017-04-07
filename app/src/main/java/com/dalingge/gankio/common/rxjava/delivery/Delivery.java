@@ -2,9 +2,11 @@ package com.dalingge.gankio.common.rxjava.delivery;
 
 import android.support.annotation.Nullable;
 
+import com.dalingge.gankio.common.base.view.OptionalView;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import io.reactivex.Notification;
+import io.reactivex.Observable;
 import io.reactivex.functions.BiConsumer;
 
 
@@ -16,6 +18,17 @@ public final class Delivery<View, T> {
     public Delivery(View view, Notification<T> notification) {
         this.view = view;
         this.notification = notification;
+    }
+
+    public static boolean isValid(OptionalView<?> view, Notification<?> notification) {
+        return view.view != null &&
+                (notification.isOnNext() || notification.isOnError());
+    }
+
+    public static <View, T> Observable<Delivery<View, T>> validObservable(OptionalView<View> view, Notification<T> notification) {
+        return isValid(view, notification) ?
+                Observable.just(new Delivery<>(view.view, notification)) :
+                Observable.<Delivery<View, T>>empty();
     }
 
     public void split(BiConsumer<View, T> onNext, @Nullable BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) throws Exception {

@@ -5,7 +5,7 @@ import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 
@@ -15,7 +15,7 @@ import io.reactivex.functions.Function;
  * Author: 丁博洋
  * Date: 2016/9/10
  */
-public class RetryWhenNetworkException implements Function<Flowable<? extends Throwable>, Flowable<?>> {
+public class RetryWhenNetworkException implements Function<Observable<? extends Throwable>, Observable<?>> {
     private int count = 3;//retry count
     private long delay = 3000;//delay time
 
@@ -33,8 +33,8 @@ public class RetryWhenNetworkException implements Function<Flowable<? extends Th
     }
 
     @Override
-    public Flowable<?> apply(Flowable<? extends Throwable> flowable) throws Exception {
-        return flowable.zipWith(Flowable.range(1, count + 1), new BiFunction<Throwable, Integer, Wrapper>() {
+    public Observable<?> apply(Observable<? extends Throwable> flowable) throws Exception {
+        return flowable.zipWith(Observable.range(1, count + 1), new BiFunction<Throwable, Integer, Wrapper>() {
             @Override
             public Wrapper apply(Throwable throwable, Integer integer) throws Exception {
                 return new Wrapper(throwable, integer);
@@ -44,9 +44,9 @@ public class RetryWhenNetworkException implements Function<Flowable<? extends Th
                     || wrapper.throwable instanceof SocketTimeoutException
                     || wrapper.throwable instanceof TimeoutException)
                     && wrapper.index < count + 1) {
-                return Flowable.timer(delay + (wrapper.index - 1) * delay, TimeUnit.MILLISECONDS);
+                return Observable.timer(delay + (wrapper.index - 1) * delay, TimeUnit.MILLISECONDS);
             }
-            return Flowable.error(wrapper.throwable);
+            return Observable.error(wrapper.throwable);
         } );
     }
 

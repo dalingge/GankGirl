@@ -1,55 +1,51 @@
 package com.dalingge.gankio.common.rxjava.delivery;
 
-import org.reactivestreams.Publisher;
+import com.dalingge.gankio.common.base.view.OptionalView;
 
-import io.reactivex.Flowable;
-import io.reactivex.FlowableTransformer;
 import io.reactivex.Notification;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.processors.ReplayProcessor;
+import io.reactivex.subjects.ReplaySubject;
+
+import static com.dalingge.gankio.common.rxjava.delivery.Delivery.validObservable;
 
 
-public class DeliverReplay<View, T> implements FlowableTransformer<T, Delivery<View, T>> {
+public class DeliverReplay<View, T> implements ObservableTransformer<T, Delivery<View, T>> {
 
-    private final Flowable<View> view;
+    private final Observable<OptionalView<View>> view;
 
-    public DeliverReplay(Flowable<View> view) {
+    public DeliverReplay(Observable<OptionalView<View>> view) {
         this.view = view;
     }
 
     @Override
-    public Publisher<Delivery<View, T>> apply(Flowable<T> upstream) {
-        final ReplayProcessor<Notification<T>> subject = ReplayProcessor.create();
-
-        upstream
+    public Observable<Delivery<View, T>> apply(Observable<T> observable) {
+        final ReplaySubject<Notification<T>> subject = ReplaySubject.create();
+        final Disposable disposable = observable
                 .materialize()
-                .filter(new Predicate<Notification<T>>() {
-                    @Override
-                    public boolean test(Notification<T> notification) throws Exception {
-                        return !notification.isOnComplete();
-                    }
-                })
-                .subscribe(subject);
-
+                .doOnEach(subject)
+                .subscribe();
         return view
-                .switchMap(new Function<View, Publisher<? extends Delivery<View, T>>>() {
+                .switchMap(new Function<OptionalView<View>, ObservableSource<Delivery<View, T>>>() {
                     @Override
-                    public Publisher<? extends Delivery<View, T>> apply(View view) throws Exception {
-                        return view == null ? Flowable.never() : subject
-                                .map(new Function<Notification<T>, Delivery<View, T>>() {
+                    public Observable<Delivery<View, T>> apply(final OptionalView<View> view) throws Exception {
+                        return subject
+                                .concatMap(new Function<Notification<T>, ObservableSource<Delivery<View, T>>>() {
                                     @Override
-                                    public Delivery<View, T> apply(Notification<T> notification) throws Exception {
-                                        return new Delivery<>(view, notification);
+                                    public ObservableSource<Delivery<View, T>> apply(Notification<T> notification) throws Exception {
+                                        return validObservable(view, notification);
                                     }
                                 });
                     }
                 })
-                .doOnCancel(new Action() {
+                .doOnDispose(new Action() {
                     @Override
-                     public void run() throws Exception {
-//                         disposable.dispose();
+                    public void run() {
+                        disposable.dispose();
                     }
                 });
     }

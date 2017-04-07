@@ -23,7 +23,7 @@ import io.reactivex.subjects.PublishSubject;
 public class RxPermissions {
 
     static final String TAG = "RxPermissions";
-    static final Object TRIGGER = new Object();
+    private static final Object TRIGGER = new Object();
 
     RxPermissionsFragment mRxPermissionsFragment;
 

@@ -1,41 +1,47 @@
 package com.dalingge.gankio.common.rxjava.delivery;
 
-import org.reactivestreams.Publisher;
+import com.dalingge.gankio.common.base.view.OptionalView;
 
-import io.reactivex.Flowable;
-import io.reactivex.FlowableTransformer;
 import io.reactivex.Notification;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
-public class DeliverLatestCache<View, T> implements FlowableTransformer<T, Delivery<View, T>> {
+public class DeliverLatestCache<View, T> implements ObservableTransformer<T, Delivery<View, T>> {
 
-    private final Flowable<View> view;
+    private final Observable<OptionalView<View>> view;
 
-    public DeliverLatestCache(Flowable<View> view) {
+    public DeliverLatestCache(Observable<OptionalView<View>> view) {
         this.view = view;
     }
 
     @Override
-    public Publisher<Delivery<View, T>> apply(Flowable<T> upstream) {
-        return Flowable.combineLatest(view, upstream
-                        .materialize()
-                        .filter(new Predicate<Notification<T>>() {
+    public ObservableSource<Delivery<View, T>> apply(Observable<T> observable) {
+        return Observable
+                .combineLatest(
+                        view,
+                        observable
+                                .materialize()
+                                .filter(new Predicate<Notification<T>>() {
+                                    @Override
+                                    public boolean test(Notification<T> notification) throws Exception {
+                                        return !notification.isOnComplete();
+                                    }
+                                }),
+                        new BiFunction<OptionalView<View>, Notification<T>, Object[]>() {
                             @Override
-                            public boolean test(Notification<T> notification) throws Exception {
-                                return !notification.isOnComplete();
+                            public Object[] apply(OptionalView<View> view, Notification<T> notification) throws Exception {
+                                return new Object[]{view, notification};
                             }
-                        }), new BiFunction<View, Notification<T>, Delivery<View, T>>() {
+                        })
+                .concatMap(new Function<Object[], ObservableSource<Delivery<View, T>>>() {
                     @Override
-                    public Delivery<View, T> apply(View view, Notification<T> notification) throws Exception {
-                        return view == null ? null : new Delivery<>(view, notification);
+                    public ObservableSource<Delivery<View, T>> apply(Object[] pack) throws Exception {
+                        return Delivery.validObservable((OptionalView<View>) pack[0], (Notification<T>) pack[1]);
                     }
-                }
-        ).filter(new Predicate<Delivery<View, T>>() {
-            @Override
-            public boolean test(Delivery<View, T> delivery) throws Exception {
-                return delivery != null;
-            }
-        });
+                });
     }
 }

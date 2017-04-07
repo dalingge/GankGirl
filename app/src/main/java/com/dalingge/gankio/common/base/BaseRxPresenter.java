@@ -5,23 +5,25 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
+import com.dalingge.gankio.common.base.view.OptionalView;
+import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverFirst;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverLatestCache;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverReplay;
 import com.dalingge.gankio.common.rxjava.delivery.Delivery;
-import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.disposables.ListCompositeDisposable;
-import io.reactivex.processors.BehaviorProcessor;
+import io.reactivex.subjects.BehaviorSubject;
 
 
 /**
@@ -34,11 +36,11 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
 
     private static final String REQUESTED_KEY = BaseRxPresenter.class.getName() + "#requested";
 
-    private final BehaviorProcessor<View> views = BehaviorProcessor.create();
-    private final ListCompositeDisposable subscriptions = new ListCompositeDisposable ();
+    private final BehaviorSubject<OptionalView<View>> views = BehaviorSubject.create();
+    private final CompositeDisposable disposables = new CompositeDisposable ();
     // 可重复使用的函数
     private final SparseArray<Function0<Disposable>> restartables = new SparseArray<>();
-    private final SparseArray<Disposable > restartableSubscriptions = new SparseArray<>();
+    private final SparseArray<Disposable > restartableDisposables = new SparseArray<>();
     // 工作中的订阅者们
     private final ArrayList<Integer> requested = new ArrayList<>();
 
@@ -47,7 +49,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      *
      * @return 释放当前的 view 或 null.
      */
-    public Flowable<View> view() {
+    public Observable<OptionalView<View>> view() {
         return views;
     }
 
@@ -58,7 +60,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param disposable 添加定于
      */
     public void add(Disposable  disposable) {
-        subscriptions.add(disposable);
+        this.disposables.add(disposable);
     }
 
     /**
@@ -67,7 +69,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param disposable 订阅取消.
      */
     public void remove(Disposable  disposable) {
-        subscriptions.remove(disposable);
+        this.disposables.remove(disposable);
     }
 
     /**
@@ -92,7 +94,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     public void start(int restartableId)  {
         stop(restartableId);
         requested.add(restartableId);
-        restartableSubscriptions.put(restartableId, restartables.get(restartableId).apply());
+        restartableDisposables.put(restartableId, restartables.get(restartableId).apply());
     }
 
     /**
@@ -102,7 +104,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      */
     public void stop(int restartableId) {
         requested.remove((Integer) restartableId);
-        Disposable disposable = restartableSubscriptions.get(restartableId);
+        Disposable disposable = restartableDisposables.get(restartableId);
         if (disposable != null)
             disposable.dispose();
     }
@@ -114,7 +116,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @return 如果订阅是null或unsubscribed 返回true 否则false 。
      */
     public boolean isUnsubscribed(int restartableId) {
-        Disposable disposable = restartableSubscriptions.get(restartableId);
+        Disposable disposable = restartableDisposables.get(restartableId);
         return disposable == null || disposable.isDisposed();
     }
 
@@ -126,7 +128,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory,
+    public <T> void restartableFirst(int restartableId, final Function0<Observable<T>> observableFactory,
                                           final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Function0<Disposable>() {
@@ -142,7 +144,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableFirst (int, Flowable, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableFirst(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableFirst(int restartableId, final Function0<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableFirst(restartableId, observableFactory, onNext, null);
     }
 
@@ -154,7 +156,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableLatestCache(int restartableId, final Function0<Flowable<T>> observableFactory,
+    public <T> void restartableLatestCache(int restartableId, final Function0<Observable<T>> observableFactory,
                                            final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Function0<Disposable>() {
@@ -170,7 +172,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableLatestCache (int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableLatestCache(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableLatestCache(int restartableId, final Function0<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableLatestCache(restartableId, observableFactory, onNext, null);
     }
 
@@ -182,7 +184,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
      * @param onError           回调错误到onError。
      * @param <T>               可观察类型
      */
-    public <T> void restartableReplay(int restartableId, final Function0<Flowable<T>> observableFactory,
+    public <T> void restartableReplay(int restartableId, final Function0<Observable<T>> observableFactory,
                                       final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, HttpExceptionHandle.ResponeThrowable> onError) {
 
         restartable(restartableId, new Function0<Disposable>() {
@@ -198,7 +200,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableReplay (int, Function, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableReplay(int restartableId, final Function0<Flowable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableReplay(int restartableId, final Function0<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableReplay(restartableId, observableFactory, onNext, null);
     }
 
@@ -273,10 +275,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     @Override
     protected void onDestroy() {
         views.onComplete();
-        subscriptions.dispose();
+        disposables.dispose();
         for (int i = 0; i < requested.size(); i++) {
             int restartableId = requested.get(i);
-            restartableSubscriptions.get(restartableId).dispose();
+            restartableDisposables.get(restartableId).dispose();
         }
     }
 
@@ -288,7 +290,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     protected void onSave(Bundle state) {
         for (int i = requested.size() - 1; i >= 0; i--) {
             int restartableId = requested.get(i);
-            Disposable disposable = restartableSubscriptions.get(restartableId);
+            Disposable disposable = restartableDisposables.get(restartableId);
             if (disposable != null && disposable.isDisposed())
                 requested.remove(i);
         }
@@ -301,7 +303,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     @CallSuper
     @Override
     protected void onTakeView(View view) {
-        views.onNext(view);
+        views.onNext(new OptionalView<>(view));
     }
 
     /**
@@ -310,7 +312,7 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     @CallSuper
     @Override
     protected void onDropView() {
-        views.onNext(null);
+        views.onNext(new OptionalView<View>(null));
     }
 
 

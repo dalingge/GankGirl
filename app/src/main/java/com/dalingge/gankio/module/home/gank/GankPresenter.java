@@ -11,7 +11,7 @@ import com.dalingge.gankio.network.RetryWhenNetworkException;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.functions.BiConsumer;
 
 /**
@@ -27,27 +27,28 @@ public class GankPresenter extends BaseRxPresenter<GankFragment> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        restartableFirst(REQUEST_ITEMS, new Function0<Flowable<List<GankBean>>>() {
-            @Override
-            public Flowable<List<GankBean>> apply(){
-                return HttpRetrofit.getInstance().apiService.getData(type, page)
-                        .compose(HttpRetrofit.toTransformer())
-                        .retryWhen(new RetryWhenNetworkException());
-            }
-        }, new BiConsumer<GankFragment, List<GankBean>>() {
-            @Override
-            public void accept(GankFragment gankFragment, List<GankBean> gankBeanList) throws Exception {
-                gankFragment.onAddData(gankBeanList);
-            }
-        }, new BiConsumer<GankFragment, HttpExceptionHandle.ResponeThrowable>() {
-            @Override
-            public void accept(GankFragment gankFragment, HttpExceptionHandle.ResponeThrowable responeThrowable) throws Exception {
-                gankFragment.onNetworkError(responeThrowable);
-            }
-        });
+        restartableFirst(REQUEST_ITEMS,
+                new Function0<Observable<List<GankBean>>>() {
+                    @Override
+                    public Observable<List<GankBean>> apply() {
+                        return HttpRetrofit.getInstance().apiService.getData(type, page)
+                                .compose(HttpRetrofit.toTransformer())
+                                .retryWhen(new RetryWhenNetworkException());
+                    }
+                }, new BiConsumer<GankFragment, List<GankBean>>() {
+                    @Override
+                    public void accept(GankFragment gankFragment, List<GankBean> gankBeanList) throws Exception {
+                        gankFragment.onAddData(gankBeanList);
+                    }
+                }, new BiConsumer<GankFragment, HttpExceptionHandle.ResponeThrowable>() {
+                    @Override
+                    public void accept(GankFragment gankFragment, HttpExceptionHandle.ResponeThrowable responeThrowable) throws Exception {
+                        gankFragment.onNetworkError(responeThrowable);
+                    }
+                });
     }
 
-    void request( String type, int page) {
+    void request(String type, int page) {
         this.type = type;
         this.page = page;
         start(REQUEST_ITEMS);

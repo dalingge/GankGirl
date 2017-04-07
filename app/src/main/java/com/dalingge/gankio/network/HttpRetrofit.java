@@ -11,8 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import org.reactivestreams.Publisher;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +28,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
-import io.reactivex.Flowable;
-import io.reactivex.FlowableTransformer;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -191,7 +190,7 @@ public class HttpRetrofit {
      * @param <T>
      * @return
      */
-    public static <T> FlowableTransformer<T, T> toSubscribe() {
+    public static <T> ObservableTransformer<T, T> toSubscribe() {
         return tObservable -> tObservable.subscribeOn(Schedulers.io())//访问网络切换异步线程
                 .unsubscribeOn(Schedulers.io())//销毁访问网络切换异步线程
                 .observeOn(AndroidSchedulers.mainThread()); //响应结果处理切换成主线程
@@ -202,7 +201,7 @@ public class HttpRetrofit {
      * @param <T>
      * @return
      */
-    public static <T> FlowableTransformer<ResultBean<T>, T> toTransformer() {
+    public static <T> ObservableTransformer<ResultBean<T>, T> toTransformer() {
         return tObservable ->
                 tObservable.map(new HttpResultFunc<>())
                         .onErrorResumeNext(new HttpResponseFunc<>())
@@ -212,17 +211,18 @@ public class HttpRetrofit {
     /**
      * @return
      */
-    public static FlowableTransformer<ResultBean, String> toStringTransformer() {
-        return new FlowableTransformer<ResultBean, String>() {
+    public static ObservableTransformer<ResultBean, String> toStringTransformer() {
+        return new ObservableTransformer<ResultBean, String>(){
+
             @Override
-            public Publisher<String> apply(Flowable<ResultBean> upstream) {
+            public ObservableSource<String> apply(Observable<ResultBean> upstream) {
                 return upstream.map(new Function<ResultBean, String>() {
                     @Override
-                    public String apply(ResultBean httpResult) throws Exception {
-                        if (httpResult.isError()) {
-                            throw new RuntimeException(httpResult.getMsg());
+                    public String apply(ResultBean resultBean) throws Exception {
+                        if (resultBean.isError()) {
+                            throw new RuntimeException(resultBean.getMsg());
                         }
-                        return httpResult.getMsg();
+                        return resultBean.getMsg();
                     }
                 }).onErrorResumeNext(new HttpResponseFunc<>())
                         .compose(toSubscribe());
@@ -235,10 +235,10 @@ public class HttpRetrofit {
      *
      * @param <T>
      */
-    private static class HttpResponseFunc<T> implements Function<Throwable, Flowable<T>> {
+    private static class HttpResponseFunc<T> implements Function<Throwable, Observable<T>> {
         @Override
-        public Flowable<T> apply(Throwable throwable) throws Exception {
-            return Flowable.error(HttpExceptionHandle.handleException(throwable));
+        public Observable<T> apply(Throwable throwable) throws Exception {
+            return Observable.error(HttpExceptionHandle.handleException(throwable));
         }
     }
 }
