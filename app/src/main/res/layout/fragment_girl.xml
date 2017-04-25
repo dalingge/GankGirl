@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/view_toolbar" />
+    <!--<include layout="@layout/view_toolbar" />-->
 
     <com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout
         android:id="@+id/swipe_refresh_widget"

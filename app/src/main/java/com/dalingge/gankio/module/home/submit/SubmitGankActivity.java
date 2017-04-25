@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
@@ -18,6 +18,7 @@ import com.dalingge.gankio.common.utils.RegexUtils;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -37,8 +38,6 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
     TextInputEditText etWho;
     @BindView(R.id.et_type)
     TextInputEditText etType;
-    @BindView(R.id.fab_send)
-    FloatingActionButton fabSend;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
@@ -59,19 +58,22 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
     @Override
     protected void initView() {
         getToolbar().setTitle("提交干货");
-        etType.setOnClickListener(view -> {
-            String[] types = getResources().getStringArray(R.array.submit_gank_type_arrays);
-            new AlertDialog.Builder(view.getContext()).setItems(types, (dialog, which) -> etType.setText(types[which])).show();
-        });
-
-        fabSend.setOnClickListener(view -> {
-                    if (!validateInput())
-                        return;
-                    getPresenter().request(etUrl.getText().toString(), etDesc.getText().toString(), etWho.getText().toString(), etType.getText().toString());
-                }
-        );
     }
 
+    @OnClick({R.id.et_type,R.id.fab_send})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.et_type:
+                String[] types = getResources().getStringArray(R.array.submit_gank_type_arrays);
+                new AlertDialog.Builder(view.getContext()).setItems(types, (dialog, which) -> etType.setText(types[which])).show();
+                break;
+            case R.id.fab_send:
+                if (!validateInput())
+                    return;
+                getPresenter().request(etUrl.getText().toString(), etDesc.getText().toString(), etWho.getText().toString(), etType.getText().toString());
+                break;
+        }
+    }
 
     private boolean validateInput() {
         boolean hasErrors = false;
@@ -108,22 +110,18 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
             removeError(etType);
         }
 
-
         return !hasErrors;
     }
-
 
     private void setError(TextInputEditText editText, @StringRes int errorRes) {
         TextInputLayout layout = (TextInputLayout) editText.getParent();
         layout.setError(getString(errorRes));
     }
 
-
     private void removeError(TextInputEditText editText) {
         TextInputLayout layout = (TextInputLayout) editText.getParent();
         layout.setError(null);
     }
-
 
     public void onSuccess(String msg) {
         etUrl.setText(null);
@@ -136,6 +134,4 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
     public void onFailure(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         Snackbar.make(coordinatorLayout, responeThrowable.message, Snackbar.LENGTH_SHORT).show();
     }
-
-
 }

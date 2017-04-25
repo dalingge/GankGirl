@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/recycler_footer_end"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/app_white"
         android:textSize="@dimen/text_size_14" />
 </RelativeLayout>

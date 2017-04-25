@@ -3,13 +3,9 @@ package com.dalingge.gankio.module.home.gank;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.dalingge.gankio.R;
@@ -21,7 +17,6 @@ import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -32,8 +27,8 @@ import io.reactivex.functions.Consumer;
  */
 public class GankTadPageFragment extends BaseTadPageFragment implements SearchView.OnQueryTextListener,AdapterView.OnItemClickListener{
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
 
     private SearchView searchView;
 
@@ -53,16 +48,16 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
      private List<String> stringList = new ArrayList<>();
     @Override
     protected void initView(View view) {
-        toolbar.setTitle(R.string.button_navigation_home_text);
-        toolbar.inflateMenu(R.menu.menu_home);
-        MenuItem item = toolbar.getMenu().findItem(R.id.search_view);
-        searchView = (SearchView) MenuItemCompat.getActionView(item);
-        SearchView.SearchAutoComplete completeText = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
-        ArrayAdapter arrayAdapter= new ArrayAdapter<>(getActivity(), R.layout.item_search_auto_complete,R.id.text1 ,stringList);
-        completeText.setAdapter(arrayAdapter);
-        completeText.setOnItemClickListener(this);
-        completeText.setThreshold(0);
-        searchView.setOnQueryTextListener(this);
+//        toolbar.setTitle(R.string.button_navigation_home_text);
+//        toolbar.inflateMenu(R.menu.menu_home);
+//        MenuItem item = toolbar.getMenu().findItem(R.id.search_view);
+//        searchView = (SearchView) MenuItemCompat.getActionView(item);
+//        SearchView.SearchAutoComplete completeText = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+//        ArrayAdapter arrayAdapter= new ArrayAdapter<>(getActivity(), R.layout.item_search_auto_complete,R.id.text1 ,stringList);
+//        completeText.setAdapter(arrayAdapter);
+//        completeText.setOnItemClickListener(this);
+//        completeText.setThreshold(0);
+//        searchView.setOnQueryTextListener(this);
 
 //        RxSearchView.queryTextChanges(searchView)
 //                .subscribeOn(AndroidSchedulers.mainThread())

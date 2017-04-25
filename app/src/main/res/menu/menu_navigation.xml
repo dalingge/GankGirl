@@ -5,18 +5,20 @@
         android:checked="true"
         android:icon="@drawable/ic_navigation_home"
         android:title="@string/button_navigation_home_text"/>
+
+    <item
+        android:id="@+id/item_navigation_read"
+        android:icon="@drawable/ic_navigation_read"
+        android:title="@string/button_navigation_read_text"/>
+
     <item
         android:id="@+id/item_navigation_girl"
         android:icon="@drawable/ic_navigation_girl"
         android:title="@string/button_navigation_girl_text"/>
-    <item
-        android:id="@+id/item_navigation_find"
-        android:icon="@drawable/ic_navigation_find"
-        android:title="@string/button_navigation_find_text"/>
 
     <item
-        android:id="@+id/item_navigation_mine"
-        android:icon="@drawable/ic_navigation_mine"
-        android:title="@string/button_navigation_mine_text"/>
+        android:id="@+id/item_navigation_video"
+        android:icon="@drawable/ic_navigation_video"
+        android:title="@string/button_navigation_video_text"/>
 
 </menu>

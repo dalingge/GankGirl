@@ -85,5 +85,6 @@ dependencies {
     compile rootProject.ext.dependencies["RxLifecycle2Android"]
     compile rootProject.ext.dependencies["RxLifecycle2Components"]
     compile rootProject.ext.dependencies["Umeng"]
+    compile 'com.uniquestudio:parsingplayer:2.0.4'
     testCompile 'junit:junit:4.12'
 }

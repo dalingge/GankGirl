@@ -1,4 +1,4 @@
-package com.dalingge.gankio.module.find;
+package com.dalingge.gankio.module.video;
 
 
 import android.os.Bundle;
@@ -6,36 +6,33 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.dalingge.gankio.R;
+import com.dalingge.gankio.common.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
+import com.dalingge.gankio.module.read.ReadFragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment {
 
 
-    public FindFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static FindFragment newInstance(String param1) {
-        FindFragment fragment = new FindFragment();
+    public static VideoFragment newInstance(String param1) {
+        VideoFragment fragment = new VideoFragment();
         Bundle args = new Bundle();
-        args.putString("agrs1", param1);
+        args.putString(Constants.BUNDLE_KEY_TYPE, param1);
         fragment.setArguments(args);
         return fragment;
     }
 
-
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_find;
+        return R.layout.fragment_video;
     }
 
     @Override
     protected void initView(View view) {
 
     }
+
 }

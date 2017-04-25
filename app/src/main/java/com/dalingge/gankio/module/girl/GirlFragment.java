@@ -4,14 +4,12 @@ package com.dalingge.gankio.module.girl;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dalingge.gankio.R;
@@ -36,10 +34,10 @@ import butterknife.BindView;
 @RequiresPresenter(GirlPresenter.class)
 public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAdapter.OnItemClickListener, SuperRefreshLayout.OnSuperRefreshLayoutListener {
 
-    @BindView(R.id.appbar)
-    AppBarLayout appbar;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+//    @BindView(R.id.appbar)
+//    AppBarLayout appbar;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
@@ -74,7 +72,7 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
 
     @Override
     protected void initView(View view) {
-        toolbar.setTitle(R.string.button_navigation_girl_text);
+        //toolbar.setTitle(R.string.button_navigation_girl_text);
         superRefreshLayout.setOnSuperRefreshLayoutListener(this);
         superRefreshLayout.setRecyclerView(getActivity(), recyclerView);
         mGirlAdapter = new GirlAdapter(getActivity(), mData);

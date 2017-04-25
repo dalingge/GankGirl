@@ -6,8 +6,8 @@
 
     <string name="button_navigation_home_text">首页</string>
     <string name="button_navigation_girl_text">福利</string>
-    <string name="button_navigation_find_text">发现</string>
-    <string name="button_navigation_mine_text">我的</string>
+    <string name="button_navigation_read_text">闲读</string>
+    <string name="button_navigation_video_text">视频</string>
 
     <string name="action_settings">设置</string>
     <string name="action_heart">收藏</string>
@@ -50,4 +50,7 @@
     <string name="recycler_footer_loading">正在加载中…</string>
     <string name="recycler_footer_network_error">点击重新加载</string>
     <string name="recycler_footer_end">已经到底了</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

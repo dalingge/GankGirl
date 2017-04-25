@@ -14,10 +14,10 @@ import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
 import com.dalingge.gankio.common.utils.PreferencesUtils;
 import com.dalingge.gankio.module.AboutActivity;
-import com.dalingge.gankio.module.find.FindFragment;
 import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
-import com.dalingge.gankio.module.mine.MineFragment;
+import com.dalingge.gankio.module.read.ReadFragment;
+import com.dalingge.gankio.module.video.VideoFragment;
 
 import butterknife.BindView;
 
@@ -36,9 +36,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
     BottomNavigationView buttonNavigationView;
 
     private GankTadPageFragment mGankTadPageFragment;
+    private ReadFragment mReadFragment;
     private GirlFragment mGirlFragment;
-    private FindFragment mFindFragment;
-    private MineFragment mMineFragment;
+    private VideoFragment mVideoFragment;
 
     // 定义FragmentManager对象管理器
     private FragmentManager fragmentManager;
@@ -61,13 +61,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
             case R.id.item_navigation_home:
                 setDefaultFragment(0);
                 break;
-            case R.id.item_navigation_girl:
+            case R.id.item_navigation_read:
                 setDefaultFragment(1);
                 break;
-            case R.id.item_navigation_find:
+            case R.id.item_navigation_girl:
                 setDefaultFragment(2);
                 break;
-            case R.id.item_navigation_mine:
+            case R.id.item_navigation_video:
                 setDefaultFragment(3);
                 break;
         }
@@ -94,6 +94,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 }
                 break;
             case 1:
+                if (mReadFragment == null) {
+                    mReadFragment = ReadFragment.newInstance(getString(R.string.button_navigation_read_text));
+                    fragmentTransaction.add(R.id.contentLayout, mReadFragment);
+                } else {
+                    // 如果不为空，则直接将它显示出来
+                    fragmentTransaction.show(mReadFragment);
+                }
+                break;
+            case 2:
                 if (mGirlFragment == null) {
                     mGirlFragment = GirlFragment.newInstance(getString(R.string.button_navigation_girl_text));
                     fragmentTransaction.add(R.id.contentLayout, mGirlFragment);
@@ -102,22 +111,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                     fragmentTransaction.show(mGirlFragment);
                 }
                 break;
-            case 2:
-                if (mFindFragment == null) {
-                    mFindFragment = FindFragment.newInstance(getString(R.string.button_navigation_find_text));
-                    fragmentTransaction.add(R.id.contentLayout, mFindFragment);
-                } else {
-                    // 如果不为空，则直接将它显示出来
-                    fragmentTransaction.show(mFindFragment);
-                }
-                break;
             case 3:
-                if (mMineFragment == null) {
-                    mMineFragment = MineFragment.newInstance(getString(R.string.button_navigation_mine_text));
-                    fragmentTransaction.add(R.id.contentLayout, mMineFragment);
+                if (mVideoFragment == null) {
+                    mVideoFragment = VideoFragment.newInstance(getString(R.string.button_navigation_video_text));
+                    fragmentTransaction.add(R.id.contentLayout, mVideoFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
-                    fragmentTransaction.show(mMineFragment);
+                    fragmentTransaction.show(mVideoFragment);
                 }
                 break;
         }
@@ -134,16 +134,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
             fragmentTransaction.hide(mGankTadPageFragment);
         }
 
+        if (mReadFragment != null) {
+            fragmentTransaction.hide(mReadFragment);
+        }
+
         if (mGirlFragment != null) {
             fragmentTransaction.hide(mGirlFragment);
         }
 
-        if (mFindFragment != null) {
-            fragmentTransaction.hide(mFindFragment);
-        }
-
-        if (mMineFragment != null) {
-            fragmentTransaction.hide(mMineFragment);
+        if (mVideoFragment != null) {
+            fragmentTransaction.hide(mVideoFragment);
         }
     }
 
