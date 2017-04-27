@@ -12,11 +12,11 @@ import android.view.MenuItem;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
-import com.dalingge.gankio.common.utils.PreferencesUtils;
+import com.dalingge.gankio.utils.PreferencesUtils;
 import com.dalingge.gankio.module.AboutActivity;
 import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
-import com.dalingge.gankio.module.read.ReadFragment;
+import com.dalingge.gankio.module.read.ReadTadPageFragment;
 import com.dalingge.gankio.module.video.VideoFragment;
 
 import butterknife.BindView;
@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
     BottomNavigationView buttonNavigationView;
 
     private GankTadPageFragment mGankTadPageFragment;
-    private ReadFragment mReadFragment;
+    private ReadTadPageFragment mReadTadPageFragment;
     private GirlFragment mGirlFragment;
     private VideoFragment mVideoFragment;
 
@@ -94,12 +94,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
                 }
                 break;
             case 1:
-                if (mReadFragment == null) {
-                    mReadFragment = ReadFragment.newInstance(getString(R.string.button_navigation_read_text));
-                    fragmentTransaction.add(R.id.contentLayout, mReadFragment);
+                if (mReadTadPageFragment == null) {
+                    mReadTadPageFragment = ReadTadPageFragment.newInstance(getString(R.string.button_navigation_read_text));
+                    fragmentTransaction.add(R.id.contentLayout, mReadTadPageFragment);
                 } else {
                     // 如果不为空，则直接将它显示出来
-                    fragmentTransaction.show(mReadFragment);
+                    fragmentTransaction.show(mReadTadPageFragment);
                 }
                 break;
             case 2:
@@ -134,8 +134,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
             fragmentTransaction.hide(mGankTadPageFragment);
         }
 
-        if (mReadFragment != null) {
-            fragmentTransaction.hide(mReadFragment);
+        if (mReadTadPageFragment != null) {
+            fragmentTransaction.hide(mReadTadPageFragment);
         }
 
         if (mGirlFragment != null) {

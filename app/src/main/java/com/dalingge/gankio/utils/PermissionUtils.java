@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.utils;
+package com.dalingge.gankio.utils;
 
 import android.Manifest;
 import android.util.Log;

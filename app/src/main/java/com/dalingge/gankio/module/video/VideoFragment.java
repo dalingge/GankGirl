@@ -6,9 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.Constants;
+import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
-import com.dalingge.gankio.module.read.ReadFragment;
 
 
 /**

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.data.model.GankBean;
 
 import java.util.List;
 

@@ -1,8 +1,10 @@
-package com.dalingge.gankio.common.utils;
+package com.dalingge.gankio.utils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+
+import com.dalingge.gankio.GankApp;
 
 import java.io.Closeable;
 import java.io.File;
@@ -73,6 +75,22 @@ public class FileUtils {
         File cacheDir = context.getCacheDir();
         Log.i("getCacheDir", "cache dir: " + cacheDir.getAbsolutePath());
         return cacheDir;
+    }
+
+    /**
+     * @return  创建缓存目录
+     */
+    public static File getcacheDirectory()
+    {
+        File file = new File(GankApp.context().getExternalCacheDir(), "RxCache");
+        if(!file.exists())
+        {
+            boolean b = file.mkdirs();
+            Log.e("file", "文件不存在  创建文件    "+b);
+        }else{
+            Log.e("file", "文件存在");
+        }
+        return file;
     }
 
     /**

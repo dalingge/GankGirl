@@ -84,7 +84,10 @@ dependencies {
     compile rootProject.ext.dependencies["RxLifecycle2"]
     compile rootProject.ext.dependencies["RxLifecycle2Android"]
     compile rootProject.ext.dependencies["RxLifecycle2Components"]
+    compile rootProject.ext.dependencies["RxCache2"]
     compile rootProject.ext.dependencies["Umeng"]
+    compile rootProject.ext.dependencies["Jsoup"]
     compile 'com.uniquestudio:parsingplayer:2.0.4'
+    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
     testCompile 'junit:junit:4.12'
 }

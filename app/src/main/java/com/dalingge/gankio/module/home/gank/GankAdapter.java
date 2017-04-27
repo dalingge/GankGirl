@@ -12,8 +12,8 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.bean.GankBean;
-import com.dalingge.gankio.common.utils.DateUtils;
+import com.dalingge.gankio.data.model.GankBean;
+import com.dalingge.gankio.utils.DateUtils;
 
 import java.util.ArrayList;
 

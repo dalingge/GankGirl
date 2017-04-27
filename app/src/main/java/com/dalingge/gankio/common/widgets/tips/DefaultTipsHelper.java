@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.utils.DensityUtils;
+import com.dalingge.gankio.utils.DensityUtils;
 
 /**
  * Created by dingboyang on 2016/11/10.

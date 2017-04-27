@@ -42,7 +42,7 @@
 
         <!-- ###################添加Glide 全局设置###################### -->
         <meta-data
-            android:name="com.dalingge.gankio.common.config.GlideConfig"
+            android:name="com.dalingge.gankio.common.glide.GlideConfiguration"
             android:value="GlideModule" />
 
         <activity

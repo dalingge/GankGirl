@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.dalingge.gankio.common.utils.PreferencesUtils;
+import com.dalingge.gankio.utils.PreferencesUtils;
 
 /**
  * FileName:GankApp.java

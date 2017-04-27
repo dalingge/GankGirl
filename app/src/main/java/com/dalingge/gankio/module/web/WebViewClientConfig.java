@@ -7,7 +7,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.dalingge.gankio.common.utils.DensityUtils;
+import com.dalingge.gankio.utils.DensityUtils;
 
 
 /**

@@ -3,7 +3,7 @@ package com.dalingge.gankio.module.girl;
 import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
-import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 import com.dalingge.gankio.network.HttpRetrofit;

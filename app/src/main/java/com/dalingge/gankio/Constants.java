@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common;
+package com.dalingge.gankio;
 
 /**
  * FileName:Constants.java
@@ -12,6 +12,9 @@ public class Constants {
 
     public static final String API_URL = "https://gank.io/api/";
 
+    public static final String API_URL_READ = "http://gank.io/xiandu";
+
     public static final String BUNDLE_KEY_TYPE = "BUNDLE_KEY_TYPE";
+    public static final String BUNDLE_KEY_URL = "BUNDLE_KEY_URL";
 
 }

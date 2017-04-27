@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.Constants;
+import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
 import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
 import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
@@ -35,7 +35,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
     public static GankTadPageFragment newInstance(String param1) {
         GankTadPageFragment fragment = new GankTadPageFragment();
         Bundle args = new Bundle();
-        args.putString("agrs1", param1);
+        args.putString(Constants.BUNDLE_KEY_TYPE, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -128,18 +128,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
             }
         });
         viewPager.setOffscreenPageLimit(title.length);
-    }
-
-    /**
-     * 基类会根据不同的Type展示相应的数据
-     *
-     * @param type 要显示的数据类别
-     * @return
-     */
-    private Bundle getBundle(String type) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_KEY_TYPE, type);
-        return bundle;
+        adapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.fab})

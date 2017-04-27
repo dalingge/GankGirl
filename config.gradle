@@ -33,6 +33,7 @@ ext {
     def rxJava2Version = "x.y.z"
     def rxAndroid2Version = "2.0.1"
     def rxLifecycle2Version = "2.0.1"
+    def rxCache2Version = "1.8.0-2.x"
 
     dependencies = [
 
@@ -70,6 +71,7 @@ ext {
         RxLifecycle2            : "com.trello.rxlifecycle2:rxlifecycle:$rxLifecycle2Version",
         RxLifecycle2Android     : "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifecycle2Version",
         RxLifecycle2Components  : "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycle2Version",
+        RxCache2                : "com.github.VictorAlbertos.RxCache:runtime:$rxCache2Version",
         // Network
         Okttp                   : "com.squareup.okhttp3:okhttp:$okHttpVersion",
         Okio                    : "com.squareup.okio:okio:$okioVersion",
@@ -79,7 +81,8 @@ ext {
         RetrofitAdapterRxJava2  : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofitRxJava2Version",
         OkHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
         Gson                    : "com.google.code.gson:gson:$gsonVersion",
-
+        //jsoup网页解析
+        Jsoup                   : "org.jsoup:jsoup:1.10.2",
         // widget
         RVanimators             : "jp.wasabeef:recyclerview-animators:$rvAnimatorsVer",
         MaterialDialogs         : "com.afollestad.material-dialogs:core:$materialDialogs",

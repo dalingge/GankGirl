@@ -19,11 +19,11 @@ import android.widget.Toast;
 import com.dalingge.gankio.BuildConfig;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
-import com.dalingge.gankio.common.bean.GankBean;
+import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.common.rxjava.permission.RxPermissions;
-import com.dalingge.gankio.common.utils.AnimationUtils;
-import com.dalingge.gankio.common.utils.PermissionUtils;
-import com.dalingge.gankio.common.utils.RxUtils;
+import com.dalingge.gankio.utils.AnimationUtils;
+import com.dalingge.gankio.utils.PermissionUtils;
+import com.dalingge.gankio.utils.RxUtils;
 import com.dalingge.gankio.common.widgets.PullBackLayout;
 
 import java.io.File;
@@ -47,7 +47,7 @@ import io.reactivex.internal.disposables.ListCompositeDisposable;
  * Email:445850053@qq.com
  * Date:16/4/4
  */
-public class ImagePagerActivity extends BaseToolbarActivity  implements PullBackLayout.Callback ,PermissionUtils.RequestPermission {
+public class ImagePagerActivity extends BaseToolbarActivity implements PullBackLayout.Callback ,PermissionUtils.RequestPermission {
 
     private static final String EXTRA_IMAGE_INDEX = "image_index";
     private static final String EXTRA_IMAGE_URLS = "image_urls";

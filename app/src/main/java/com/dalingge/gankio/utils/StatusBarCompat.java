@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.utils;
+package com.dalingge.gankio.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

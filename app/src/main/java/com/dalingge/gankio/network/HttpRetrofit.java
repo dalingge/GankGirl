@@ -3,10 +3,12 @@ package com.dalingge.gankio.network;
 import android.content.Context;
 
 import com.dalingge.gankio.GankApp;
-import com.dalingge.gankio.common.Constants;
-import com.dalingge.gankio.common.bean.ResultBean;
-import com.dalingge.gankio.common.utils.FileUtils;
-import com.dalingge.gankio.common.utils.NetWorkUtils;
+import com.dalingge.gankio.Constants;
+import com.dalingge.gankio.data.model.ResultBean;
+import com.dalingge.gankio.utils.FileUtils;
+import com.dalingge.gankio.utils.NetWorkUtils;
+import com.dalingge.gankio.data.local.CacheService;
+import com.dalingge.gankio.data.remote.HttpService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -32,8 +34,12 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.rx_cache2.Reply;
+import io.rx_cache2.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -52,10 +58,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Date: 2016/9/12
  */
 public class HttpRetrofit {
-    public static final int DEFAULT_TIMEOUT = 6;
+    private static final int DEFAULT_TIMEOUT = 6;
 
-    public Retrofit retrofit;
+    private Retrofit retrofit;
     public HttpService apiService;
+
+    public CacheService providers = new RxCache.Builder()
+            .persistence(FileUtils.getcacheDirectory(), new GsonSpeaker())
+            .using(CacheService.class);
 
     //在访问HttpMethods时创建单例
     private static class SingletonHolder {
@@ -78,7 +88,6 @@ public class HttpRetrofit {
                 .build();
         apiService = retrofit.create(HttpService.class);
     }
-
 
     /**
      * 配置OKHTTP
@@ -212,7 +221,7 @@ public class HttpRetrofit {
      * @return
      */
     public static ObservableTransformer<ResultBean, String> toStringTransformer() {
-        return new ObservableTransformer<ResultBean, String>(){
+        return new ObservableTransformer<ResultBean, String>() {
 
             @Override
             public ObservableSource<String> apply(Observable<ResultBean> upstream) {
@@ -239,6 +248,16 @@ public class HttpRetrofit {
         @Override
         public Observable<T> apply(Throwable throwable) throws Exception {
             return Observable.error(HttpExceptionHandle.handleException(throwable));
+        }
+    }
+
+    /**
+     * 用来统一处理RxCacha的结果
+     */
+    public static class HttpResultFuncCcche<T> implements Function<Reply<T>, T> {
+        @Override
+        public T apply(@NonNull Reply<T> tReply) throws Exception {
+            return tReply.getData();
         }
     }
 }

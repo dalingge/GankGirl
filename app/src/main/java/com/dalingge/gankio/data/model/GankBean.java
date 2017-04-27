@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.bean;
+package com.dalingge.gankio.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

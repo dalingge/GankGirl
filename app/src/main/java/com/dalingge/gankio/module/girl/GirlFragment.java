@@ -13,11 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.common.Constants;
+import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.base.factory.RequiresPresenter;
-import com.dalingge.gankio.common.bean.GankBean;
-import com.dalingge.gankio.common.utils.DensityUtils;
+import com.dalingge.gankio.data.model.GankBean;
+import com.dalingge.gankio.utils.DensityUtils;
 import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
 import com.dalingge.gankio.module.girl.imagepager.ImagePagerActivity;

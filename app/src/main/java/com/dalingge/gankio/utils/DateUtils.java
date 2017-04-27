@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.utils;
+package com.dalingge.gankio.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
