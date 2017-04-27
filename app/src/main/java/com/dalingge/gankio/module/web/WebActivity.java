@@ -38,11 +38,11 @@ public class WebActivity extends BaseToolbarActivity {
 
     private String mUrl, mTitle;
 
-    public static Intent newIntent(Context context, String extraURL, String extraTitle) {
+    public static void start(Context context, String extraURL, String extraTitle) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(EXTRA_URL, extraURL);
         intent.putExtra(EXTRA_TITLE, extraTitle);
-        return intent;
+        context.startActivity(intent);
     }
 
     @Override

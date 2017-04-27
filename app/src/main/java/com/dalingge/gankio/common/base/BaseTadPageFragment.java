@@ -45,6 +45,13 @@ public abstract class BaseTadPageFragment<P extends BasePresenter> extends BaseF
         return bundle;
     }
 
+    protected Bundle getBundle(String type,String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_KEY_TYPE, type);
+        bundle.putString(Constants.BUNDLE_KEY_URL, url);
+        return bundle;
+    }
+
 
     protected abstract void onSetupTabAdapter(ViewPageFragmentAdapter adapter);
 }

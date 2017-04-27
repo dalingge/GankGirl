@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
+import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
-import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.common.base.ViewPageFragmentAdapter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.data.model.ReadTypeBean;
+import com.dalingge.gankio.network.RequestCommand;
+import com.dalingge.gankio.network.RequestContext;
 
 import java.util.List;
 
@@ -40,12 +42,13 @@ public class ReadTadPageFragment extends BaseTadPageFragment<ReadTadPagePresente
 
     @Override
     protected void onSetupTabAdapter(ViewPageFragmentAdapter adapter) {
-        getPresenter().start(1);
+        if (adapter.getCount() == 0)
+            getPresenter().request(new RequestContext(RequestCommand.REQUEST_READ_TYPE));
     }
 
     public void onData(List<ReadTypeBean> datas) {
         for (ReadTypeBean readTypeBean : datas) {
-            viewPageFragmentAdapter.addTab(readTypeBean.getTitle(), "", ReadFragment.class, getBundle(readTypeBean.getUrl()));
+            viewPageFragmentAdapter.addTab(readTypeBean.getTitle(), "", ReadFragment.class, getBundle(readTypeBean.getTitle(), readTypeBean.getUrl()));
         }
         viewPageFragmentAdapter.notifyDataSetChanged();
         viewPager.setOffscreenPageLimit(datas.size());

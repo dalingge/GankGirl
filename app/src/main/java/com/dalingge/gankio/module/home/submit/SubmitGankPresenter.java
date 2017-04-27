@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
 import com.dalingge.gankio.network.HttpRetrofit;
+import com.dalingge.gankio.network.RequestCommand;
 import com.dalingge.gankio.network.RetryWhenNetworkException;
 
 /**
@@ -12,30 +13,19 @@ import com.dalingge.gankio.network.RetryWhenNetworkException;
 
 public class SubmitGankPresenter extends BaseRxPresenter<SubmitGankActivity> {
 
-    private static final int REQUEST_ITEMS = 1;
-
-    private String strUrl;
-    private String strDesc;
-    private String strWho;
-    private String strType;
 
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableLatestCache(REQUEST_ITEMS,
-                () -> HttpRetrofit.getInstance().apiService.submit(strUrl, strDesc, strWho, strType, true)
+        restartableLatestCache(RequestCommand.RESPONSE_SUBMIT_GANK,
+                () -> HttpRetrofit.getInstance().apiService
+                        .submit(requestContext.getUrl(), requestContext.getDesc(), requestContext.getWho(), requestContext.getType(), true)
                         .compose(HttpRetrofit.toStringTransformer())
                         .retryWhen(new RetryWhenNetworkException()),
                 SubmitGankActivity::onSuccess,
                 SubmitGankActivity::onFailure);
     }
 
-    void request(String strUrl, String strDesc, String strWho, String strType) {
-        this.strUrl = strUrl;
-        this.strDesc = strDesc;
-        this.strWho = strWho;
-        this.strType = strType;
-        start(REQUEST_ITEMS);
-    }
+
 }

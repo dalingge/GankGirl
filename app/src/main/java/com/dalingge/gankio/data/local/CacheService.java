@@ -1,6 +1,5 @@
 package com.dalingge.gankio.data.local;
 
-import com.dalingge.gankio.data.model.ReadChildTypeBean;
 import com.dalingge.gankio.data.model.ReadTypeBean;
 
 import java.util.List;
@@ -42,6 +41,6 @@ public interface CacheService {
      * @return 数据
      */
     @LifeCache(duration = 7, timeUnit = TimeUnit.DAYS)
-    Observable<Reply<List<ReadChildTypeBean>>> getStackTypeList(Observable<List<ReadChildTypeBean>> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<ReadTypeBean>> getStackTypeList(Observable<ReadTypeBean> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
 
 }

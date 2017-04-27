@@ -3,10 +3,11 @@ package com.dalingge.gankio.module.home.gank;
 import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
-import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.common.rxjava.Function0;
+import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 import com.dalingge.gankio.network.HttpRetrofit;
+import com.dalingge.gankio.network.RequestCommand;
 import com.dalingge.gankio.network.RetryWhenNetworkException;
 
 import java.util.List;
@@ -20,18 +21,14 @@ import io.reactivex.functions.BiConsumer;
 
 public class GankPresenter extends BaseRxPresenter<GankFragment> {
 
-    private static final int REQUEST_ITEMS = 1;
-    private String type;
-    private int page;
-
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        restartableFirst(REQUEST_ITEMS,
+        restartableFirst(RequestCommand.REQUEST_HOME_GANK,
                 new Function0<Observable<List<GankBean>>>() {
                     @Override
                     public Observable<List<GankBean>> apply() {
-                        return HttpRetrofit.getInstance().apiService.getData(type, page)
+                        return HttpRetrofit.getInstance().apiService.getData(requestContext.getType(), requestContext.getPage())
                                 .compose(HttpRetrofit.toTransformer())
                                 .retryWhen(new RetryWhenNetworkException());
                     }
@@ -47,11 +44,4 @@ public class GankPresenter extends BaseRxPresenter<GankFragment> {
                     }
                 });
     }
-
-    void request(String type, int page) {
-        this.type = type;
-        this.page = page;
-        start(REQUEST_ITEMS);
-    }
-
 }

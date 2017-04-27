@@ -3,9 +3,12 @@ package com.dalingge.gankio.module.read;
 import android.os.Bundle;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
-import com.dalingge.gankio.data.model.ReadChildTypeBean;
 import com.dalingge.gankio.common.rxjava.Function0;
+import com.dalingge.gankio.data.model.ReadChildTypeBean;
+import com.dalingge.gankio.data.model.ReadListBean;
+import com.dalingge.gankio.data.model.ReadTypeBean;
 import com.dalingge.gankio.network.HttpRetrofit;
+import com.dalingge.gankio.network.RequestCommand;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +27,6 @@ import io.reactivex.functions.BiConsumer;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 
-import static com.dalingge.gankio.module.test.TestPresenter.REQUEST_ITEMS;
 
 /**
  * Created by dingboyang on 2017/4/27.
@@ -32,24 +34,27 @@ import static com.dalingge.gankio.module.test.TestPresenter.REQUEST_ITEMS;
 
 public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
 
-    private String url;
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableFirst(REQUEST_ITEMS,
-                new Function0<Observable<List<ReadChildTypeBean>>>() {
+        restartableFirst(RequestCommand.REQUEST_READ_LIST,
+                new Function0<Observable<ReadTypeBean>>() {
                     @Override
-                    public Observable<List<ReadChildTypeBean>> apply() {
-                        return HttpRetrofit.getInstance().providers.getStackTypeList(observable, new DynamicKey(url), new EvictDynamicKey(false))
-                                .map(new HttpRetrofit.HttpResultFuncCcche<List<ReadChildTypeBean>>())
+                    public Observable<ReadTypeBean> apply() {
+                        return HttpRetrofit.getInstance().providers.getStackTypeList(observable, new DynamicKey(requestContext.getType()), new EvictDynamicKey(true))
+                                .map(new HttpRetrofit.HttpResultFuncCcche<ReadTypeBean>())
                                 .compose(HttpRetrofit.toSubscribe());
                     }
                 },
-                new BiConsumer<ReadFragment, List<ReadChildTypeBean>>() {
+                new BiConsumer<ReadFragment, ReadTypeBean>() {
                     @Override
-                    public void accept(@NonNull ReadFragment readFragment, @NonNull List<ReadChildTypeBean> readChildTypeBeen) throws Exception {
-                        readFragment.onData(readChildTypeBeen);
+                    public void accept(@NonNull ReadFragment readFragment, @NonNull ReadTypeBean readTypeBean) throws Exception {
+
+                        if (readTypeBean.getReadChildTypeBeanList()!= null)
+                            readFragment.onDataChild(readTypeBean.getReadChildTypeBeanList());
+                        if (readTypeBean.getReadListBeanList() != null)
+                            readFragment.onDataList(readTypeBean.getReadListBeanList());
                     }
                 }
         );
@@ -57,32 +62,45 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
 
 
     private Observable observable = Observable
-            .create(new ObservableOnSubscribe<List<ReadChildTypeBean>>() {
+            .create(new ObservableOnSubscribe<ReadTypeBean>() {
                 @Override
-                public void subscribe(ObservableEmitter<List<ReadChildTypeBean>> subscriber) throws Exception {
-                    List<ReadChildTypeBean> datas = new ArrayList<>();
+                public void subscribe(ObservableEmitter<ReadTypeBean> subscriber) throws Exception {
+                    ReadTypeBean readTypeBean = new ReadTypeBean();
+                    readTypeBean.setTitle(requestContext.getType());
+                    readTypeBean.setUrl(requestContext.getUrl());
+                    List<ReadChildTypeBean> readChildTypeBeanList = new ArrayList<>();
+                    List<ReadListBean> readListBeanList = new ArrayList<>();
                     try {
-                        Document doc = Jsoup.connect(url).get();
-                        Elements tads = doc.select("div.xiandu_choice").select("a");
-                        for (Element tad : tads) {
+                        Document doc = Jsoup.connect(requestContext.getUrl()).get();
+                        Elements childs = doc.select("div.xiandu_choice").select("a");
+                        for (Element child : childs) {
                             ReadChildTypeBean bean = new ReadChildTypeBean();
-                            Elements img= tad.select("img");
+                            Elements img = child.select("img");
                             bean.setTitle(img.attr("title"));
                             bean.setImg(img.attr("src"));
-                            bean.setUrl(tad.absUrl("href"));
-                            datas.add(bean);
+                            bean.setUrl(child.absUrl("href"));
+                            readChildTypeBeanList.add(bean);
                         }
-
+                        Elements items = doc.select("div.xiandu_item");
+                        for (Element item : items) {
+                            ReadListBean bean = new ReadListBean();
+                            Elements aLeft = item.select("div.xiandu_left").select("a");
+                            bean.setTitle(aLeft.text());
+                            bean.setLink(aLeft.attr("href"));
+                            bean.setTime(item.select("small").text());
+                            Elements aRight = item.select("div.xiandu_right").select("a");
+                            bean.setSource(aRight.attr("title"));
+                            bean.setLogo(aRight.select("img").attr("src"));
+                            readListBeanList.add(bean);
+                        }
                     } catch (IOException e) {
                         subscriber.onError(e);
                     }
-                    subscriber.onNext(datas);
+                    readTypeBean.setReadListBeanList(readListBeanList);
+                    readTypeBean.setReadChildTypeBeanList(readChildTypeBeanList);
+                    subscriber.onNext(readTypeBean);
                     subscriber.onComplete();
                 }
             });
 
-    void request(String url) {
-        this.url = url;
-        start(REQUEST_ITEMS);
-    }
 }

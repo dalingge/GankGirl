@@ -6,8 +6,6 @@
     android:background="@drawable/blue_gradient"
     android:fitsSystemWindows="true">
 
-    <!--<include layout="@layout/view_toolbar" />-->
-
     <com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout
         android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"

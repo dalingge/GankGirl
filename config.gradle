@@ -6,7 +6,7 @@ ext {
         minSdkVersion    : 19, // Android 4.4
         targetSdkVersion : 25,
         versionCode      : 4,
-        versionName      : "2.0.1",
+        versionName      : "2.0.2",
         resConfigs       : "zh"
     ]
 

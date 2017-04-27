@@ -11,6 +11,7 @@ import com.dalingge.gankio.common.rxjava.delivery.DeliverLatestCache;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverReplay;
 import com.dalingge.gankio.common.rxjava.delivery.Delivery;
 import com.dalingge.gankio.network.HttpExceptionHandle;
+import com.dalingge.gankio.network.RequestContext;
 
 import org.reactivestreams.Subscription;
 
@@ -42,6 +43,8 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     private final SparseArray<Disposable > restartableDisposables = new SparseArray<>();
     // 工作中的订阅者们
     private final ArrayList<Integer> requested = new ArrayList<>();
+
+    public RequestContext requestContext = new RequestContext();
 
     /**
      * 返回 {@link io.reactivex.Flowable } 释放当前的 view 或 null.
@@ -320,5 +323,10 @@ public class BaseRxPresenter<View> extends BasePresenter<View> {
     @Override
     public View getView() {
         return super.getView();
+    }
+
+    public void request(RequestContext requestContext){
+        this.requestContext=requestContext;
+        start(requestContext.getRequestID());
     }
 }

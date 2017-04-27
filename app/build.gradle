@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'realm-android'
 
 def gitVersionCode() {
     def cmd = 'git rev-list HEAD --first-parent --count'
@@ -31,10 +30,16 @@ android {
         targetSdkVersion app.targetSdkVersion as int
         versionCode app.versionCode as int
         versionName app.versionName
-//        jackOptions {
-//            enabled true
-//        }
+        //利用这个配置可以去掉三方库中无用的语言
+        resConfigs "zh", "zh-rCN"
     }
+
+    //优化编译速度
+    dexOptions {
+        maxProcessCount 8
+        javaMaxHeapSize "6g"
+    }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,15 +48,30 @@ android {
 
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
     lintOptions {
+        // set to true 通过lint，打印出一些分析报告！
+        quiet true
+        // if true, 如果发现错误，将停止编译
         abortOnError false
+        // if true, 仅仅报告错误的地方
+        ignoreWarnings true
     }
 
     buildTypes {
         debug { // 为了不和 release 版本冲突
             applicationIdSuffix ".debug"
+            debuggable true
+            zipAlignEnabled true
+            minifyEnabled false
+            shrinkResources false //android studio 2.2 设置为false
+            buildConfigField("boolean", "LOG_DEBUG", "true")
         }
         release {
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            debuggable false
             minifyEnabled false
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -89,5 +109,6 @@ dependencies {
     compile rootProject.ext.dependencies["Jsoup"]
     compile 'com.uniquestudio:parsingplayer:2.0.4'
     compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
+    compile 'com.google.android:flexbox:0.3.0-alpha3'
     testCompile 'junit:junit:4.12'
 }

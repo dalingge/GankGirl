@@ -14,8 +14,10 @@ import android.view.View;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
-import com.dalingge.gankio.utils.RegexUtils;
 import com.dalingge.gankio.network.HttpExceptionHandle;
+import com.dalingge.gankio.network.RequestCommand;
+import com.dalingge.gankio.network.RequestContext;
+import com.dalingge.gankio.utils.RegexUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -70,7 +72,12 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
             case R.id.fab_send:
                 if (!validateInput())
                     return;
-                getPresenter().request(etUrl.getText().toString(), etDesc.getText().toString(), etWho.getText().toString(), etType.getText().toString());
+                RequestContext requestContext = new RequestContext(RequestCommand.RESPONSE_SUBMIT_GANK);
+                requestContext.setUrl(etUrl.getText().toString());
+                requestContext.setDesc(etDesc.getText().toString());
+                requestContext.setWho(etWho.getText().toString());
+                requestContext.setType(etType.getText().toString());
+                getPresenter().request(requestContext);
                 break;
         }
     }

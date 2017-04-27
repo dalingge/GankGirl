@@ -12,9 +12,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dalingge.gankio.R;
-import com.dalingge.gankio.data.model.GankBean;
-import com.dalingge.gankio.utils.GlideRoundTransform;
+import com.dalingge.gankio.common.glide.GlideRoundTransform;
 import com.dalingge.gankio.common.widgets.RatioImageView;
+import com.dalingge.gankio.data.model.GankBean;
 
 import java.util.ArrayList;
 

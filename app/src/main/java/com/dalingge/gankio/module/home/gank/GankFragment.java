@@ -7,17 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
+import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
-import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.adapter.AlphaAnimatorAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator.SlideInOutBottomItemAnimator;
 import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
+import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.module.web.WebActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
+import com.dalingge.gankio.network.RequestCommand;
+import com.dalingge.gankio.network.RequestContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements  Ga
 
         if (isFirstPage()) {
             getTipsHelper().showLoading(true);
-            getPresenter().request(mType,page);
+            requestData();
         }
     }
 
@@ -81,26 +83,32 @@ public class GankFragment extends BaseLazyFragment<GankPresenter> implements  Ga
         recyclerView.setItemAnimator(new SlideInOutBottomItemAnimator(recyclerView));
         recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(animatorAdapter));
         setTipView(superRefreshLayout);
+    }
 
+    protected void requestData() {
+        RequestContext requestContext = new RequestContext(RequestCommand.REQUEST_HOME_GANK);
+        requestContext.setType(mType);
+        requestContext.setPage(page);
+        getPresenter().request(requestContext);
     }
 
     @Override
     public void onRefreshing() {
         mData.clear();
         page = 1;
-        getPresenter().request(mType, page);
+        requestData();
     }
 
     @Override
     public void onLoadMore() {
         page = page + 1;
-        getPresenter().request(mType, page);
+        requestData();
     }
 
     @Override
     public void onItemClick(View view, int position) {
         GankBean resultsBean = mGankAdapter.getItem(position);
-        getActivity().startActivity(WebActivity.newIntent(getActivity(), resultsBean.url, resultsBean.desc));
+        WebActivity.start(getContext(),resultsBean.url,resultsBean.desc);
     }
 
     public boolean isFirstPage() {

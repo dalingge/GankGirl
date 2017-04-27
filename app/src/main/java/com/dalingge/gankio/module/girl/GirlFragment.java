@@ -12,16 +12,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
+import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseFragment;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
-import com.dalingge.gankio.data.model.GankBean;
-import com.dalingge.gankio.utils.DensityUtils;
 import com.dalingge.gankio.common.widgets.recyclerview.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout;
+import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.module.girl.imagepager.ImagePagerActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
+import com.dalingge.gankio.network.RequestCommand;
+import com.dalingge.gankio.network.RequestContext;
+import com.dalingge.gankio.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,6 @@ import butterknife.BindView;
 @RequiresPresenter(GirlPresenter.class)
 public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAdapter.OnItemClickListener, SuperRefreshLayout.OnSuperRefreshLayoutListener {
 
-//    @BindView(R.id.appbar)
-//    AppBarLayout appbar;
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
@@ -72,7 +70,6 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
 
     @Override
     protected void initView(View view) {
-        //toolbar.setTitle(R.string.button_navigation_girl_text);
         superRefreshLayout.setOnSuperRefreshLayoutListener(this);
         superRefreshLayout.setRecyclerView(getActivity(), recyclerView);
         mGirlAdapter = new GirlAdapter(getActivity(), mData);
@@ -129,23 +126,31 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
         recyclerView.setAdapter(new HeaderAndFooterRecyclerViewAdapter(mGirlAdapter));
 
         setTipView(superRefreshLayout);
+
         if (mData.isEmpty()) {
             getTipsHelper().showLoading(true);
-            getPresenter().request(mType, page);
+            requestData();
         }
+    }
+
+    protected void requestData() {
+        RequestContext requestContext = new RequestContext(RequestCommand.REQUEST_GIRL_IMAGE);
+        requestContext.setType(mType);
+        requestContext.setPage(page);
+        getPresenter().request(requestContext);
     }
 
     @Override
     public void onRefreshing() {
         mData.clear();
         page = 1;
-        getPresenter().request(mType, page);
+        requestData();
     }
 
     @Override
     public void onLoadMore() {
         page = page + 1;
-        getPresenter().request(mType, page);
+        requestData();
     }
 
     @Override
@@ -175,19 +180,15 @@ public class GirlFragment extends BaseFragment<GirlPresenter> implements GirlAda
 
     public void onNetworkError(HttpExceptionHandle.ResponeThrowable responeThrowable) {
         if (isFirstPage()) {
-            getTipsHelper().showError(true, responeThrowable.message, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getTipsHelper().showLoading(true);
-                    onRefreshing();
-                }
+            getTipsHelper().showError(true, responeThrowable.message, v -> {
+                getTipsHelper().showLoading(true);
+                onRefreshing();
             });
         } else {
             superRefreshLayout.onLoadComplete();
             superRefreshLayout.onFooterError();
         }
     }
-
 
     public boolean isFirstPage() {
         return mGirlAdapter.getItemCount() <= 0;

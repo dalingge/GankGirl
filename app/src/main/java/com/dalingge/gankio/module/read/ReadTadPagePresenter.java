@@ -4,9 +4,10 @@ import android.os.Bundle;
 
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseRxPresenter;
-import com.dalingge.gankio.data.model.ReadTypeBean;
 import com.dalingge.gankio.common.rxjava.Function0;
+import com.dalingge.gankio.data.model.ReadTypeBean;
 import com.dalingge.gankio.network.HttpRetrofit;
+import com.dalingge.gankio.network.RequestCommand;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,7 +35,7 @@ public class ReadTadPagePresenter extends BaseRxPresenter<ReadTadPageFragment> {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableLatestCache(1,
+        restartableLatestCache(RequestCommand.REQUEST_READ_TYPE,
                 new Function0<Observable<List<ReadTypeBean>>>() {
                     @Override
                     public Observable<List<ReadTypeBean>> apply() {
