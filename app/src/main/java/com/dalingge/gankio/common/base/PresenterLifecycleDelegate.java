@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.dalingge.gankio.common.base.factory.PresenterFactory;
-import com.dalingge.gankio.common.base.factory.PresenterStorage;
+import com.dalingge.gankio.common.factory.PresenterFactory;
+import com.dalingge.gankio.common.factory.PresenterStorage;
 
 
 /**

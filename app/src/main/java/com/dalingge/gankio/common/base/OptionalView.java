@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.base.view;
+package com.dalingge.gankio.common.base;
 
 import android.support.annotation.Nullable;
 

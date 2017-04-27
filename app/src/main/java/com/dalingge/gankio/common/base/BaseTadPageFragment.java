@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
-import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
 
 import butterknife.BindView;
 

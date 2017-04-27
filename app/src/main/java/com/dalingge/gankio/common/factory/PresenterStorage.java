@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.base.factory;
+package com.dalingge.gankio.common.factory;
 
 
 import android.support.v4.util.ArrayMap;

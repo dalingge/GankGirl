@@ -5,7 +5,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
-import com.dalingge.gankio.common.base.view.OptionalView;
 import com.dalingge.gankio.common.rxjava.Function0;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverFirst;
 import com.dalingge.gankio.common.rxjava.delivery.DeliverLatestCache;

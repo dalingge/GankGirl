@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.dalingge.gankio.common.base.factory.PresenterFactory;
-import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
+import com.dalingge.gankio.common.factory.PresenterFactory;
+import com.dalingge.gankio.common.factory.ReflectionPresenterFactory;
 import com.dalingge.gankio.common.widgets.tips.DefaultTipsHelper;
 import com.dalingge.gankio.common.widgets.tips.TipsHelper;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;

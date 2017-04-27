@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
-import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.utils.PreferencesUtils;
 import com.dalingge.gankio.module.AboutActivity;
 import com.dalingge.gankio.module.girl.GirlFragment;

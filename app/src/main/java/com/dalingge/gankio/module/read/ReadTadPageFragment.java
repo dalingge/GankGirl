@@ -8,8 +8,8 @@ import android.view.View;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
-import com.dalingge.gankio.common.base.factory.RequiresPresenter;
-import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
+import com.dalingge.gankio.common.base.ViewPageFragmentAdapter;
 import com.dalingge.gankio.data.model.ReadTypeBean;
 
 import java.util.List;

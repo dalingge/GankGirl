@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.base.factory;
+package com.dalingge.gankio.common.factory;
 
 import com.dalingge.gankio.common.base.BasePresenter;
 

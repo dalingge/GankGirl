@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
-import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.utils.RegexUtils;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 

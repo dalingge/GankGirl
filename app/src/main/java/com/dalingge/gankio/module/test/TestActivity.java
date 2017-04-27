@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
-import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 @RequiresPresenter(TestPresenter.class)

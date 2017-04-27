@@ -8,7 +8,7 @@ import android.view.View;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseLazyFragment;
-import com.dalingge.gankio.common.base.factory.RequiresPresenter;
+import com.dalingge.gankio.common.factory.RequiresPresenter;
 import com.dalingge.gankio.data.model.ReadChildTypeBean;
 
 import java.util.List;

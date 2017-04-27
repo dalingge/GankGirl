@@ -1,6 +1,6 @@
 package com.dalingge.gankio.common.rxjava.delivery;
 
-import com.dalingge.gankio.common.base.view.OptionalView;
+import com.dalingge.gankio.common.base.OptionalView;
 
 import io.reactivex.Notification;
 import io.reactivex.Observable;

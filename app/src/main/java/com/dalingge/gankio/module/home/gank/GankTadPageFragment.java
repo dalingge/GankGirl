@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
-import com.dalingge.gankio.common.base.view.ViewPageFragmentAdapter;
+import com.dalingge.gankio.common.base.ViewPageFragmentAdapter;
 import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
 
 import java.util.ArrayList;

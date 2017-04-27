@@ -2,7 +2,7 @@ package com.dalingge.gankio.common.rxjava.delivery;
 
 import android.support.annotation.Nullable;
 
-import com.dalingge.gankio.common.base.view.OptionalView;
+import com.dalingge.gankio.common.base.OptionalView;
 import com.dalingge.gankio.network.HttpExceptionHandle;
 
 import io.reactivex.Notification;

@@ -1,4 +1,4 @@
-package com.dalingge.gankio.common.base.view;
+package com.dalingge.gankio.common.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -52,5 +52,19 @@ public class ViewPageFragmentAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mTabs.get(position).title;
+    }
+
+    private class ViewPageInfo {
+        private final String tag;
+        private final Class<?> clss;
+        private final Bundle args;
+        private final String title;
+
+         ViewPageInfo(String _title, String _tag, Class<?> _class, Bundle _args) {
+            title = _title;
+            tag = _tag;
+            clss = _class;
+            args = _args;
+        }
     }
 }

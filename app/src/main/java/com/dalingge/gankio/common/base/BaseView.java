@@ -1,7 +1,7 @@
 package com.dalingge.gankio.common.base;
 
-import com.dalingge.gankio.common.base.factory.PresenterFactory;
-import com.dalingge.gankio.common.base.factory.ReflectionPresenterFactory;
+import com.dalingge.gankio.common.factory.PresenterFactory;
+import com.dalingge.gankio.common.factory.ReflectionPresenterFactory;
 
 /**
  * Created by dingboyang on 2016/11/7.
