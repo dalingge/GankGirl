@@ -24,6 +24,7 @@ public class GankPresenter extends BaseRxPresenter<GankFragment> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
+
         restartableFirst(RequestCommand.REQUEST_HOME_GANK,
                 new Function0<Observable<List<GankBean>>>() {
                     @Override

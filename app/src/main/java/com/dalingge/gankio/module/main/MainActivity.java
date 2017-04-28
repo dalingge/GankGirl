@@ -12,12 +12,14 @@ import android.view.MenuItem;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
-import com.dalingge.gankio.utils.PreferencesUtils;
 import com.dalingge.gankio.module.AboutActivity;
 import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
 import com.dalingge.gankio.module.read.ReadTadPageFragment;
 import com.dalingge.gankio.module.video.VideoFragment;
+import com.dalingge.gankio.network.RequestCommand;
+import com.dalingge.gankio.network.RequestContext;
+import com.dalingge.gankio.utils.PreferencesUtils;
 
 import butterknife.BindView;
 
@@ -50,9 +52,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
 
     @Override
     protected void initView() {
+        getPresenter().request(new RequestContext(RequestCommand.REQUEST_RANDOM_GIRL));
+
         buttonNavigationView.setOnNavigationItemSelectedListener(this);
         fragmentManager = getSupportFragmentManager();
         setDefaultFragment(0);
+
     }
 
     @Override

@@ -35,4 +35,9 @@ public class RequestCommand {
      */
     public static final int REQUEST_READ_CHILD_LIST = 6;
 
+    /**
+     * 获取随机妹子图片
+     */
+    public static final int REQUEST_RANDOM_GIRL = 7;
+
 }

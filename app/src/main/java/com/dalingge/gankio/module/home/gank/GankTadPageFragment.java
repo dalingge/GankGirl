@@ -132,6 +132,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
 
     @OnClick({R.id.fab})
     public void onClick(View view) {
+
     }
 
 }

@@ -65,7 +65,7 @@ public class ImageUtils {
     }
 
 
-    public static void saveImage(Context context,File file,Bitmap bitmap) {
+    public static void saveImage(File file,Bitmap bitmap) {
         try {
             if (file.exists()) {
                 file.delete();
