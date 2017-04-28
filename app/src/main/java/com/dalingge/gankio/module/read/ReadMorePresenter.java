@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import com.dalingge.gankio.common.base.BaseRxPresenter;
 import com.dalingge.gankio.common.rxjava.Function0;
-import com.dalingge.gankio.data.model.ReadChildTypeBean;
 import com.dalingge.gankio.data.model.ReadListBean;
 import com.dalingge.gankio.data.model.ReadTypeBean;
 import com.dalingge.gankio.network.HttpRetrofit;
@@ -28,17 +27,17 @@ import io.reactivex.functions.BiConsumer;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 
-
 /**
- * Created by dingboyang on 2017/4/27.
+ * Created by dingboyang on 2017/4/28.
  */
-public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
+
+public class ReadMorePresenter extends BaseRxPresenter<ReadMoreActivity> {
 
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableFirst(RequestCommand.REQUEST_READ_LIST,
+        restartableFirst(RequestCommand.REQUEST_READ_CHILD_LIST,
                 new Function0<Observable<ReadTypeBean>>() {
                     @Override
                     public Observable<ReadTypeBean> apply() {
@@ -47,19 +46,15 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                                 .compose(HttpRetrofit.toSubscribe());
                     }
                 },
-                new BiConsumer<ReadFragment, ReadTypeBean>() {
+                new BiConsumer<ReadMoreActivity, ReadTypeBean>() {
                     @Override
-                    public void accept(@NonNull ReadFragment readFragment, @NonNull ReadTypeBean readTypeBean) throws Exception {
-
-                        if (readTypeBean.getReadChildTypeBeanList() != null)
-                            readFragment.onDataChild(readTypeBean.getReadChildTypeBeanList());
+                    public void accept(@NonNull ReadMoreActivity readMoreActivity, @NonNull ReadTypeBean readTypeBean) throws Exception {
                         if (readTypeBean.getReadListBeanList() != null)
-                            readFragment.onDataList(readTypeBean.getReadListBeanList());
+                            readMoreActivity.onDataList(readTypeBean.getReadListBeanList());
                         if(!TextUtils.isEmpty(readTypeBean.getPage()))
-                            readFragment.setUrl_page(readTypeBean.getPage());
+                            readMoreActivity.setUrl_page(readTypeBean.getPage());
                     }
-                }
-        );
+                });
     }
 
 
@@ -70,19 +65,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                     ReadTypeBean readTypeBean = new ReadTypeBean();
                     readTypeBean.setTitle(requestContext.getType());
                     readTypeBean.setUrl(requestContext.getUrl());
-                    List<ReadChildTypeBean> readChildTypeBeanList = new ArrayList<>();
                     List<ReadListBean> readListBeanList = new ArrayList<>();
                     try {
                         Document doc = Jsoup.connect(requestContext.getUrl()).get();
-                        Elements childs = doc.select("div.xiandu_choice").select("a");
-                        for (Element child : childs) {
-                            ReadChildTypeBean bean = new ReadChildTypeBean();
-                            Elements img = child.select("img");
-                            bean.setTitle(img.attr("title"));
-                            bean.setImg(img.attr("src"));
-                            bean.setUrl(child.absUrl("href"));
-                            readChildTypeBeanList.add(bean);
-                        }
                         Elements items = doc.select("div.xiandu_item");
                         for (Element item : items) {
                             ReadListBean bean = new ReadListBean();
@@ -101,7 +86,6 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                         subscriber.onError(e);
                     }
                     readTypeBean.setReadListBeanList(readListBeanList);
-                    readTypeBean.setReadChildTypeBeanList(readChildTypeBeanList);
                     subscriber.onNext(readTypeBean);
                     subscriber.onComplete();
                 }

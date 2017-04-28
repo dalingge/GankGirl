@@ -26,5 +26,9 @@ public class RequestCommand {
      * 获取闲读列表
      */
     public static final int REQUEST_READ_LIST = 4;
+    /**
+     * 获取闲读子类列表
+     */
+    public static final int REQUEST_READ_CHILD_LIST = 5;
 
 }

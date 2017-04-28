@@ -39,7 +39,7 @@ public abstract class BaseToolbarActivity<P extends BasePresenter> extends BaseA
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);//让原始的toolbar的title不显示
+            actionBar.setDisplayShowTitleEnabled(true);//让原始的toolbar的title不显示
             if (isBack()) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }

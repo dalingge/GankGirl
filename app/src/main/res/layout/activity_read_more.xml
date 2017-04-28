@@ -1,15 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dalingge.gankio.module.read.ReadFragment">
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/view_toolbar" />
 
     <com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout
         android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:background="@drawable/blue_gradient"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_view"
@@ -20,5 +24,4 @@
             android:scrollbars="vertical" />
 
     </com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayout>
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

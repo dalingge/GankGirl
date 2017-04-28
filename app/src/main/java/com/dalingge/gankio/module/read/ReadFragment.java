@@ -59,7 +59,7 @@ public class ReadFragment extends BaseLazyFragment<ReadPresenter> implements Sup
         if (args != null) {
             type = args.getString(Constants.BUNDLE_KEY_TYPE);
             url = args.getString(Constants.BUNDLE_KEY_URL);
-            url_page = url;
+            setUrl_page(url);
         }
     }
 
@@ -112,6 +112,7 @@ public class ReadFragment extends BaseLazyFragment<ReadPresenter> implements Sup
             ImageView imageView = new ImageView(getContext());
             FlexboxLayout.LayoutParams layoutParams = new FlexboxLayout.LayoutParams(DensityUtils.dip2px(getContext(), 30), DensityUtils.dip2px(getContext(), 30));
             imageView.setLayoutParams(layoutParams);
+            imageView.setOnClickListener(v -> ReadMoreActivity.start(getContext(),data.getUrl(),data.getTitle(),data.getImg()));
             flexboxLayout.addView(imageView);
 
             int size = DensityUtils.dip2px(getContext(), 10);
@@ -141,12 +142,16 @@ public class ReadFragment extends BaseLazyFragment<ReadPresenter> implements Sup
     @Override
     public void onRefreshing() {
         mData.clear();
-        url_page = url;
+        setUrl_page(url);
         requestData();
     }
 
     @Override
     public void onLoadMore() {
+        requestData();
+    }
 
+    public void setUrl_page(String url_page) {
+        this.url_page = url_page;
     }
 }

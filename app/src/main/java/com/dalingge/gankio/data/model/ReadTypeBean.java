@@ -15,6 +15,7 @@ public class ReadTypeBean implements Parcelable {
     private String url;
     private List<ReadChildTypeBean> readChildTypeBeanList;
     private List<ReadListBean> ReadListBeanList;
+    private String page;
 
     public String getTitle() {
         return title;
@@ -49,6 +50,13 @@ public class ReadTypeBean implements Parcelable {
         ReadListBeanList = readListBeanList;
     }
 
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
 
     @Override
     public int describeContents() {
@@ -61,6 +69,7 @@ public class ReadTypeBean implements Parcelable {
         dest.writeString(this.url);
         dest.writeTypedList(this.readChildTypeBeanList);
         dest.writeTypedList(this.ReadListBeanList);
+        dest.writeString(this.page);
     }
 
     public ReadTypeBean() {
@@ -71,6 +80,7 @@ public class ReadTypeBean implements Parcelable {
         this.url = in.readString();
         this.readChildTypeBeanList = in.createTypedArrayList(ReadChildTypeBean.CREATOR);
         this.ReadListBeanList = in.createTypedArrayList(ReadListBean.CREATOR);
+        this.page = in.readString();
     }
 
     public static final Creator<ReadTypeBean> CREATOR = new Creator<ReadTypeBean>() {
