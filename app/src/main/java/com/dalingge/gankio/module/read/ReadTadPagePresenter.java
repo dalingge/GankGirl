@@ -35,7 +35,7 @@ public class ReadTadPagePresenter extends BaseRxPresenter<ReadTadPageFragment> {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        restartableLatestCache(RequestCommand.REQUEST_READ_TYPE,
+        restartableFirst(RequestCommand.REQUEST_READ_TYPE,
                 new Function0<Observable<List<ReadTypeBean>>>() {
                     @Override
                     public Observable<List<ReadTypeBean>> apply() {
