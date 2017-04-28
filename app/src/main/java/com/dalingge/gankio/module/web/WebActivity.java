@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
 
@@ -22,9 +23,6 @@ import butterknife.BindView;
 
 
 public class WebActivity extends BaseToolbarActivity {
-
-    private static final String EXTRA_URL = "extra_url";
-    private static final String EXTRA_TITLE = "extra_title";
 
     @BindView(R.id.video_fullView)
     FrameLayout videoFullView;
@@ -40,8 +38,8 @@ public class WebActivity extends BaseToolbarActivity {
 
     public static void start(Context context, String extraURL, String extraTitle) {
         Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra(EXTRA_URL, extraURL);
-        intent.putExtra(EXTRA_TITLE, extraTitle);
+        intent.putExtra(Constants.EXTRA_URL, extraURL);
+        intent.putExtra(Constants.EXTRA_TITLE, extraTitle);
         context.startActivity(intent);
     }
 
@@ -57,8 +55,8 @@ public class WebActivity extends BaseToolbarActivity {
 
     @Override
     protected void initView() {
-        mUrl = getIntent().getStringExtra(EXTRA_URL);
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
+        mUrl = getIntent().getStringExtra(Constants.EXTRA_URL);
+        mTitle = getIntent().getStringExtra(Constants.EXTRA_TITLE);
         getToolbar().setTitle(mUrl);
 
         WebSettings ws = webView.getSettings();

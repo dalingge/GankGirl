@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
@@ -31,17 +32,12 @@ import butterknife.BindView;
 @RequiresPresenter(ReadMorePresenter.class)
 public class ReadMoreActivity extends BaseToolbarActivity<ReadMorePresenter> implements SuperRefreshLayout.OnSuperRefreshLayoutListener{
 
-    private static final String EXTRA_URL = "extra_url";
-    private static final String EXTRA_TITLE = "extra_title";
-    private static final String EXTRA_LOGO = "extra_logo";
-
-    private String mUrl, mTitle, mLogo;
-
-
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_widget)
     SuperRefreshLayout superRefreshLayout;
+
+    private String mUrl, mTitle, mLogo;
 
     private ArrayList<ReadListBean> mData = new ArrayList<>();
     private ReadAdapter mReadAdapter;
@@ -49,9 +45,9 @@ public class ReadMoreActivity extends BaseToolbarActivity<ReadMorePresenter> imp
 
     public static void start(Context context, String extraURL, String extraTitle, String extraLogo) {
         Intent intent = new Intent(context, ReadMoreActivity.class);
-        intent.putExtra(EXTRA_URL, extraURL);
-        intent.putExtra(EXTRA_TITLE, extraTitle);
-        intent.putExtra(EXTRA_LOGO, extraLogo);
+        intent.putExtra(Constants.EXTRA_URL, extraURL);
+        intent.putExtra(Constants.EXTRA_TITLE, extraTitle);
+        intent.putExtra(Constants.EXTRA_LOGO, extraLogo);
         context.startActivity(intent);
     }
 
@@ -67,9 +63,9 @@ public class ReadMoreActivity extends BaseToolbarActivity<ReadMorePresenter> imp
 
     @Override
     protected void initView() {
-        mUrl = getIntent().getStringExtra(EXTRA_URL);
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
-        mLogo = getIntent().getStringExtra(EXTRA_LOGO);
+        mUrl = getIntent().getStringExtra(Constants.EXTRA_URL);
+        mTitle = getIntent().getStringExtra(Constants.EXTRA_TITLE);
+        mLogo = getIntent().getStringExtra(Constants.EXTRA_LOGO);
         getToolbar().setTitle("   "+mTitle);
         Glide.with(this)
                 .load(mLogo)
@@ -95,8 +91,10 @@ public class ReadMoreActivity extends BaseToolbarActivity<ReadMorePresenter> imp
         setTipView(superRefreshLayout);
 
         setUrl_page(mUrl);
-        getTipsHelper().showLoading(true);
-        requestData();
+        if (mData.isEmpty()) {
+            getTipsHelper().showLoading(true);
+            requestData();
+        }
     }
 
     protected void requestData() {

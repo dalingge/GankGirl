@@ -17,4 +17,9 @@ public class Constants {
     public static final String BUNDLE_KEY_TYPE = "BUNDLE_KEY_TYPE";
     public static final String BUNDLE_KEY_URL = "BUNDLE_KEY_URL";
 
+
+    public static final String EXTRA_URL = "extra_url";
+    public static final String EXTRA_TITLE = "extra_title";
+    public static final String EXTRA_LOGO = "extra_logo";
+
 }

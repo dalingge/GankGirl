@@ -42,4 +42,6 @@
 
     <dimen name="CardViewCornerRadius">4dp</dimen>
     <dimen name="CardViewElevation">4dp</dimen>
+
+    <dimen name="bottombar_height">56dp</dimen>
 </resources>

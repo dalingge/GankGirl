@@ -19,16 +19,20 @@ public class RequestCommand {
      */
     public static final int REQUEST_GIRL_IMAGE = 2;
     /**
+     * 获取休闲视频
+     */
+    public static final int REQUEST_VIDEO_LIST = 3;
+    /**
      * 获取闲读分类
      */
-    public static final int REQUEST_READ_TYPE = 3;
+    public static final int REQUEST_READ_TYPE = 4;
     /**
      * 获取闲读列表
      */
-    public static final int REQUEST_READ_LIST = 4;
+    public static final int REQUEST_READ_LIST = 5;
     /**
      * 获取闲读子类列表
      */
-    public static final int REQUEST_READ_CHILD_LIST = 5;
+    public static final int REQUEST_READ_CHILD_LIST = 6;
 
 }

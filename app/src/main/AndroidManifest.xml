@@ -64,10 +64,9 @@
         <activity
             android:name=".module.home.submit.SubmitGankActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".module.read.ReadMoreActivity"
+        <activity
+            android:name=".module.read.ReadMoreActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.web.WebActivity"
             android:configChanges="orientation|screenSize" />
@@ -89,6 +88,7 @@
                 android:resource="@xml/images" />
         </provider>
 
+        <activity android:name=".module.video.play.VideoPlayActivity"></activity>
     </application>
 
 </manifest>
