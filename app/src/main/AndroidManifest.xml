@@ -88,7 +88,8 @@
                 android:resource="@xml/images" />
         </provider>
 
-        <activity android:name=".module.video.play.VideoPlayActivity"></activity>
+        <activity android:name=".module.video.play.VideoPlayActivity" />
+        <activity android:name=".module.home.search.SearchActivity"></activity>
     </application>
 
 </manifest>

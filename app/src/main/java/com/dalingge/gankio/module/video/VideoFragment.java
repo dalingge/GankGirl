@@ -20,7 +20,6 @@ import com.dalingge.gankio.common.widgets.recyclerview.refresh.SuperRefreshLayou
 import com.dalingge.gankio.data.model.GankBean;
 import com.dalingge.gankio.module.AboutActivity;
 import com.dalingge.gankio.module.home.gank.GankAdapter;
-import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
 import com.dalingge.gankio.module.video.play.VideoPlayActivity;
 import com.dalingge.gankio.module.web.WebActivity;
 import com.dalingge.gankio.network.HttpExceptionHandle;
@@ -97,10 +96,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Toolb
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         int id = item.getItemId();
-        if(id==R.id.action_add){
-            startActivity(SubmitGankActivity.newIntent(getContext()));
-            return true;
-        }else if(id==R.id.action_about){
+        if(id==R.id.action_about){
             startActivity(AboutActivity.newIntent(getContext()));
             return true;
         }

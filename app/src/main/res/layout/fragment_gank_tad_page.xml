@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@mipmap/ic_menu_search"
+        android:src="@mipmap/ic_fab_send"
         app:backgroundTint="?colorAccent"
         app:fabSize="normal"
         app:layout_anchor="@+id/view_pager"

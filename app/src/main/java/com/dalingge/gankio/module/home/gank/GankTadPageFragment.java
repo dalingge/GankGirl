@@ -12,6 +12,7 @@ import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseTadPageFragment;
 import com.dalingge.gankio.common.base.ViewPageFragmentAdapter;
+import com.dalingge.gankio.module.home.submit.SubmitGankActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +133,7 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
 
     @OnClick({R.id.fab})
     public void onClick(View view) {
-
+        startActivity(SubmitGankActivity.newIntent(getContext()));
     }
 
 }

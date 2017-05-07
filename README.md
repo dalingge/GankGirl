@@ -6,11 +6,7 @@
 
 直接下载：http://fir.im/gankgirl
 
-<img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="270" height="486" />
-
-<img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s4.png" alt="screenshot" title="screenshot" width="270" height="486" />
-
-<img src="/screenshots/s5.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s6.png" alt="screenshot" title="screenshot" width="270" height="486" />
+![](/screenshots/play.gif)
 
 本项目使用的第三方:
 

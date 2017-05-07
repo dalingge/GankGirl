@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.common.factory.RequiresPresenter;
-import com.dalingge.gankio.module.AboutActivity;
 import com.dalingge.gankio.module.girl.GirlFragment;
 import com.dalingge.gankio.module.home.gank.GankTadPageFragment;
 import com.dalingge.gankio.module.read.ReadTadPageFragment;
@@ -155,8 +154,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.action_day_night);
-        initNotifiableItemState(item);
+//        MenuItem item = menu.findItem(R.id.action_day_night);
+//        initNotifiableItemState(item);
         return true;
     }
 
@@ -181,25 +180,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements BottomN
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_day_night:
-                PreferencesUtils preferencesUtils = new PreferencesUtils(this);
-                if (item.isChecked()) {
-                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    preferencesUtils.saveBoolean(R.string.action_day_night, false);
-                } else {
-                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    preferencesUtils.saveBoolean(R.string.action_day_night, true);
-                }
-                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-                recreate();
-                return true;
-            case R.id.action_about:
-                startActivity(AboutActivity.newIntent(this));
-                return true;
-
-        }
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.action_day_night:
+//                PreferencesUtils preferencesUtils = new PreferencesUtils(this);
+//                if (item.isChecked()) {
+//                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                    preferencesUtils.saveBoolean(R.string.action_day_night, false);
+//                } else {
+//                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                    preferencesUtils.saveBoolean(R.string.action_day_night, true);
+//                }
+//                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+//                recreate();
+//                return true;
+//
+//
+//        }
 
         return super.onOptionsItemSelected(item);
     }
