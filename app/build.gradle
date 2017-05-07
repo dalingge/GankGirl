@@ -30,9 +30,24 @@ android {
         targetSdkVersion app.targetSdkVersion as int
         versionCode app.versionCode as int
         versionName app.versionName
+
+        // dex突破65535的限制
+        multiDexEnabled true
+        // AndroidManifest.xml 里面UMENG_CHANNEL的value为 ${UMENG_CHANNEL_VALUE}
+        manifestPlaceholders = [CHANNEL_VALUE: "channel_name"]
         //利用这个配置可以去掉三方库中无用的语言
         resConfigs "zh", "zh-rCN"
     }
+
+    productFlavors {
+        googleplay {}
+        fir {}
+    }
+
+
+productFlavors.all { flavor ->
+    flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+}
 
     //优化编译速度
     dexOptions {
@@ -73,13 +88,6 @@ android {
             //移除无用的resource文件
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
-
-    applicationVariants.all { variant ->
-        if (variant.buildType.name.equals('release')) {
-            variant.mergedFlavor.versionCode = gitVersionCode()
-            variant.mergedFlavor.versionName = gitVersionTag()
         }
     }
 }

@@ -35,10 +35,9 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5701f91767e58ec514000eef" />
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_CHANNEL" -->
-        <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
-
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${CHANNEL_VALUE}" />
 
         <!-- ###################添加Glide 全局设置###################### -->
         <meta-data
@@ -89,7 +88,8 @@
         </provider>
 
         <activity android:name=".module.video.play.VideoPlayActivity" />
-        <activity android:name=".module.home.search.SearchActivity"></activity>
+        <activity android:name=".module.home.search.SearchActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
