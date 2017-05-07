@@ -6,14 +6,18 @@
 
 直接下载：http://fir.im/gankgirl
 
+## 项目演示
+
 ![](/screenshots/play.gif)
 
 本项目使用的第三方:
 
 - [Butter Knife](http://jakewharton.github.io/butterknife/): 通过注解绑定 View
 - [Glide](https://github.com/bumptech/glide): 图片加载
-- [okhttp](https://github.com/square/okhttp): 网络请求 
+- [Retrofit2](https://github.com/square/retrofit): 网络请求 
+- [RxJava2](https://github.com/ReactiveX/RxJava): 异步请求
 - [gson](https://github.com/google/gson): JSON 数据之间进行映射的 Java 类库
+- [Jsoup](https://github.com/jhy/jsoup): 抓取HTML页面的数据
 
 ## 使用要求
 
