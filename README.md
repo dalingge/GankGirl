@@ -6,6 +6,8 @@
 
 直接下载：http://fir.im/gankgirl
 
+[ ![Download](/screenshots/google-play-badge.png) ](https://play.google.com/store/apps/details?id=com.dalingge.gankio)
+
 ## 项目演示
 
 ![](/screenshots/play.gif)
