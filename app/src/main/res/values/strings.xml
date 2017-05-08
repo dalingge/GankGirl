@@ -53,4 +53,6 @@
     <string name="recycler_footer_network_error">点击重新加载</string>
     <string name="recycler_footer_end">已经到底了</string>
 
+
+    <string name="admob_banner_ad_unit_id">ca-app-pub-8983417937200146/4161257710</string>
 </resources>
