@@ -71,6 +71,7 @@ public class ImageUtils {
                 file.delete();
             }
             FileOutputStream fos = new FileOutputStream(file);
+            assert bitmap != null;
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();

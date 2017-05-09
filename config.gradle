@@ -5,8 +5,8 @@ ext {
         applicationId    : "com.dalingge.gankio",
         minSdkVersion    : 19, // Android 4.4
         targetSdkVersion : 25,
-        versionCode      : 5,
-        versionName      : "2.0.2",
+        versionCode      : 6,
+        versionName      : "2.1.2",
         resConfigs       : "zh"
     ]
 

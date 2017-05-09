@@ -43,10 +43,10 @@ public class SubmitGankActivity extends BaseToolbarActivity<SubmitGankPresenter>
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, SubmitGankActivity.class);
+    public static void start(Context context) {
+        Intent intent = new Intent(context, SubmitGankActivity.class);
+        context.startActivity(intent);
     }
-
     @Override
     protected boolean isBack() {
         return true;

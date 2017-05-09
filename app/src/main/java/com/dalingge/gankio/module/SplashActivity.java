@@ -1,24 +1,33 @@
 package com.dalingge.gankio.module;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseActivity;
 import com.dalingge.gankio.module.main.MainActivity;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class SplashActivity extends BaseActivity {
 
-    @BindView(R.id.iv_start) ImageView ivStart;
+    @BindView(R.id.iv_start)
+    ImageView ivStart;
+
+    private static final int ANIM_TIME = 2000;
+    private static final float SCALE_END = 1.15F;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,48 +42,43 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        initImage();
-    }
-
-    private void initImage() {
-
         File dir = getFilesDir();
         final File imgFile = new File(dir, "start.jpg");
         if (imgFile.exists()) {
-            ivStart.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
+            Glide.with(SplashActivity.this).load(imgFile).centerCrop().into(ivStart);
         } else {
             ivStart.setImageResource(R.mipmap.start);
         }
+        Glide.with(SplashActivity.this)
+                .load(new File(getFilesDir(), "start.jpg"))
+                .centerCrop()
+                .into(ivStart);
 
-        final ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        scaleAnim.setFillAfter(true);
-        scaleAnim.setDuration(3000);
-        scaleAnim.setAnimationListener(new Animation.AnimationListener() {
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> startAnim());
+    }
+
+    private void startAnim() {
+        ObjectAnimator animatorX = ObjectAnimator.ofFloat(ivStart, "scaleX", 1f, SCALE_END);
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(ivStart, "scaleY", 1f, SCALE_END);
+
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(ANIM_TIME).play(animatorX).with(animatorY);
+        set.start();
+
+        set.addListener(new AnimatorListenerAdapter() {
+
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animator animation) {
                 startActivity();
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
         });
-        ivStart.startAnimation(scaleAnim);
     }
 
     private void startActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in,
-                android.R.anim.fade_out);
-        finish();
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        SplashActivity.this.finish();
     }
 }

@@ -19,13 +19,12 @@ import java.util.List;
 
 import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GankTadPageFragment extends BaseTadPageFragment implements SearchView.OnQueryTextListener,AdapterView.OnItemClickListener{
+public class GankTadPageFragment extends BaseTadPageFragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
 
 //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
@@ -45,7 +44,8 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
         return R.layout.fragment_gank_tad_page;
     }
 
-     private List<String> stringList = new ArrayList<>();
+    private List<String> stringList = new ArrayList<>();
+
     @Override
     protected void initView(View view) {
 //        toolbar.setTitle(R.string.button_navigation_home_text);
@@ -121,19 +121,14 @@ public class GankTadPageFragment extends BaseTadPageFragment implements SearchVi
     protected void onSetupTabAdapter(ViewPageFragmentAdapter adapter) {
 
         String[] title = getResources().getStringArray(R.array.home_viewpage_arrays);
-        Observable.fromArray(title).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                adapter.addTab(s, "", GankFragment.class, getBundle(s));
-            }
-        });
+        Observable.fromArray(title).subscribe(s -> adapter.addTab(s, "", GankFragment.class, getBundle(s)));
         viewPager.setOffscreenPageLimit(title.length);
         adapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.fab})
     public void onClick(View view) {
-        startActivity(SubmitGankActivity.newIntent(getContext()));
+        SubmitGankActivity.start(view.getContext());
     }
 
 }
