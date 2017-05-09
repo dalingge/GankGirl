@@ -13,8 +13,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 允许程序设置桌面壁纸 -->
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 

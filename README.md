@@ -1,5 +1,9 @@
 # GankGirl 
 
+![Platform](https://img.shields.io/badge/platform-Android-blue.svg)
+![Release](https://img.shields.io/badge/release-2.1.2-blue.svg)
+![Gradle](https://img.shields.io/badge/gradle-2.3.1-blue.svg)
+
 **数据来自代码家的干货网站：http://gank.io**
 
 只是一个业余的 Android 项目而已。
