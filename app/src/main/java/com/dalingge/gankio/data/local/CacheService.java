@@ -24,6 +24,7 @@ public interface CacheService {
 
     /**
      * 获取闲读分类信息
+     * 永久
      * @param oRepos 缓存数据
      * @param userName
      * @param evictDynamicKey false使用缓存  true 加载数据不使用缓存
@@ -40,7 +41,7 @@ public interface CacheService {
      * @param evictDynamicKey false使用缓存  true 加载数据不使用缓存
      * @return 数据
      */
-    @LifeCache(duration = 7, timeUnit = TimeUnit.DAYS)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Reply<ReadTypeBean>> getStackTypeList(Observable<ReadTypeBean> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
 
 }

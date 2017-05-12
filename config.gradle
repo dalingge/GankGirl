@@ -12,7 +12,7 @@ ext {
 
 
     def supportVersion = "25.0.0"
-    def butterKnifeVersion = "8.4.0"
+    def butterKnifeVersion = "8.5.1"
     def glideVersion = "3.7.0"
     def glideOkhttpVer = "1.4.0@aar"
     def materialDialogs = "0.9.4.2"

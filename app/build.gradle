@@ -99,7 +99,9 @@ dependencies {
     compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
     compile rootProject.ext.dependencies["SupportDesign"]
     compile rootProject.ext.dependencies["SupportCardview"]
-    compile rootProject.ext.dependencies["Butterknife"]
+    compile (rootProject.ext.dependencies["Butterknife"]) {
+        exclude group : 'com.android.support'
+    }
     annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
     compile rootProject.ext.dependencies["Glide"]
     compile rootProject.ext.dependencies["GlideOkHttp"]

@@ -74,7 +74,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                     List<ReadListBean> readListBeanList = new ArrayList<>();
                     try {
                         Document doc = Jsoup.connect(requestContext.getUrl()).get();
-                        Elements childs = doc.select("div.xiandu_choice").select("a");
+                        Elements childs = doc.select("div.xiandu_choice").select("a");//提取子分类
                         for (Element child : childs) {
                             ReadChildTypeBean bean = new ReadChildTypeBean();
                             Elements img = child.select("img");
@@ -83,7 +83,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                             bean.setUrl(child.absUrl("href"));
                             readChildTypeBeanList.add(bean);
                         }
-                        Elements items = doc.select("div.xiandu_item");
+                        Elements items = doc.select("div.xiandu_item");//提取列表数据
                         for (Element item : items) {
                             ReadListBean bean = new ReadListBean();
                             Elements aLeft = item.select("div.xiandu_left").select("a");
@@ -95,7 +95,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadFragment> {
                             bean.setLogo(aRight.select("img").attr("src"));
                             readListBeanList.add(bean);
                         }
-                        Element button = doc.select("a.button").last();
+                        Element button = doc.select("a.button").last();//提取下一页数据
                         readTypeBean.setPage(button.absUrl("href"));
                     } catch (IOException e) {
                         subscriber.onError(e);

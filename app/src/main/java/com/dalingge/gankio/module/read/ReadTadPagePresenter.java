@@ -1,6 +1,7 @@
 package com.dalingge.gankio.module.read;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.common.base.BaseRxPresenter;
@@ -63,11 +64,11 @@ public class ReadTadPagePresenter extends BaseRxPresenter<ReadTadPageFragment> {
                         Elements tads = doc.select("div#xiandu_cat").select("a");
                         for (Element tad : tads) {
                             ReadTypeBean bean = new ReadTypeBean();
-                            bean.setTitle(tad.text());
-                            bean.setUrl(tad.absUrl("href"));
+                            bean.setTitle(tad.text());//获取标题
+                            bean.setUrl(tad.absUrl("href"));//absUrl可以获取地址的绝对路径
                             datas.add(bean);
+                            Log.v("Jsoup","title= "+bean.getTitle()+"   url= "+bean.getUrl());
                         }
-
                     } catch (IOException e) {
                         subscriber.onError(e);
                     }
