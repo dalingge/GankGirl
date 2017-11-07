@@ -1,8 +1,8 @@
 package com.dalingge.gankio.common.widgets;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * FileName:RatioImageView.java
@@ -11,7 +11,7 @@ import android.widget.ImageView;
  * Email:445850053@qq.com
  * Date:16/4/3
  */
-public class RatioImageView extends ImageView{
+public class RatioImageView extends AppCompatImageView{
 
     private int originalWidth;
     private int originalHeight;

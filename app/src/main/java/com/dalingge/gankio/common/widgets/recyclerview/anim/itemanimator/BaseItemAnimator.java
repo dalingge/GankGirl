@@ -20,13 +20,14 @@ package com.dalingge.gankio.common.widgets.recyclerview.anim.itemanimator;
  */
 
 
-import android.support.v4.animation.AnimatorCompatHelper;
+import android.annotation.SuppressLint;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -495,8 +496,23 @@ public abstract class BaseItemAnimator extends SimpleItemAnimator {
     }
 
     private void resetAnimation(RecyclerView.ViewHolder holder) {
-        AnimatorCompatHelper.clearInterpolator(holder.itemView);
+        holder.itemView.clearAnimation();
+       clearInterpolator(holder.itemView);
         endAnimation(holder);
+    }
+
+    protected void clearInterpolator(View v) {
+        ViewCompat.setAlpha(v, 1.0F);
+        ViewCompat.setScaleY(v, 1.0F);
+        ViewCompat.setScaleX(v, 1.0F);
+        ViewCompat.setTranslationY(v, 0.0F);
+        ViewCompat.setTranslationX(v, 0.0F);
+        ViewCompat.setRotation(v, 0.0F);
+        ViewCompat.setRotationY(v, 0.0F);
+        ViewCompat.setRotationX(v, 0.0F);
+        //v.setPivotY((float)(v.getMeasuredHeight() / 2));
+        ViewCompat.setPivotX(v, (float) (v.getMeasuredWidth() / 2));
+        ViewCompat.animate(v).setInterpolator((Interpolator) null);
     }
 
     @Override

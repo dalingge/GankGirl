@@ -4,10 +4,10 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.0.0'
     }
 }
 
@@ -15,6 +15,7 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        google()
         maven { url "https://jitpack.io" }
     }
 }

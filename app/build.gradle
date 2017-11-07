@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 def gitVersionCode() {
     def cmd = 'git rev-list HEAD --first-parent --count'
@@ -39,20 +38,30 @@ android {
         resConfigs "zh", "zh-rCN"
     }
 
-    productFlavors {
-        googleplay {}
-        fir {}
+    //PNG优化在默认情况下是打开的，我们可以在开发模式下禁用：
+    if (project.hasProperty("devBuild")) {
+        aaptOptions.cruncherEnabled = false
     }
 
+    flavorDimensions "default"
 
-productFlavors.all { flavor ->
-    flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
-}
+    productFlavors {
+        googleplay {
+            dimension "default"
+        }
+        fir {
+            dimension "default"
+        }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+    }
 
     //优化编译速度
     dexOptions {
-        maxProcessCount 8
-        javaMaxHeapSize "6g"
+        //最大堆内存
+        javaMaxHeapSize "4g"
     }
 
 
@@ -99,8 +108,8 @@ dependencies {
     compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
     compile rootProject.ext.dependencies["SupportDesign"]
     compile rootProject.ext.dependencies["SupportCardview"]
-    compile (rootProject.ext.dependencies["Butterknife"]) {
-        exclude group : 'com.android.support'
+    compile(rootProject.ext.dependencies["Butterknife"]) {
+        exclude group: 'com.android.support'
     }
     annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
     compile rootProject.ext.dependencies["Glide"]
@@ -119,7 +128,7 @@ dependencies {
     compile rootProject.ext.dependencies["Jsoup"]
     compile 'com.uniquestudio:parsingplayer:2.0.4'
     compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
-    compile 'com.google.android:flexbox:0.3.0-alpha3'
-    compile 'com.google.android.gms:play-services-ads:10.2.4'
+    compile 'com.google.android:flexbox:0.3.0'
+    compile 'com.google.android.gms:play-services-ads:11.4.2'
     testCompile 'junit:junit:4.12'
 }
