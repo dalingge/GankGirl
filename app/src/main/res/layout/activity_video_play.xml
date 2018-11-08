@@ -19,13 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="250dp" />
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ad_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/admob_banner_ad_unit_id" />
+        <!--<com.google.android.gms.ads.AdView-->
+            <!--xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/ad_view"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--ads:adSize="SMART_BANNER"-->
+            <!--ads:adUnitId="@string/admob_banner_ad_unit_id" />-->
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

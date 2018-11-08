@@ -311,8 +311,7 @@ public class ImagePagerActivity extends BaseToolbarActivity implements PullBackL
                 .subscribe(new Consumer<File>() {
                     @Override
                     public void accept(File file) throws Exception {
-                        String msg = String.format(getString(R.string.save_success),
-                                file.getPath());
+                        String msg = String.format(getString(R.string.save_success), file.getPath());
                         Toast.makeText(ImagePagerActivity.this, msg, Toast.LENGTH_LONG).show();
                     }
                 }, new Consumer<Throwable>() {

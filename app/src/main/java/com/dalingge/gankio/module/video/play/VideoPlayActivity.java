@@ -6,8 +6,6 @@ import android.content.Intent;
 import com.dalingge.gankio.Constants;
 import com.dalingge.gankio.R;
 import com.dalingge.gankio.common.base.BaseToolbarActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.hustunique.parsingplayer.player.view.ParsingVideoView;
 
 import butterknife.BindView;
@@ -17,8 +15,8 @@ public class VideoPlayActivity extends BaseToolbarActivity {
 
     @BindView(R.id.videoView)
     ParsingVideoView videoView;
-    @BindView(R.id.ad_view)
-    AdView adView;
+//    @BindView(R.id.ad_view)
+//    AdView adView;
 
     private String mUrl, mTitle;
 
@@ -45,8 +43,8 @@ public class VideoPlayActivity extends BaseToolbarActivity {
         mTitle = getIntent().getStringExtra(Constants.EXTRA_TITLE);
         getToolbar().setTitle(mTitle);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
     }
 
     @Override

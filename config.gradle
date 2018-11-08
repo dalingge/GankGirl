@@ -1,24 +1,24 @@
 ext {
     android = [
-        compileSdkVersion: 26,
-        buildToolsVersion: "26.0.2",
+        compileSdkVersion: 28,
+        buildToolsVersion: "28.0.3",
         applicationId    : "com.dalingge.gankio",
         minSdkVersion    : 19, // Android 4.4
-        targetSdkVersion : 26,
+        targetSdkVersion : 28,
         versionCode      : 7,
         versionName      : "2.2.2",
         resConfigs       : "zh"
     ]
 
 
-    def supportVersion = "26.1.0"
-    def butterKnifeVersion = "8.5.1"
+    def supportVersion = "28.0.0"
+    def butterKnifeVersion = "8.8.1"
     def glideVersion = "3.7.0"
     def glideOkhttpVer = "1.4.0@aar"
-    def materialDialogs = "0.9.4.2"
-    def retrofitVersion = "2.2.0"
+    def materialDialogs = "0.9.6.0"
+    def retrofitVersion = "2.4.0"
     def gsonVersion = "2.8"
-    def okHttpVersion = "3.6.0"
+    def okHttpVersion = "3.10.0"
     def okioVersion = "1.6.0"
     def dagger2Version ="2.6"
     def rxJavaVersion = "x.y.z"

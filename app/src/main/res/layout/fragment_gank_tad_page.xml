@@ -7,25 +7,26 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:theme="@style/AppTheme.AppBarOverlay">
 
-    <!--    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:theme="@style/AppTheme.Toolbar"/>-->
+        <!--    <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:theme="@style/AppTheme.Toolbar"/>-->
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             style="@style/TabLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:tabIndicatorHeight="2dp"/>
+            app:tabIndicatorHeight="2dp" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

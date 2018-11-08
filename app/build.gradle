@@ -1,23 +1,5 @@
 apply plugin: 'com.android.application'
 
-def gitVersionCode() {
-    def cmd = 'git rev-list HEAD --first-parent --count'
-    cmd.execute().text.trim().toInteger()
-}
-
-def gitVersionTag() {
-    def cmd = 'git describe --tags'
-    def version = cmd.execute().text.trim()
-    def pattern = "-(\\d+)-g"
-    def matcher = version =~ pattern
-    if (matcher) {
-        version = version.substring(0, matcher.start()) + "." + matcher[0][1]
-    } else {
-        version = version + ".0"
-    }
-    return version
-}
-
 android {
     def app = rootProject.ext.android
     compileSdkVersion app.compileSdkVersion as int
@@ -58,12 +40,6 @@ android {
         flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
     }
 
-    //优化编译速度
-    dexOptions {
-        //最大堆内存
-        javaMaxHeapSize "4g"
-    }
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -102,33 +78,32 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile rootProject.ext.dependencies["SupportAppcompatV4"]
-    compile rootProject.ext.dependencies["SupportAppcompatV7"]
-    compile rootProject.ext.dependencies["SupportRecyclerViewV7"]
-    compile rootProject.ext.dependencies["SupportDesign"]
-    compile rootProject.ext.dependencies["SupportCardview"]
-    compile(rootProject.ext.dependencies["Butterknife"]) {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["SupportAppcompatV4"]
+    implementation rootProject.ext.dependencies["SupportAppcompatV7"]
+    implementation rootProject.ext.dependencies["SupportRecyclerViewV7"]
+    implementation rootProject.ext.dependencies["SupportDesign"]
+    implementation rootProject.ext.dependencies["SupportCardview"]
+    implementation(rootProject.ext.dependencies["Butterknife"]) {
         exclude group: 'com.android.support'
     }
     annotationProcessor rootProject.ext.dependencies["ButterknifeCompiler"]
-    compile rootProject.ext.dependencies["Glide"]
-    compile rootProject.ext.dependencies["GlideOkHttp"]
-    compile rootProject.ext.dependencies["Retrofit"]
-    compile rootProject.ext.dependencies["RetrofitConverterGson"]
-    compile rootProject.ext.dependencies["RetrofitAdapterRxJava2"]
-    compile rootProject.ext.dependencies["OkHttpLoggingInterceptor"]
-    compile rootProject.ext.dependencies["RxJava2"]
-    compile rootProject.ext.dependencies["RxAndroid2"]
-    compile rootProject.ext.dependencies["RxLifecycle2"]
-    compile rootProject.ext.dependencies["RxLifecycle2Android"]
-    compile rootProject.ext.dependencies["RxLifecycle2Components"]
-    compile rootProject.ext.dependencies["RxCache2"]
-    compile rootProject.ext.dependencies["Umeng"]
-    compile rootProject.ext.dependencies["Jsoup"]
-    compile 'com.uniquestudio:parsingplayer:2.0.4'
-    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
-    compile 'com.google.android:flexbox:0.3.0'
-    compile 'com.google.android.gms:play-services-ads:11.4.2'
-    testCompile 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["Glide"]
+    implementation rootProject.ext.dependencies["GlideOkHttp"]
+    implementation rootProject.ext.dependencies["Retrofit"]
+    implementation rootProject.ext.dependencies["RetrofitConverterGson"]
+    implementation rootProject.ext.dependencies["RetrofitAdapterRxJava2"]
+    implementation rootProject.ext.dependencies["OkHttpLoggingInterceptor"]
+    implementation rootProject.ext.dependencies["RxJava2"]
+    implementation rootProject.ext.dependencies["RxAndroid2"]
+    implementation rootProject.ext.dependencies["RxLifecycle2"]
+    implementation rootProject.ext.dependencies["RxLifecycle2Android"]
+    implementation rootProject.ext.dependencies["RxLifecycle2Components"]
+    implementation rootProject.ext.dependencies["RxCache2"]
+    implementation rootProject.ext.dependencies["Umeng"]
+    implementation rootProject.ext.dependencies["Jsoup"]
+    implementation 'com.uniquestudio:parsingplayer:2.0.4'
+    implementation 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
+    implementation 'com.google.android:flexbox:1.0.0'
+    testImplementation 'junit:junit:4.12'
 }
